@@ -10,9 +10,18 @@ import Cart from "./home-pages/Cart";
 import Favorite from "./customer-pages/Favorite";
 import Profile from "./customer-pages/Profile";
 import Products from "./home-pages/Products";
-import Product from "./home-pages/Product"
-import Login from "./authentication/Login"
+import Product from "./home-pages/Product";
+import Login from "./authentication/Login";
 import Register from "./authentication/Register";
+import Checkout from "./home-pages/Checkout";
+import VendorAccount from "./vendors-pages/VendorAccount";
+import VendorShop from "./vendors-pages/VendorShop";
+import VendorWallet from "./vendors-pages/VendorWallet";
+import ShippingCalculator from "./vendors-pages/ShippingCalculator";
+import NewLabel from "./vendors-pages/NewLabel";
+import ShippingLabels from "./vendors-pages/ShippingLabels";
+import Customs from "./vendors-pages/Customs";
+import VendorPayments from "./vendors-pages/Payment"
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -43,12 +52,27 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="cart" element={<Cart />} />
+                        <Route path="checkout" element={<Checkout />} />
                         <Route path="favorite" element={<Favorite />} />
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="products" element={<Products />} />
                         <Route path="product" element={<Product />} />
+                        <Route path="vendor" element={<VendorAccount />} />
+                        <Route path="vendor/my-shop" element={<VendorShop />} />
+                        <Route path="vendor/my-wallet" element={<VendorWallet />} />
+                        <Route path="vendor/new-label" element={<NewLabel />} />
+                        <Route path="vendor/customs" element={<Customs />} />
+                        <Route path="vendor/payment" element={<VendorPayments />} />
+                        <Route
+                            path="vendor/shipping-labels"
+                            element={<ShippingLabels />}
+                        />
+                        <Route
+                            path="vendor/shipping-calculator"
+                            element={<ShippingCalculator />}
+                        />
                         {pages.map((page) => (
                             <Route
                                 path={page}

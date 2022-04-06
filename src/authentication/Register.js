@@ -276,7 +276,7 @@ const Register = () => {
                             </Box>
                             <Box sx={{ flexGrow: 1, my: 4, m: 2 }}>
                                 <Link
-                                    to={`/profile`}
+                                    to={`/vendor`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
