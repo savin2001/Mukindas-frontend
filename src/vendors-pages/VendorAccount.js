@@ -26,7 +26,7 @@ import {
     // FormGroup,
     // FormControlLabel,
     // Checkbox,
-    // Button,
+    Button,
 } from "@mui/material";
 
 const VendorAccount = () => {
@@ -135,7 +135,7 @@ const VendorAccount = () => {
                                                     <TextField
                                                         sx={{ flexGrow: 1 }}
                                                         id="filled-basic"
-                                                        label="First name"
+                                                        label="Enter your first name"
                                                         variant="filled"
                                                         // value={name}
                                                         placeholder="John"
@@ -171,11 +171,198 @@ const VendorAccount = () => {
                                                         // value={name}
                                                         placeholder="Doe"
                                                         id="filled-basic"
-                                                        label="Second name"
+                                                        label="Enter your second name"
                                                         variant="filled"
                                                         // onChange={handleChange}
                                                         // disabled
                                                     />
+                                                </Box>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sm={8}
+                                                md={6}
+                                                sx={{ mb: 1 }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        columnGap: 1,
+                                                        rowGap: 1,
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        sx={{ flexGrow: 1 }}
+                                                    >
+                                                        Phone number
+                                                    </Typography>
+                                                    <TextField
+                                                        sx={{ flexGrow: 1 }}
+                                                        // value={name}
+                                                        placeholder="+254 712 345 678"
+                                                        id="filled-basic"
+                                                        label="Enter your phone number"
+                                                        variant="filled"
+                                                        // onChange={handleChange}
+                                                        // disabled
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sm={8}
+                                                md={6}
+                                                sx={{ mb: 1 }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        columnGap: 1,
+                                                        rowGap: 1,
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        sx={{ flexGrow: 1 }}
+                                                    >
+                                                        E-mail address
+                                                    </Typography>
+                                                    <TextField
+                                                        sx={{ flexGrow: 1 }}
+                                                        // value={name}
+                                                        placeholder="example@email.com"
+                                                        id="filled-basic"
+                                                        label="Enter your email"
+                                                        variant="filled"
+                                                        // onChange={handleChange}
+                                                        // disabled
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sm={8}
+                                                md={6}
+                                                sx={{ mb: 1 }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        columnGap: 1,
+                                                        rowGap: 1,
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        sx={{ flexGrow: 1 }}
+                                                    >
+                                                        Country
+                                                    </Typography>
+                                                    <TextField
+                                                        sx={{ flexGrow: 1 }}
+                                                        // value={name}
+                                                        placeholder="Kenya"
+                                                        id="filled-basic"
+                                                        label="Enter your country"
+                                                        variant="filled"
+                                                        // onChange={handleChange}
+                                                        // disabled
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sm={8}
+                                                md={6}
+                                                sx={{ mb: 1 }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        columnGap: 1,
+                                                        rowGap: 1,
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        sx={{ flexGrow: 1 }}
+                                                    >
+                                                        City
+                                                    </Typography>
+                                                    <TextField
+                                                        sx={{ flexGrow: 1 }}
+                                                        // value={name}
+                                                        placeholder="Nairobi"
+                                                        id="filled-basic"
+                                                        label="Enter your city"
+                                                        variant="filled"
+                                                        // onChange={handleChange}
+                                                        // disabled
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sm={8}
+                                                md={6}
+                                                sx={{ mb: 1 }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        columnGap: 1,
+                                                        rowGap: 1,
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        sx={{ flexGrow: 1 }}
+                                                    >
+                                                        Address
+                                                    </Typography>
+                                                    <Box
+                                                        sx={{
+                                                            flexGrow: 1,
+                                                            display: "flex",
+                                                            columnGap: 2,
+                                                            rowGap: 1,
+                                                        }}
+                                                    >
+                                                        <TextField
+                                                            // value={name}
+                                                            placeholder="1234"
+                                                            id="filled-basic"
+                                                            label="P.O Box"
+                                                            variant="filled"
+                                                            // onChange={handleChange}
+                                                            // disabled
+                                                        />
+                                                        <TextField
+                                                            // value={name}
+                                                            placeholder="00100"
+                                                            id="filled-basic"
+                                                            label="Code"
+                                                            variant="filled"
+                                                            // onChange={handleChange}
+                                                            // disabled
+                                                        />
+                                                    </Box>
                                                 </Box>
                                             </Grid>
                                             <Grid
@@ -198,21 +385,55 @@ const VendorAccount = () => {
                                                     <Typography
                                                         sx={{ flexGrow: 1 }}
                                                     >
-                                                        Phone number
+                                                        Street name
                                                     </Typography>
                                                     <TextField
                                                         sx={{ flexGrow: 1 }}
                                                         // value={name}
-                                                        placeholder="+254 712 345 678"
+                                                        placeholder="Road name"
                                                         id="filled-basic"
-                                                        label="Phone number"
+                                                        label="Enter your street name"
                                                         variant="filled"
                                                         // onChange={handleChange}
                                                         // disabled
                                                     />
                                                 </Box>
                                             </Grid>
-                                            
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sm={8}
+                                                md={6}
+                                                sx={{ mb: 1 }}
+                                            ></Grid>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sm={8}
+                                                md={6}
+                                                sx={{ mb: 1 }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        columnGap: 3,
+                                                        rowGap: 1,
+                                                    }}
+                                                >
+                                                    <Button
+                                                    fullWidth
+                                                        size="large"
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        bgcolor="secondary"
+                                                    >
+                                                        Update
+                                                    </Button>
+                                                </Box>
+                                            </Grid>
                                         </Grid>
                                     </TableBody>
                                 </Table>
