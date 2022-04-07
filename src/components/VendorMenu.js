@@ -66,7 +66,15 @@ const VendorMenu = () => {
                                 variant="subtitle1"
                                 component="div"
                             >
-                                Seller account
+                                <Link
+                                    to={`/vendor`}
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                    }}
+                                >
+                                    Seller account
+                                </Link>
                             </Typography>
                             <Divider variant="middle" />
                             <Typography
