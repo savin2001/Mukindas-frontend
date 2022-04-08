@@ -1,17 +1,14 @@
 import React, { useState } from "react";
+import VendorSearchBar from "../components/VendorSearchBar";
 import {
     Container,
     Grid,
     ToggleButton,
     ToggleButtonGroup,
-    // Card,
-    // CardContent,
     Avatar,
     Typography,
     Rating,
     Box,
-    // TextField,
-    // Button,
 } from "@mui/material";
 import VendorMenu from "../components/VendorMenu";
 import VendorShopProductTab from "../components/VendorShopProductTab";
@@ -38,6 +35,7 @@ const VendorShop = () => {
 
     return (
         <>
+            <VendorSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -47,7 +45,9 @@ const VendorShop = () => {
                     spacing={{ xs: 2, md: 1 }}
                     columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                    <Grid item xs={4} sm={8} md={3}>
+                    <Grid item sx={{
+                            display: { xs: "none", sm: "none", md: "block" },
+                        }} md={3}>
                         <VendorMenu />
                     </Grid>
                     <Grid item xs={4} sm={8} md={9}>
@@ -83,7 +83,7 @@ const VendorShop = () => {
                                 </Box>
                             </Box>
                         </Box>
-                        <Box sx={{ mb: 1}}>
+                        <Box sx={{ mb: 1 }}>
                             <Box
                                 sx={{
                                     display: "flex",
@@ -96,7 +96,7 @@ const VendorShop = () => {
                                     {children}
                                 </ToggleButtonGroup>
                             </Box>
-                            <VendorShopProductTab/>
+                            <VendorShopProductTab />
                         </Box>
                     </Grid>
                 </Grid>

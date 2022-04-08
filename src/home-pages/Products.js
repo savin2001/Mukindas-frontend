@@ -13,10 +13,12 @@ import {
     Rating,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 
 const Products = () => {
     return (
         <>
+            <PrimarySearchAppBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 80 }}
             ></Container>
@@ -24,11 +26,17 @@ const Products = () => {
                 <Grid
                     container
                     spacing={{ xs: 2, md: 3 }}
-                    columns={{ xs: 4, sm: 8, md:15 }}
+                    columns={{ xs: 4, sm: 8, md: 15 }}
                     sx={{ bordercolor: "primary.light" }}
                 >
                     {/* Category section */}
-                    <Grid item sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} md={3}>
+                    <Grid
+                        item
+                        sx={{
+                            display: { xs: "none", sm: "none", md: "block" },
+                        }}
+                        md={3}
+                    >
                         <Paper
                             sx={{
                                 display: "flex",
@@ -107,8 +115,7 @@ const Products = () => {
                                 </Box>
                             </Box>
                         </Paper>
-                        <Box sx={{ width: "100%",
-                                    height: "30px", }}/>
+                        <Box sx={{ width: "100%", height: "30px" }} />
                         <Paper
                             sx={{
                                 display: "flex",
@@ -121,7 +128,10 @@ const Products = () => {
                                 },
                             }}
                         >
-                            <Typography sx={{ textAlign: "center", p: 1 }} variant="h5">
+                            <Typography
+                                sx={{ textAlign: "center", p: 1 }}
+                                variant="h5"
+                            >
                                 Sort by
                             </Typography>
                             <Box sx={{ textAlign: "left", p: 1 }}>
@@ -286,7 +296,8 @@ const Products = () => {
                                                         variant="h6"
                                                         component="div"
                                                     >
-                                                        Red okre Maasai Earrings | Maasai Mara Earrings
+                                                        Red okre Maasai Earrings
+                                                        | Maasai Mara Earrings
                                                     </Typography>
 
                                                     <Rating
@@ -383,7 +394,10 @@ const Products = () => {
                                                         variant="p"
                                                         component="div"
                                                     >
-                                                        Dashiki Snoodie | Ankara Snoodie Jumper | Africa Inspired Patterns | Unisex | Black
+                                                        Dashiki Snoodie | Ankara
+                                                        Snoodie Jumper | Africa
+                                                        Inspired Patterns |
+                                                        Unisex | Black
                                                     </Typography>
 
                                                     <Rating
@@ -479,7 +493,13 @@ const Products = () => {
                                                         variant="p"
                                                         component="div"
                                                     >
-                                                        On SALE African Red Pendant Scarf Drop Beaded Multicolored Necklace | Maasai Necklace | Stylish | Gift for Her | Masai Mara
+                                                        On SALE African Red
+                                                        Pendant Scarf Drop
+                                                        Beaded Multicolored
+                                                        Necklace | Maasai
+                                                        Necklace | Stylish |
+                                                        Gift for Her | Masai
+                                                        Mara
                                                     </Typography>
 
                                                     <Rating

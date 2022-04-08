@@ -1,6 +1,7 @@
 import React from "react";
 // import PropTypes from 'prop-types'; to be used for upload
 import VendorMenu from "../components/VendorMenu";
+import VendorSearchBar from "../components/VendorSearchBar";
 import {
     Container,
     Grid,
@@ -36,6 +37,7 @@ const VendorAccount = () => {
     // };
     return (
         <>
+            <VendorSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -45,7 +47,9 @@ const VendorAccount = () => {
                     spacing={{ xs: 2, md: 1 }}
                     columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                    <Grid item xs={4} sm={8} md={3}>
+                    <Grid item sx={{
+                            display: { xs: "none", sm: "none", md: "block" },
+                        }} md={3}>
                         <VendorMenu />
                     </Grid>
                     <Grid item xs={4} sm={8} md={9} sx={{ mb: 1 }}>
@@ -424,7 +428,7 @@ const VendorAccount = () => {
                                                     }}
                                                 >
                                                     <Button
-                                                    fullWidth
+                                                        fullWidth
                                                         size="large"
                                                         variant="contained"
                                                         color="secondary"

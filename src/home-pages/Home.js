@@ -11,19 +11,22 @@ import {
     Button,
     Rating,
 } from "@mui/material";
+
 import { Link } from "react-router-dom";
 import model from "../media/model.png";
 import customer from "../media/customer-service.png";
 import simpsec from "../media/simple-secure.png";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 
 const Home = () => {
     return (
         <>
+            <PrimarySearchAppBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
             {/* Landing page */}
-            <Container >
+            <Container>
                 <Grid
                     container
                     spacing={{ xs: 2, md: 3 }}

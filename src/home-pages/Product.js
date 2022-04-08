@@ -13,10 +13,12 @@ import {
     Rating,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 
 const Product = () => {
     return (
         <>
+            <PrimarySearchAppBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -25,7 +27,7 @@ const Product = () => {
                     container
                     spacing={{ xs: 2, md: 3 }}
                     columns={{ xs: 4, sm: 8, md: 8 }}
-                    sx={{ mb: 5}}
+                    sx={{ mb: 5 }}
                 >
                     <Grid item xs={4} sm={4} md={4}>
                         <Box
@@ -136,7 +138,7 @@ const Product = () => {
                             >
                                 $ 34.99
                             </Typography>
-                            
+
                             <Typography
                                 variant="caption"
                                 sx={{
@@ -146,14 +148,15 @@ const Product = () => {
                                     color: "primary.light",
                                 }}
                             >
-                                426 views in the last days! 
+                                426 views in the last days!
                             </Typography>
-                            <Box sx={{
-                                    
+                            <Box
+                                sx={{
                                     my: 3,
                                     pt: 3,
                                     color: "primary.light",
-                                }}>
+                                }}
+                            >
                                 <Link
                                     to={`/cart`}
                                     style={{
@@ -181,12 +184,13 @@ const Product = () => {
                             >
                                 Replies in 1 days, 1 hours in average
                             </Typography>
-                            <Box sx={{
-                                    
+                            <Box
+                                sx={{
                                     my: 3,
                                     pt: 3,
                                     color: "primary.light",
-                                }}>
+                                }}
+                            >
                                 <Link
                                     to={`/cart`}
                                     style={{
@@ -198,10 +202,9 @@ const Product = () => {
                                         size="large"
                                         variant="contained"
                                         color="secondary"
-                                        sx={{bgcolor: "primary.dark"}}
-                                        
+                                        sx={{ bgcolor: "primary.dark" }}
                                     >
-                                       Contact seller
+                                        Contact seller
                                     </Button>
                                 </Link>
                             </Box>

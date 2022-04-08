@@ -1,5 +1,4 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
 import "./App.css";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -48,7 +47,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <div className="App">
                 <Router>
-                    <PrimarySearchAppBar />
+                    
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="cart" element={<Cart />} />
@@ -60,17 +59,17 @@ const App = () => {
                         <Route path="products" element={<Products />} />
                         <Route path="product" element={<Product />} />
                         <Route path="vendor" element={<VendorAccount />} />
-                        <Route path="vendor/my-shop" element={<VendorShop />} />
-                        <Route path="vendor/my-wallet" element={<VendorWallet />} />
-                        <Route path="vendor/new-label" element={<NewLabel />} />
-                        <Route path="vendor/customs" element={<Customs />} />
-                        <Route path="vendor/payment" element={<VendorPayments />} />
+                        <Route path="vendor/Shop" element={<VendorShop />} />
+                        <Route path="vendor/Wallet" element={<VendorWallet />} />
+                        <Route path="vendor/Label" element={<NewLabel />} />
+                        <Route path="vendor/Customs" element={<Customs />} />
+                        <Route path="vendor/Payment" element={<VendorPayments />} />
                         <Route
-                            path="vendor/shipping-labels"
+                            path="vendor/Shipping"
                             element={<ShippingLabels />}
                         />
                         <Route
-                            path="vendor/shipping-calculator"
+                            path="vendor/Calculator"
                             element={<ShippingCalculator />}
                         />
                         {pages.map((page) => (

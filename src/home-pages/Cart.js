@@ -16,6 +16,7 @@ import {
     CardMedia,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 
 const TAX_RATE = 0.07;
 
@@ -69,6 +70,7 @@ const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 const Cart = () => {
     return (
         <>
+            <PrimarySearchAppBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -106,7 +108,7 @@ const Cart = () => {
             </Container>
             <Container sx={{ flexGrow: 1, my: 3 }}>
                 <TableContainer component={Paper}>
-                    <Table  aria-label="spanning table">
+                    <Table aria-label="spanning table">
                         <TableHead>
                             <TableRow
                                 sx={{ backgroundColor: "secondary.main" }}

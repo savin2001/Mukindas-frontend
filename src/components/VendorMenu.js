@@ -85,7 +85,7 @@ const VendorMenu = () => {
                                 sx={{ m: 1 }}
                             >
                                 <Link
-                                    to={`/vendor/my-shop`}
+                                    to={`/vendor/Shop`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
@@ -117,7 +117,7 @@ const VendorMenu = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor/my-wallet`}
+                                to={`/vendor/Wallet`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -136,7 +136,7 @@ const VendorMenu = () => {
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/vendor/shipping-calculator`}
+                                to={`/vendor/Calculator`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -155,7 +155,7 @@ const VendorMenu = () => {
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/vendor/new-label`}
+                                to={`/vendor/Label`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -174,7 +174,7 @@ const VendorMenu = () => {
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/shipping-labels`}
+                                to={`/vendor/Shipping`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -214,7 +214,7 @@ const VendorMenu = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor/customs`}
+                                to={`/vendor/Customs`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -233,7 +233,7 @@ const VendorMenu = () => {
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/vendor/payment`}
+                                to={`/vendor/Payment`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
