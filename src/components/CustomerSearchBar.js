@@ -17,16 +17,12 @@ import { Link } from "react-router-dom";
 
 // Array of pages to be displayed on the top menu
 const vendorPages = [
-    "Shop",
-    "Wallet",
-    "Calculator",
-    "Label",
-    "Shipping",
-    "Customs",
+    "Favorites",
+    "Orders",
     "Payment",
 ];
 
-const VendorSearchBar = () => {
+const CustomerSearchBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     // Function to open the page navigation menu
@@ -50,7 +46,7 @@ const VendorSearchBar = () => {
                             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
                         >
                             <Link
-                                to={`/vendor`}
+                                to={`/customer`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -104,7 +100,7 @@ const VendorSearchBar = () => {
                                         onClick={handleCloseNavMenu}
                                     >
                                         <Link
-                                            to={`/vendor/${page}`}
+                                            to={`/customer/${page}`}
                                             style={{
                                                 textDecoration: "none",
                                                 color: "inherit",
@@ -127,7 +123,7 @@ const VendorSearchBar = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor`}
+                                to={`/customer`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -145,7 +141,7 @@ const VendorSearchBar = () => {
                             {vendorPages.map((page) => (
                                 <Button key={page} onClick={handleCloseNavMenu}>
                                     <Link
-                                        to={`/vendor/${page}`}
+                                        to={`/customer/${page}`}
                                         style={{
                                             textDecoration: "none",
                                             color: "black",
@@ -164,4 +160,4 @@ const VendorSearchBar = () => {
     );
 };
 
-export default VendorSearchBar;
+export default CustomerSearchBar;

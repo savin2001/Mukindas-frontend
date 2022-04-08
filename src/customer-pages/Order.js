@@ -22,7 +22,7 @@ import {
 import CustomerSearchBar from "../components/CustomerSearchBar";
 
 import CustomerMenu from "../components/CustomerMenu";
-const Favorite = () => {
+const Order = () => {
     return (
         <>
             <CustomerSearchBar />
@@ -56,7 +56,7 @@ const Favorite = () => {
                             }}
                         >
                             <Typography variant="h3">
-                                Setting up favorites page soon
+                                Setting up Order page soon
                             </Typography>
                         </Card>
                     </Grid>
@@ -66,4 +66,4 @@ const Favorite = () => {
     );
 };
 
-export default Favorite;
+export default Order;

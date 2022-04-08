@@ -20,16 +20,15 @@ import {
     // Checkbox,
     // Button,
 } from "@mui/material";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import LabelIcon from "@mui/icons-material/Label";
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from "react-router-dom";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import PaymentsIcon from "@mui/icons-material/Payments";
-import LogoutIcon from "@mui/icons-material/Logout";
+// import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+// import LabelIcon from "@mui/icons-material/Label";
+// import LogoutIcon from "@mui/icons-material/Logout";
 
-const VendorMenu = () => {
+const CustomerMenu = () => {
     return (
         <>
             <Container>
@@ -49,7 +48,7 @@ const VendorMenu = () => {
                                 m: 1,
                                 bgcolor: "secondary.main",
                             }}
-                            alt="Seller Pic"
+                            alt="Customer Pic"
                             src="/static/images/avatar/1.jpg"
                         />
                         <CardContent sx={{ width: "100%" }}>
@@ -59,42 +58,27 @@ const VendorMenu = () => {
                                 component="div"
                                 sx={{ m: 1 }}
                             >
-                                Seller name
+                                Customer name
                             </Typography>
 
                             <Typography
                                 gutterBottom
                                 variant="subtitle1"
                                 component="div"
-                            >
-                                <Link
-                                    to={`/vendor`}
-                                    style={{
-                                        textDecoration: "none",
-                                        color: "inherit",
-                                    }}
-                                >
-                                    Seller account
-                                </Link>
-                            </Typography>
-                            <Divider variant="middle" />
-                            <Typography
-                                gutterBottom
-                                variant="h6"
-                                component="div"
                                 color="secondary"
-                                sx={{ m: 1 }}
                             >
                                 <Link
-                                    to={`/vendor/Shop`}
+                                    to={`/customer`}
+                                    
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
                                     }}
                                 >
-                                    Go to shop
+                                    Customer account
                                 </Link>
                             </Typography>
+                            
                         </CardContent>
                     </Card>
                 </Box>
@@ -106,7 +90,7 @@ const VendorMenu = () => {
                                 variant="h5"
                                 component="div"
                             >
-                                Shipping Details
+                                Order Details
                             </Typography>
                         </CardContent>
                         <Divider variant="middle" />
@@ -118,7 +102,7 @@ const VendorMenu = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor/Wallet`}
+                                to={`/customer/Orders`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -129,15 +113,15 @@ const VendorMenu = () => {
                                         <Avatar
                                             sx={{ bgcolor: "secondary.main" }}
                                         >
-                                            <AccountBalanceWalletIcon />
+                                            <ShoppingCartCheckoutIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="Wallet" />
+                                    <ListItemText primary="Orders" />
                                 </ListItem>
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/vendor/Calculator`}
+                                to={`/customer/Favorites`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -148,15 +132,15 @@ const VendorMenu = () => {
                                         <Avatar
                                             sx={{ bgcolor: "secondary.main" }}
                                         >
-                                            <CalculateIcon />
+                                            <FavoriteIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="Shipping calculator" />
+                                    <ListItemText primary="Favorites" />
                                 </ListItem>
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/vendor/Label`}
+                                to={`/customer/Payment`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -167,14 +151,14 @@ const VendorMenu = () => {
                                         <Avatar
                                             sx={{ bgcolor: "secondary.main" }}
                                         >
-                                            <AddCircleOutlineIcon />
+                                            <PaymentsIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="New label" />
+                                    <ListItemText primary="Payment details" />
                                 </ListItem>
                             </Link>
                             <Divider variant="middle" component="li" />
-                            <Link
+                            {/* <Link
                                 to={`/vendor/Shipping`}
                                 style={{
                                     textDecoration: "none",
@@ -191,11 +175,11 @@ const VendorMenu = () => {
                                     </ListItemAvatar>
                                     <ListItemText primary="Shipping labels" />
                                 </ListItem>
-                            </Link>
+                            </Link> */}
                         </List>
                     </Card>
                 </Box>
-                <Box sx={{ mb: 3 }}>
+                {/* <Box sx={{ mb: 3 }}>
                     <Card>
                         <CardContent>
                             <Typography
@@ -233,24 +217,7 @@ const VendorMenu = () => {
                                 </ListItem>
                             </Link>
                             <Divider variant="middle" component="li" />
-                            <Link
-                                to={`/vendor/Payment`}
-                                style={{
-                                    textDecoration: "none",
-                                    color: "inherit",
-                                }}
-                            >
-                                <ListItem>
-                                    <ListItemAvatar>
-                                        <Avatar
-                                            sx={{ bgcolor: "secondary.main" }}
-                                        >
-                                            <PaymentsIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary="Payment details" />
-                                </ListItem>
-                            </Link>
+                            
                             <Divider variant="middle" component="li" />
                             <Link
                                 to={`/`}
@@ -270,7 +237,7 @@ const VendorMenu = () => {
                                     <ListItemText primary="Log Out" />
                                 </ListItem>
                             </Link>
-                            {/* <Divider variant="middle" component="li" />
+                            <Divider variant="middle" component="li" />
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar
@@ -278,13 +245,13 @@ const VendorMenu = () => {
                                     ></Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary="Category" />
-                            </ListItem> */}
+                            </ListItem>
                         </List>
                     </Card>
-                </Box>
+                </Box> */}
             </Container>
         </>
     );
 };
 
-export default VendorMenu;
+export default CustomerMenu;

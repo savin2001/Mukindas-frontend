@@ -88,7 +88,7 @@ const Cart = () => {
                     </Grid>
                     <Grid item xs={1} sm={2} md={3}>
                         <Link
-                            to={`/checkout`}
+                            to={`/customer/checkout`}
                             style={{
                                 textDecoration: "none",
                                 color: "inherit",
