@@ -26,6 +26,8 @@ import CustomerAccount from "./customer-pages/CustomerAccount"
 import Favorites from "./customer-pages/Favorite"
 import CustomerOrders from "./customer-pages/Orders"
 import Order from "./customer-pages/Order"
+import BulkUpload from "./vendors-pages/BulkUpload";
+
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -91,6 +93,10 @@ const App = () => {
                             element={<ShippingCalculator />}
                         />
                         <Route
+                            path="vendor/upload"
+                            element={<BulkUpload />}
+                        />
+                        <Route
                             path="customer"
                             element={<CustomerAccount/>}
                         />
@@ -114,6 +120,7 @@ const App = () => {
                             path="customer/Payment"
                             element={<CustomerPayment />}
                         />
+                        <Route path="customer/Continue%20shopping" element={<Products />} />
                     </Routes>
                     <Footer />
                 </Router>

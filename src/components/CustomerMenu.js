@@ -24,9 +24,9 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from "react-router-dom";
 import PaymentsIcon from "@mui/icons-material/Payments";
-// import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-// import LabelIcon from "@mui/icons-material/Label";
-// import LogoutIcon from "@mui/icons-material/Logout";
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+import LogoutIcon from "@mui/icons-material/Logout";
+
 
 const CustomerMenu = () => {
     return (
@@ -158,8 +158,8 @@ const CustomerMenu = () => {
                                 </ListItem>
                             </Link>
                             <Divider variant="middle" component="li" />
-                            {/* <Link
-                                to={`/vendor/Shipping`}
+                            <Link
+                                to={`/customer/Reviews`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -170,13 +170,32 @@ const CustomerMenu = () => {
                                         <Avatar
                                             sx={{ bgcolor: "secondary.main" }}
                                         >
-                                            <LabelIcon />
+                                            <StarHalfIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="Shipping labels" />
+                                    <ListItemText primary="Pending reviews" />
                                 </ListItem>
-                            </Link> */}
+                            </Link>
+                            <Link
+                                to={`/`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            sx={{ bgcolor: "secondary.main" }}
+                                        >
+                                            <LogoutIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary="Log Out" />
+                                </ListItem>
+                            </Link>
                         </List>
+                        
                     </Card>
                 </Box>
                 {/* <Box sx={{ mb: 3 }}>

@@ -20,6 +20,7 @@ const vendorPages = [
     "Favorites",
     "Orders",
     "Payment",
+    "Continue shopping"
 ];
 
 const CustomerSearchBar = () => {

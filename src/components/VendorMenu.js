@@ -28,6 +28,7 @@ import { Link } from "react-router-dom";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LogoutIcon from "@mui/icons-material/Logout";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 const VendorMenu = () => {
     return (
@@ -253,6 +254,25 @@ const VendorMenu = () => {
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
+                                to={`/vendor/Upload`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            sx={{ bgcolor: "secondary.main" }}
+                                        >
+                                            <FileUploadIcon />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary="Products upload" />
+                                </ListItem>
+                            </Link>
+                            <Divider variant="middle" component="li" />
+                            <Link
                                 to={`/`}
                                 style={{
                                     textDecoration: "none",
@@ -270,15 +290,6 @@ const VendorMenu = () => {
                                     <ListItemText primary="Log Out" />
                                 </ListItem>
                             </Link>
-                            {/* <Divider variant="middle" component="li" />
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar
-                                        sx={{ bgcolor: "secondary.main" }}
-                                    ></Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Category" />
-                            </ListItem> */}
                         </List>
                     </Card>
                 </Box>

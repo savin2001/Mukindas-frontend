@@ -24,6 +24,7 @@ const vendorPages = [
     "Shipping",
     "Customs",
     "Payment",
+    "Upload",
 ];
 
 const VendorSearchBar = () => {
