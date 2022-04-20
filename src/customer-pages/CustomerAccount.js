@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 // import PropTypes from 'prop-types'; to be used for upload
 import CustomerMenu from "../components/CustomerMenu";
 import CustomerSearchBar from "../components/CustomerSearchBar";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
     Container,
     Grid,
@@ -18,12 +19,14 @@ import {
     Paper,
     Box,
     TextField,
-    // FormControl,
-    // InputLabel,
+    FormControl,
+    InputLabel,
+    InputAdornment,
+    
     // Select,
     // MenuItem,
-    // FilledInput,
-    // IconButton,
+    FilledInput,
+    IconButton,
     // FormGroup,
     // FormControlLabel,
     // Checkbox,
@@ -31,10 +34,30 @@ import {
 } from "@mui/material";
 
 const CustomerAccount = () => {
-    // const [name, setName] = useState("");
-    // const handleChange = (event) => {
-    //     setName(event.target.value);
-    // };
+    
+    const [values, setValues] = useState({
+        fname: "",
+        sname: "",
+        email: "",
+        phone: "",
+        password: "",
+        showPassword: false,
+    });
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleClickShowPassword = () => {
+        setValues({
+            ...values,
+            showPassword: !values.showPassword,
+        });
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
     return (
         <>
             <CustomerSearchBar />
@@ -47,9 +70,13 @@ const CustomerAccount = () => {
                     spacing={{ xs: 2, md: 1 }}
                     columns={{ xs: 4, sm: 8, md: 12 }}
                 >
-                    <Grid item sx={{
+                    <Grid
+                        item
+                        sx={{
                             display: { xs: "none", sm: "none", md: "block" },
-                        }} md={3}>
+                        }}
+                        md={3}
+                    >
                         <CustomerMenu />
                     </Grid>
                     <Grid item xs={4} sm={8} md={9} sx={{ mb: 1 }}>
@@ -141,7 +168,7 @@ const CustomerAccount = () => {
                                                         id="filled-basic"
                                                         label="Enter your first name"
                                                         variant="filled"
-                                                        // value={name}
+                                                        value={values.fname}
                                                         placeholder="John"
                                                         // onChange={handleChange}
                                                         // disabled
@@ -172,7 +199,7 @@ const CustomerAccount = () => {
                                                     </Typography>
                                                     <TextField
                                                         sx={{ flexGrow: 1 }}
-                                                        // value={name}
+                                                        value={values.sname}
                                                         placeholder="Doe"
                                                         id="filled-basic"
                                                         label="Enter your second name"
@@ -206,7 +233,7 @@ const CustomerAccount = () => {
                                                     </Typography>
                                                     <TextField
                                                         sx={{ flexGrow: 1 }}
-                                                        // value={name}
+                                                        value={values.phone}
                                                         placeholder="+254 712 345 678"
                                                         id="filled-basic"
                                                         label="Enter your phone number"
@@ -240,7 +267,7 @@ const CustomerAccount = () => {
                                                     </Typography>
                                                     <TextField
                                                         sx={{ flexGrow: 1 }}
-                                                        // value={name}
+                                                        value={values.email}
                                                         placeholder="example@email.com"
                                                         id="filled-basic"
                                                         label="Enter your email"
@@ -270,146 +297,48 @@ const CustomerAccount = () => {
                                                     <Typography
                                                         sx={{ flexGrow: 1 }}
                                                     >
-                                                        Country
+                                                        Password
                                                     </Typography>
-                                                    <TextField
-                                                        sx={{ flexGrow: 1 }}
-                                                        // value={name}
-                                                        placeholder="Kenya"
-                                                        id="filled-basic"
-                                                        label="Enter your country"
-                                                        variant="filled"
-                                                        // onChange={handleChange}
-                                                        // disabled
-                                                    />
-                                                </Box>
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                xs={4}
-                                                sm={8}
-                                                md={6}
-                                                sx={{ mb: 1 }}
-                                            >
-                                                <Box
-                                                    sx={{
-                                                        p: 1,
-                                                        m: 1,
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        columnGap: 1,
-                                                        rowGap: 1,
-                                                    }}
+                                                    <FormControl
+                                    sx={{ width: "35ch" }}
+                                    variant="filled"
+                                >
+                                    <InputLabel htmlFor="filled-adornment-password">
+                                        Password
+                                    </InputLabel>
+                                    <FilledInput
+                                        id="filled-adornment-password"
+                                        type={
+                                            values.showPassword
+                                                ? "text"
+                                                : "password"
+                                        }
+                                        value={values.password}
+                                        onChange={handleChange("password")}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowPassword
+                                                    }
+                                                    onMouseDown={
+                                                        handleMouseDownPassword
+                                                    }
+                                                    edge="end"
                                                 >
-                                                    <Typography
-                                                        sx={{ flexGrow: 1 }}
-                                                    >
-                                                        City
-                                                    </Typography>
-                                                    <TextField
-                                                        sx={{ flexGrow: 1 }}
-                                                        // value={name}
-                                                        placeholder="Nairobi"
-                                                        id="filled-basic"
-                                                        label="Enter your city"
-                                                        variant="filled"
-                                                        // onChange={handleChange}
-                                                        // disabled
-                                                    />
+                                                    {values.showPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
                                                 </Box>
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                xs={4}
-                                                sm={8}
-                                                md={6}
-                                                sx={{ mb: 1 }}
-                                            >
-                                                <Box
-                                                    sx={{
-                                                        p: 1,
-                                                        m: 1,
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        columnGap: 1,
-                                                        rowGap: 1,
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        sx={{ flexGrow: 1 }}
-                                                    >
-                                                        Address
-                                                    </Typography>
-                                                    <Box
-                                                        sx={{
-                                                            flexGrow: 1,
-                                                            display: "flex",
-                                                            columnGap: 2,
-                                                            rowGap: 1,
-                                                        }}
-                                                    >
-                                                        <TextField
-                                                            // value={name}
-                                                            placeholder="1234"
-                                                            id="filled-basic"
-                                                            label="P.O Box"
-                                                            variant="filled"
-                                                            // onChange={handleChange}
-                                                            // disabled
-                                                        />
-                                                        <TextField
-                                                            // value={name}
-                                                            placeholder="00100"
-                                                            id="filled-basic"
-                                                            label="Code"
-                                                            variant="filled"
-                                                            // onChange={handleChange}
-                                                            // disabled
-                                                        />
-                                                    </Box>
-                                                </Box>
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                xs={4}
-                                                sm={8}
-                                                md={6}
-                                                sx={{ mb: 1 }}
-                                            >
-                                                <Box
-                                                    sx={{
-                                                        p: 1,
-                                                        m: 1,
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        columnGap: 3,
-                                                        rowGap: 1,
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        sx={{ flexGrow: 1 }}
-                                                    >
-                                                        Street name
-                                                    </Typography>
-                                                    <TextField
-                                                        sx={{ flexGrow: 1 }}
-                                                        // value={name}
-                                                        placeholder="Road name"
-                                                        id="filled-basic"
-                                                        label="Enter your street name"
-                                                        variant="filled"
-                                                        // onChange={handleChange}
-                                                        // disabled
-                                                    />
-                                                </Box>
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                xs={4}
-                                                sm={8}
-                                                md={6}
-                                                sx={{ mb: 1 }}
-                                            ></Grid>
+                                            </Grid>                                            
                                             <Grid
                                                 item
                                                 xs={4}

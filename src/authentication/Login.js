@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
     Container,
@@ -13,19 +13,25 @@ import {
     InputLabel,
     FilledInput,
     IconButton,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
+    Alert,
+    AlertTitle,
+    // FormGroup,
+    // FormControlLabel,
+    // Checkbox,
     Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import login from "../media/login.png";
+import api from "../components/api";
 
 const Login = () => {
     const [values, setValues] = useState({
+        email: "",
         password: "",
         showPassword: false,
     });
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -40,6 +46,22 @@ const Login = () => {
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch(`${api}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(values),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                setError(err.message);
+                // setIsPending(false);
+            });
     };
 
     return (
@@ -91,122 +113,104 @@ const Login = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={4} sm={8} md={4}>
-                        <Box
+                        <form
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "flex-start",
                                 justifyContent: "flex-start",
-                                p: 2,
-                                m: 2,
+                                p: 1,
+                                m: 1,
                             }}
+                            onSubmit={(e) => handleSubmit(e)}
                         >
-                            <Box
+                            <TextField
+                                label="Email address"
+                                type="email"
+                                value={values.email}
                                 sx={{
-                                    p: 2,
-                                    m: 2,
+                                    my: 2,
+                                }}
+                                onChange={handleChange("email")}
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <MailOutlineIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                variant="filled"
+                            />
+
+                            <FormControl
+                                fullWidth
+                                variant="filled"
+                                sx={{
+                                    my: 2,
                                 }}
                             >
-                                <TextField
-                                    id="standard-basic"
-                                    label="Username or email"
-                                    sx={{ width: "35ch" }}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <AccountCircle />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                    variant="filled"
+                                <InputLabel htmlFor="filled-adornment-password">
+                                    Password
+                                </InputLabel>
+                                <FilledInput
+                                    id="filled-adornment-password"
+                                    type={
+                                        values.showPassword
+                                            ? "text"
+                                            : "password"
+                                    }
+                                    value={values.password}
+                                    onChange={handleChange("password")}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={
+                                                    handleClickShowPassword
+                                                }
+                                                onMouseDown={
+                                                    handleMouseDownPassword
+                                                }
+                                                edge="end"
+                                            >
+                                                {values.showPassword ? (
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
                                 />
-                            </Box>
-                            <Box
+                            </FormControl>
+
+                            <Button
+                                size="large"
+                                variant="outlined"
+                                color="secondary"
+                                bgcolor="secondary"
+                                fullWidth
+                                type="submit"
                                 sx={{
-                                    p: 2,
-                                    m: 2,
+                                    my: 2,
                                 }}
                             >
-                                <FormControl
-                                    sx={{ width: "35ch" }}
-                                    variant="filled"
-                                >
-                                    <InputLabel htmlFor="filled-adornment-password">
-                                        Password
-                                    </InputLabel>
-                                    <FilledInput
-                                        id="filled-adornment-password"
-                                        type={
-                                            values.showPassword
-                                                ? "text"
-                                                : "password"
-                                        }
-                                        value={values.password}
-                                        onChange={handleChange("password")}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={
-                                                        handleClickShowPassword
-                                                    }
-                                                    onMouseDown={
-                                                        handleMouseDownPassword
-                                                    }
-                                                    edge="end"
-                                                >
-                                                    {values.showPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
-                                                    )}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
-                            </Box>
-                            <Box
-                                sx={{
-                                    p: 2,
-                                    m: 2,
-                                }}
-                            >
-                                <FormGroup>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                defaultChecked
-                                                sx={{
-                                                    "& .MuiSvgIcon-root": {
-                                                        fontSize: 28,
-                                                    },
-                                                }}
-                                            />
-                                        }
-                                        label="Remember me"
-                                    />
-                                </FormGroup>
-                            </Box>
-                            <Box sx={{ flexGrow: 1, my: 4, m: 2 }}>
-                                <Link
-                                    to={`/vendor`}
-                                    style={{
-                                        textDecoration: "none",
-                                        color: "inherit",
-                                    }}
-                                >
-                                    <Button
-                                        size="large"
-                                        variant="outlined"
-                                        color="secondary"
-                                        bgcolor="secondary"
-                                    >
-                                        Log in
-                                    </Button>
-                                </Link>
-                            </Box>
-                        </Box>
+                                Login
+                            </Button>
+                            {error && (
+                                <Alert severity="error">
+                                    <AlertTitle>{error}</AlertTitle>
+                                </Alert>
+                            )}
+                            {data && (
+                                <Alert severity="success">
+                                    <AlertTitle>{data}</AlertTitle>
+                                    Please use a{" "}
+                                    <strong>different email</strong>
+                                </Alert>
+                            )}
+                        </form>
                         <Box
                             sx={{
                                 p: 2,
