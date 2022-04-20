@@ -56,7 +56,8 @@ const Login = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                console.log(data)
+                setData(data);
             })
             .catch((err) => {
                 setError(err.message);
