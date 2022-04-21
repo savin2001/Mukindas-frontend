@@ -19,13 +19,12 @@ import {
     // ListItemText,
     // Collapse,
 } from "@mui/material";
-import CustomerSearchBar from "../components/CustomerSearchBar";
-
 import CustomerMenu from "../components/CustomerMenu";
+import CustomerSearchBar from "../components/CustomerSearchBar";
 const Favorite = () => {
     return (
         <>
-            <CustomerSearchBar />
+        <CustomerSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>

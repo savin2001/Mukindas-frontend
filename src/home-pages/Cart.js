@@ -16,6 +16,7 @@ import {
     CardMedia,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 
 const TAX_RATE = 0.07;
@@ -68,9 +69,34 @@ const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 const Cart = () => {
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const userNotLogin = () => {
+        <Grid item xs={1} sm={2} md={3}>
+            <Link
+                to={`/login`}
+                style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                }}
+            >
+                <Button
+                    size="large"
+                    variant="outlined"
+                    color="secondary"
+                    borderColor="secondary"
+                >
+                    checkout
+                </Button>
+            </Link>
+        </Grid>;
+    };
     return (
         <>
-            <PrimarySearchAppBar />
+        {isLogInTrue && isLogInTrue.userLogin ? (
+                        <CustomerSearchBar />
+                    ) : (
+                        <PrimarySearchAppBar />
+                    )}
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -86,24 +112,28 @@ const Cart = () => {
                             Cart(3 items)
                         </Typography>
                     </Grid>
-                    <Grid item xs={1} sm={2} md={3}>
-                        <Link
-                            to={`/customer/Checkout`}
-                            style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                            }}
-                        >
-                            <Button
-                                size="large"
-                                variant="outlined"
-                                color="secondary"
-                                borderColor="secondary"
+                    {isLogInTrue && isLogInTrue.userLogin ? (
+                        <Grid item xs={1} sm={2} md={3}>
+                            <Link
+                                to={`/customer/Checkout`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
                             >
-                                checkout
-                            </Button>
-                        </Link>
-                    </Grid>
+                                <Button
+                                    size="large"
+                                    variant="outlined"
+                                    color="secondary"
+                                    borderColor="secondary"
+                                >
+                                    checkout
+                                </Button>
+                            </Link>
+                        </Grid>
+                    ) : (
+                        userNotLogin()
+                    )}
                 </Grid>
             </Container>
             <Container sx={{ flexGrow: 1, my: 3 }}>

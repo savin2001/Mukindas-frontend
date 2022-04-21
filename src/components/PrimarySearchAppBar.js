@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
     AppBar,
@@ -12,14 +12,20 @@ import {
     Badge,
     MenuItem,
     Menu,
+    Avatar,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
+import LoginIcon from "@mui/icons-material/Login";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -66,9 +72,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const pages = ["Clothing", "Jewellery", "Beauty", "Accessories"];
 
 export default function PrimarySearchAppBar() {
+    const [searchInput, setSearchInput] = useState("");
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+    // Searching function
+    const searchItems = (searchValue) => {
+        setSearchInput(searchValue);
+        console.log(searchValue);
+        console.log(searchInput);
+    };
 
     // Function to open the page navigation menu
     const handleOpenNavMenu = (event) => {
@@ -124,14 +138,22 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            {" "}
             <Link
                 to={`/login`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                }}
             >
-                <MenuItem onClick={handleMenuClose}>Log In</MenuItem>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar sx={{ bgcolor: "secondary.main" }}>
+                            <LoginIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Log In" />
+                </ListItem>
             </Link>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
 
@@ -153,55 +175,48 @@ export default function PrimarySearchAppBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <Link
-                to={`/cart`}
-                style={{ textDecoration: "none", color: "inherit" }}
+            <List
+                sx={{
+                    width: "100%",
+                    bgcolor: "background.paper",
+                }}
             >
-                <MenuItem>
-                    <IconButton
-                        size="large"
-                        aria-label="show 4 new mails"
-                        color="inherit"
-                    >
-                        <Badge badgeContent={4} color="secondary">
-                            <AddShoppingCartIcon />
-                        </Badge>
-                    </IconButton>
-                    <p>Cart</p>
-                </MenuItem>
-            </Link>
-            <Link
-                to={`/favorite`}
-                style={{ textDecoration: "none", color: "inherit" }}
-            >
-                <MenuItem>
-                    <IconButton
-                        size="large"
-                        aria-label="show 17 new notifications"
-                        color="inherit"
-                    >
-                        <FavoriteIcon />
-                    </IconButton>
-                    <p>Wish list</p>
-                </MenuItem>
-            </Link>
-            <Link
-                to={`/login`}
-                style={{ textDecoration: "none", color: "inherit" }}
-            >
-                <MenuItem onClick={handleProfileMenuOpen}>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="primary-search-account-menu"
-                        aria-haspopup="true"
-                        color="secondary"
-                    >
-                        <AccountCircle />
-                    </IconButton>
-                    <p>Log in</p>
-                </MenuItem>
-            </Link>
+                <Link
+                    to={`/cart`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                >
+                    <MenuItem>
+                        <IconButton
+                            size="large"
+                            aria-label="show 4 new mails"
+                            color="inherit"
+                        >
+                            <Badge badgeContent={4} color="secondary">
+                                <AddShoppingCartIcon />
+                            </Badge>
+                        </IconButton>
+                        <p>Cart</p>
+                    </MenuItem>
+                </Link>
+                <Divider variant="middle" component="li" />
+
+                <Link
+                    to={`/login`}
+                    style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                    }}
+                >
+                    <ListItem>
+                        <ListItemAvatar>
+                            <Avatar sx={{ bgcolor: "secondary.main" }}>
+                                <LoginIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary="Log In" />
+                    </ListItem>
+                </Link>
+            </List>
         </Menu>
     );
 
@@ -303,6 +318,7 @@ export default function PrimarySearchAppBar() {
                                         textDecoration: "none",
                                         color: "inherit",
                                     }}
+                                    key={page}
                                 >
                                     <Button
                                         key={page}
@@ -325,6 +341,9 @@ export default function PrimarySearchAppBar() {
                                 </SearchIconWrapper>
                                 <StyledInputBase
                                     placeholder="Search…"
+                                    onChange={(e) =>
+                                        searchItems(e.target.value)
+                                    }
                                     inputProps={{ "aria-label": "search" }}
                                 />
                             </Search>
@@ -344,23 +363,6 @@ export default function PrimarySearchAppBar() {
                                 >
                                     <Badge badgeContent={4} color="secondary">
                                         <AddShoppingCartIcon />
-                                    </Badge>
-                                </IconButton>
-                            </Link>
-                            <Link
-                                to={`/favorite`}
-                                style={{
-                                    textDecoration: "none",
-                                    color: "inherit",
-                                }}
-                            >
-                                <IconButton
-                                    size="large"
-                                    aria-label="show 17 new notifications"
-                                    color="inherit"
-                                >
-                                    <Badge badgeContent={17} color="secondary">
-                                        <FavoriteIcon />
                                     </Badge>
                                 </IconButton>
                             </Link>

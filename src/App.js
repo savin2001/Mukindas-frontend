@@ -1,3 +1,4 @@
+import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";
 import Footer from "./components/Footer";
@@ -6,7 +7,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Pages
 import Home from "./home-pages/Home";
 import Cart from "./home-pages/Cart";
-import Favorite from "./customer-pages/Favorite";
 import Profile from "./customer-pages/CustomerAccount";
 import Products from "./home-pages/Products";
 import Product from "./home-pages/Product";
@@ -22,10 +22,10 @@ import ShippingLabels from "./vendors-pages/ShippingLabels";
 import Customs from "./vendors-pages/Customs";
 import VendorPayments from "./vendors-pages/Payment";
 import CustomerPayment from "./customer-pages/Payment";
-import CustomerAccount from "./customer-pages/CustomerAccount"
-import Favorites from "./customer-pages/Favorite"
-import CustomerOrders from "./customer-pages/Orders"
-import Order from "./customer-pages/Order"
+import CustomerAccount from "./customer-pages/CustomerAccount";
+import Favorites from "./customer-pages/Favorite";
+import CustomerOrders from "./customer-pages/Orders";
+import Order from "./customer-pages/Order";
 import BulkUpload from "./vendors-pages/BulkUpload";
 
 
@@ -56,12 +56,13 @@ const App = () => {
                 <Router>
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="home" element={<Home />} />
                         <Route path="cart" element={<Cart />} />
-                        <Route path="favorite" element={<Favorite />} />
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="product" element={<Product />} />
+                        <Route path="products/:id/" element={<Product />} />
                         <Route path="products" element={<Products />} />
                         {pages.map((page) => (
                             <Route
@@ -70,7 +71,7 @@ const App = () => {
                                 key={page}
                             />
                         ))}
-                        
+
                         <Route path="vendor" element={<VendorAccount />} />
                         <Route path="vendor/Shop" element={<VendorShop />} />
                         <Route
@@ -92,26 +93,17 @@ const App = () => {
                             path="vendor/Calculator"
                             element={<ShippingCalculator />}
                         />
-                        <Route
-                            path="vendor/upload"
-                            element={<BulkUpload />}
-                        />
-                        <Route
-                            path="customer"
-                            element={<CustomerAccount/>}
-                        />
+                        <Route path="vendor/upload" element={<BulkUpload />} />
+                        <Route path="customer" element={<CustomerAccount />} />
                         <Route
                             path="customer/Favorites"
-                            element={<Favorites/>}
+                            element={<Favorites />}
                         />
                         <Route
                             path="customer/Orders"
-                            element={<CustomerOrders/>}
+                            element={<CustomerOrders />}
                         />
-                        <Route
-                            path="customer/Order"
-                            element={<Order/>}
-                        />
+                        <Route path="customer/Order" element={<Order />} />
                         <Route
                             path="customer/Checkout"
                             element={<CheckOut />}
@@ -120,7 +112,10 @@ const App = () => {
                             path="customer/Payment"
                             element={<CustomerPayment />}
                         />
-                        <Route path="customer/Continue%20shopping" element={<Products />} />
+                        <Route
+                            path="customer/Continue%20shopping"
+                            element={<Products />}
+                        />
                     </Routes>
                     <Footer />
                 </Router>

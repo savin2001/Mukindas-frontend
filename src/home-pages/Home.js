@@ -17,11 +17,21 @@ import model from "../media/model.png";
 import customer from "../media/customer-service.png";
 import simpsec from "../media/simple-secure.png";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
+import CustomerSearchBar from "../components/CustomerSearchBar";
+// import api from "../components/api";
+// import useFetch from "../components/useFetch";
+// import ProductCards from "../components/ProductCards";
 
 const Home = () => {
+    // const { data: products, error } = useFetch(`${api}/products`);
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     return (
         <>
-            <PrimarySearchAppBar />
+            {isLogInTrue && isLogInTrue.userLogin ? (
+                <CustomerSearchBar />
+            ) : (
+                <PrimarySearchAppBar />
+            )}
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -83,8 +93,18 @@ const Home = () => {
                             </Box>
                         </Box>
                     </Grid>
-                    <Grid item xs={4} sm={8} md={4} fitContent>
-                        <img src={model} alt="model" />
+                    <Grid
+                        item
+                        xs={4}
+                        sm={8}
+                        md={4}
+                        sx={{ width: "100%", display: "flex" }}
+                    >
+                        <CardMedia
+                            component="img"
+                            image={model}
+                            alt="stock image"
+                        />
                     </Grid>
                 </Grid>
             </Container>
@@ -104,6 +124,20 @@ const Home = () => {
                     spacing={{ xs: 2, md: 3 }}
                     columns={{ xs: 4, sm: 8, md: 16 }}
                 >
+                    {/* {error && (
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                width: "100%",
+                                alignItems: "center",
+                                fontSize: "30px",
+                                background: "#c20f00",
+                            }}
+                        >
+                            {error}
+                        </div>
+                    )} */}
                     {Array.from(Array(4)).map((_, index) => (
                         <Grid item xs={2} sm={8} md={4} key={index}>
                             <Card sx={{ maxWidth: 345 }}>

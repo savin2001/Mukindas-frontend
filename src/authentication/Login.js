@@ -20,22 +20,21 @@ import {
     // Checkbox,
     Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import login from "../media/login.png";
+import { Link, useNavigate } from "react-router-dom";
+
+import loginPic from "../media/login.png";
 import api from "../components/api";
+import axios from "axios";
 
 const Login = () => {
-    const [values, setValues] = useState({
-        email: "",
-        password: "",
+    const [values, setValues] = React.useState({
         showPassword: false,
     });
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
 
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleClickShowPassword = () => {
         setValues({
@@ -47,22 +46,28 @@ const Login = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const handleSubmit = (e) => {
+    const login = (e) => {
         e.preventDefault();
-        fetch(`${api}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(values),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data)
-                setData(data);
+        axios
+            .post(`${api}/api/auth/login`, {
+                email,
+                password,
             })
-            .catch((err) => {
-                setError(err.message);
-                // setIsPending(false);
-            });
+            .then((response) => {
+                console.log(response);
+                localStorage.setItem(
+                    "login",
+                    JSON.stringify({
+                        userLogin: true,
+                        token: response.data.access_token,
+                    })
+                );
+                setError("");
+                setEmail("");
+                setPassword("");
+                navigate("/customer");
+            })
+            .catch((error) => setError(error.response.data.message));
     };
 
     return (
@@ -108,7 +113,7 @@ const Login = () => {
                         >
                             <CardMedia
                                 component="img"
-                                image={login}
+                                image={loginPic}
                                 alt="stock image"
                             />
                         </Box>
@@ -123,16 +128,17 @@ const Login = () => {
                                 p: 1,
                                 m: 1,
                             }}
-                            onSubmit={(e) => handleSubmit(e)}
+                            onSubmit={login}
                         >
                             <TextField
+                                id="email"
                                 label="Email address"
-                                type="email"
-                                value={values.email}
+                                type="text"
+                                value={email}
                                 sx={{
                                     my: 2,
                                 }}
-                                onChange={handleChange("email")}
+                                onChange={(e) => setEmail(e.target.value)}
                                 fullWidth
                                 InputProps={{
                                     endAdornment: (
@@ -155,14 +161,16 @@ const Login = () => {
                                     Password
                                 </InputLabel>
                                 <FilledInput
-                                    id="filled-adornment-password"
+                                    id="password"
                                     type={
                                         values.showPassword
                                             ? "text"
                                             : "password"
                                     }
-                                    value={values.password}
-                                    onChange={handleChange("password")}
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
@@ -185,7 +193,14 @@ const Login = () => {
                                     }
                                 />
                             </FormControl>
-
+                            {error && (
+                                <Alert severity="error">
+                                    <AlertTitle>
+                                        <strong>{error}</strong>
+                                    </AlertTitle>
+                                    Please confirm your details
+                                </Alert>
+                            )}
                             <Button
                                 size="large"
                                 variant="outlined"
@@ -199,18 +214,6 @@ const Login = () => {
                             >
                                 Login
                             </Button>
-                            {error && (
-                                <Alert severity="error">
-                                    <AlertTitle>{error}</AlertTitle>
-                                </Alert>
-                            )}
-                            {data && (
-                                <Alert severity="success">
-                                    <AlertTitle>{data}</AlertTitle>
-                                    Please use a{" "}
-                                    <strong>different email</strong>
-                                </Alert>
-                            )}
                         </form>
                         <Box
                             sx={{

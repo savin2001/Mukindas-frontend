@@ -22,27 +22,24 @@ import {
     // Checkbox,
     Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import register from "../media/register.png";
+import { Link, useNavigate } from "react-router-dom";
+import registerPic from "../media/register.png";
 import api from "../components/api";
+import axios from "axios";
 
 const Register = () => {
     const [values, setValues] = useState({
-        firstName: "",
-        secondName: "",
-        email: "",
-        phone: "",
-        password: "",
         showPassword: false,
     });
-
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+    const [firstName, setFirstName] = useState("");
+    const [secondName, setSecondName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+    const [userType, setUserType] = useState("customer");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
     // const [isPending, setIsPending] = useState(true);
-
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
 
     const handleClickShowPassword = () => {
         setValues({
@@ -55,26 +52,37 @@ const Register = () => {
         event.preventDefault();
     };
 
-    const handleSubmit = (e) => {
+    const register = (e) => {
         e.preventDefault();
-        fetch(`${api}/users`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(values),
-        })
-            .then((res) => res.json())
-            .then((result) => {
-                console.log(result);
-                if (result.Status === "Success") {
-                    setData(result);
-                } else {
-                    setError(result);
-                }
+        axios
+            .post(`${api}/api/auth/register`, {
+                firstName,
+                secondName,
+                email,
+                phone,
+                password,
+                userType,
             })
-            .catch((err) => {
-                setError(err.message);
-                // setIsPending(false);
-            });
+            .then((response) => {
+                console.log(response);
+                localStorage.setItem(
+                    "login",
+                    JSON.stringify({
+                        userLogin: true,
+                        token: response.data.access_token,
+                    })
+                );
+                
+                setError("");
+                setFirstName("")
+                setSecondName("")
+                setPhone("")
+                setEmail("");
+                setPassword("");
+                setUserType("")
+                navigate("/customer");
+            })
+            .catch((error) => setError(error.response.data.message));
     };
 
     return (
@@ -120,7 +128,7 @@ const Register = () => {
                         >
                             <CardMedia
                                 component="img"
-                                image={register}
+                                image={registerPic}
                                 alt="stock image"
                             />
                         </Box>
@@ -135,15 +143,21 @@ const Register = () => {
                                 p: 1,
                                 m: 1,
                             }}
-                            onSubmit={(e) => handleSubmit(e)}
+                            onSubmit={register}
                         >
+                            <input
+                                type="hidden"
+                                name="userType"
+                                value={userType}
+                                onChange={(e) => setUserType(e.target.value)}
+                            />
                             <TextField
                                 label="First name"
-                                value={values.firstName}
+                                value={firstName}
                                 sx={{
                                     my: 2,
                                 }}
-                                onChange={handleChange("firstName")}
+                                onChange={(e) => setFirstName(e.target.value)}
                                 fullWidth
                                 InputProps={{
                                     endAdornment: (
@@ -157,11 +171,11 @@ const Register = () => {
 
                             <TextField
                                 label="Second name"
-                                value={values.secondName}
+                                value={secondName}
                                 sx={{
                                     my: 2,
                                 }}
-                                onChange={handleChange("secondName")}
+                                onChange={(e) => setSecondName(e.target.value)}
                                 fullWidth
                                 InputProps={{
                                     endAdornment: (
@@ -174,11 +188,11 @@ const Register = () => {
                             />
                             <TextField
                                 label="Phone number"
-                                value={values.phone}
+                                value={phone}
                                 sx={{
                                     my: 2,
                                 }}
-                                onChange={handleChange("phone")}
+                                onChange={(e) => setPhone(e.target.value)}
                                 type="tel"
                                 fullWidth
                                 InputProps={{
@@ -193,11 +207,11 @@ const Register = () => {
                             <TextField
                                 label="Email address"
                                 type="email"
-                                value={values.email}
+                                value={email}
                                 sx={{
                                     my: 2,
                                 }}
-                                onChange={handleChange("email")}
+                                onChange={(e) => setEmail(e.target.value)}
                                 fullWidth
                                 InputProps={{
                                     endAdornment: (
@@ -226,8 +240,10 @@ const Register = () => {
                                             ? "text"
                                             : "password"
                                     }
-                                    value={values.password}
-                                    onChange={handleChange("password")}
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
@@ -267,13 +283,6 @@ const Register = () => {
                             {error && (
                                 <Alert severity="error">
                                     <AlertTitle>{error}</AlertTitle>
-                                </Alert>
-                            )}
-                            {data && (
-                                <Alert severity="success">
-                                    <AlertTitle>{data}</AlertTitle>
-                                    Please use a{" "}
-                                    <strong>different email</strong>
                                 </Alert>
                             )}
                         </form>

@@ -90,7 +90,7 @@ const Checkout = () => {
     };
     return (
         <>
-            <CustomerSearchBar/>
+            <CustomerSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>

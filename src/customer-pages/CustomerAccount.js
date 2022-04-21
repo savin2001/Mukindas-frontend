@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 // import PropTypes from 'prop-types'; to be used for upload
 import CustomerMenu from "../components/CustomerMenu";
-import CustomerSearchBar from "../components/CustomerSearchBar";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
     Container,
@@ -22,7 +21,7 @@ import {
     FormControl,
     InputLabel,
     InputAdornment,
-    
+
     // Select,
     // MenuItem,
     FilledInput,
@@ -32,9 +31,11 @@ import {
     // Checkbox,
     Button,
 } from "@mui/material";
+import CustomerSearchBar from "../components/CustomerSearchBar";
+import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 
 const CustomerAccount = () => {
-    
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const [values, setValues] = useState({
         fname: "",
         sname: "",
@@ -60,7 +61,12 @@ const CustomerAccount = () => {
 
     return (
         <>
-            <CustomerSearchBar />
+            {isLogInTrue && isLogInTrue.userLogin ? (
+                        <CustomerSearchBar />
+                    ) : (
+                        <PrimarySearchAppBar />
+                    )}
+
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -165,7 +171,6 @@ const CustomerAccount = () => {
                                                     </Typography>
                                                     <TextField
                                                         sx={{ flexGrow: 1 }}
-                                                        id="filled-basic"
                                                         label="Enter your first name"
                                                         variant="filled"
                                                         value={values.fname}
@@ -201,7 +206,6 @@ const CustomerAccount = () => {
                                                         sx={{ flexGrow: 1 }}
                                                         value={values.sname}
                                                         placeholder="Doe"
-                                                        id="filled-basic"
                                                         label="Enter your second name"
                                                         variant="filled"
                                                         // onChange={handleChange}
@@ -235,7 +239,6 @@ const CustomerAccount = () => {
                                                         sx={{ flexGrow: 1 }}
                                                         value={values.phone}
                                                         placeholder="+254 712 345 678"
-                                                        id="filled-basic"
                                                         label="Enter your phone number"
                                                         variant="filled"
                                                         // onChange={handleChange}
@@ -269,7 +272,6 @@ const CustomerAccount = () => {
                                                         sx={{ flexGrow: 1 }}
                                                         value={values.email}
                                                         placeholder="example@email.com"
-                                                        id="filled-basic"
                                                         label="Enter your email"
                                                         variant="filled"
                                                         // onChange={handleChange}
@@ -300,45 +302,49 @@ const CustomerAccount = () => {
                                                         Password
                                                     </Typography>
                                                     <FormControl
-                                    sx={{ width: "35ch" }}
-                                    variant="filled"
-                                >
-                                    <InputLabel htmlFor="filled-adornment-password">
-                                        Password
-                                    </InputLabel>
-                                    <FilledInput
-                                        id="filled-adornment-password"
-                                        type={
-                                            values.showPassword
-                                                ? "text"
-                                                : "password"
-                                        }
-                                        value={values.password}
-                                        onChange={handleChange("password")}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={
-                                                        handleClickShowPassword
-                                                    }
-                                                    onMouseDown={
-                                                        handleMouseDownPassword
-                                                    }
-                                                    edge="end"
-                                                >
-                                                    {values.showPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
-                                                    )}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
+                                                        sx={{ width: "35ch" }}
+                                                        variant="filled"
+                                                    >
+                                                        <InputLabel htmlFor="filled-adornment-password">
+                                                            Password
+                                                        </InputLabel>
+                                                        <FilledInput
+                                                            id="filled-adornment-password"
+                                                            type={
+                                                                values.showPassword
+                                                                    ? "text"
+                                                                    : "password"
+                                                            }
+                                                            value={
+                                                                values.password
+                                                            }
+                                                            onChange={handleChange(
+                                                                "password"
+                                                            )}
+                                                            endAdornment={
+                                                                <InputAdornment position="end">
+                                                                    <IconButton
+                                                                        aria-label="toggle password visibility"
+                                                                        onClick={
+                                                                            handleClickShowPassword
+                                                                        }
+                                                                        onMouseDown={
+                                                                            handleMouseDownPassword
+                                                                        }
+                                                                        edge="end"
+                                                                    >
+                                                                        {values.showPassword ? (
+                                                                            <VisibilityOff />
+                                                                        ) : (
+                                                                            <Visibility />
+                                                                        )}
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            }
+                                                        />
+                                                    </FormControl>
                                                 </Box>
-                                            </Grid>                                            
+                                            </Grid>
                                             <Grid
                                                 item
                                                 xs={4}

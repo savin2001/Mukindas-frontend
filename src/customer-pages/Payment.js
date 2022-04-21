@@ -28,8 +28,8 @@ import LanguageIcon from "@mui/icons-material/Language";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { Link } from "react-router-dom";
-import CustomerSearchBar from "../components/CustomerSearchBar";
 import CustomerMenu from "../components/CustomerMenu";
+import CustomerSearchBar from "../components/CustomerSearchBar";
 
 const Payment = () => {
     const [open, setOpen] = React.useState(true);
@@ -39,7 +39,7 @@ const Payment = () => {
     };
     return (
         <>
-            <CustomerSearchBar />
+        <CustomerSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>

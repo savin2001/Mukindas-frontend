@@ -1,2 +1,2 @@
-const api = "https://mukindas-test-server.herokuapp.com"
+const api = "https://test-server-with-jwt.herokuapp.com"
 export default api;

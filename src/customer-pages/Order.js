@@ -25,9 +25,9 @@ import {
     // Collapse,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import CustomerSearchBar from "../components/CustomerSearchBar";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import CustomerMenu from "../components/CustomerMenu";
+import CustomerSearchBar from "../components/CustomerSearchBar";
 
 const Order = () => {
     const [progress, setProgress] = React.useState(0);
@@ -49,7 +49,7 @@ const Order = () => {
     }, []);
     return (
         <>
-            <CustomerSearchBar />
+        <CustomerSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>

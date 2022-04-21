@@ -20,9 +20,9 @@ import {
     // ListItemText,
     // Collapse,
 } from "@mui/material";
-import CustomerSearchBar from "../components/CustomerSearchBar";
 import CustomerMenu from "../components/CustomerMenu";
 import { Link } from "react-router-dom";
+import CustomerSearchBar from "../components/CustomerSearchBar";
 
 const rows = [
     createRow(
@@ -55,7 +55,7 @@ function createRow(img, prod, desc) {
 const Orders = () => {
     return (
         <>
-            <CustomerSearchBar />
+        <CustomerSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>

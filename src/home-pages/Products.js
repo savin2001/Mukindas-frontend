@@ -5,20 +5,25 @@ import {
     Grid,
     Typography,
     Paper,
-    Card,
-    CardMedia,
-    CardActions,
-    CardContent,
-    Button,
-    Rating,
+    Backdrop,
+    CircularProgress,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
+import api from "../components/api";
+import useFetch from "../components/useFetch";
+import ProductCards from "../components/ProductCards";
 
 const Products = () => {
+    const { data: products, isPending, error } = useFetch(`${api}/products`);
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     return (
         <>
-            <PrimarySearchAppBar />
+            {isLogInTrue && isLogInTrue.userLogin ? (
+                <CustomerSearchBar />
+            ) : (
+                <PrimarySearchAppBar />
+            )}
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 80 }}
             ></Container>
@@ -213,28 +218,6 @@ const Products = () => {
                                 flexWrap: "wrap",
                                 "& > :not(style)": {
                                     width: "100%",
-                                    height: "180px",
-                                },
-                                mb: 3,
-                                mx: 3,
-                            }}
-                        >
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    image="/static/images/cards/contemplative-reptile.jpg"
-                                    alt="stock image"
-                                />
-                            </Card>
-                        </Paper>
-                        <Paper
-                            elevation={2}
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                flexWrap: "wrap",
-                                "& > :not(style)": {
-                                    width: "100%",
                                     height: "100%",
                                 },
                                 m: 3,
@@ -272,272 +255,34 @@ const Products = () => {
                                     columns={{ xs: 6, sm: 6, md: 4 }}
                                     sx={{ mt: 15 }}
                                 >
-                                    {Array.from(Array(4)).map((_, index) => (
-                                        <Grid
-                                            item
-                                            xs={3}
-                                            sm={2}
-                                            md={1}
-                                            key={index}
+                                    {error && (
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                width: "100%",
+                                                alignItems: "center",
+                                                fontSize: "30px",
+                                                background: "#c20f00",
+                                            }}
                                         >
-                                            <Card>
-                                                <CardMedia
-                                                    component="img"
-                                                    height="175"
-                                                    image="https://i.etsystatic.com/17434867/r/il/1d4e7f/1479707788/il_fullxfull.1479707788_bry2.jpg"
-                                                    alt="stock image"
-                                                />
-                                                <CardContent>
-                                                    <Typography
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                        gutterBottom
-                                                        variant="h6"
-                                                        component="div"
-                                                    >
-                                                        Red okre Maasai Earrings
-                                                        | Maasai Mara Earrings
-                                                    </Typography>
-
-                                                    <Rating
-                                                        name="read-only"
-                                                        value={3}
-                                                        readOnly
-                                                    />
-                                                    <Typography
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                        color="secondary"
-                                                    >
-                                                        $ 13.99
-                                                    </Typography>
-                                                </CardContent>
-                                                <CardActions>
-                                                    <Link
-                                                        to={`/product`}
-                                                        style={{
-                                                            textDecoration:
-                                                                "none",
-                                                            color: "inherit",
-                                                        }}
-                                                    >
-                                                        <Button
-                                                            size="small"
-                                                            variant="contained"
-                                                            color="secondary"
-                                                            bgcolor="secondary"
-                                                        >
-                                                            Add to Cart
-                                                        </Button>
-                                                    </Link>
-                                                </CardActions>
-                                            </Card>
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            </Box>
-                            {/* Men's Fashion */}
-                            <Box
-                                sx={{
-                                    textAlign: "left",
-
-                                    width: "100%",
-                                    height: "100%",
-                                    mb: 3,
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        textAlign: "left",
-                                        height: "10%",
-                                        backgroundColor: "primary.contrastText",
-                                        p: 2,
-                                        borderRadius: 2,
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{ color: "primary.main" }}
-                                        variant="h6"
-                                    >
-                                        Men's Fashion
-                                    </Typography>
-                                </Box>
-                                <Grid
-                                    container
-                                    spacing={{ xs: 2, md: 3 }}
-                                    columns={{ xs: 6, sm: 6, md: 4 }}
-                                    sx={{ mt: 15 }}
-                                >
-                                    {Array.from(Array(4)).map((_, index) => (
-                                        <Grid
-                                            item
-                                            xs={3}
-                                            sm={2}
-                                            md={1}
-                                            key={index}
-                                        >
-                                            <Card>
-                                                <CardMedia
-                                                    component="img"
-                                                    height="175"
-                                                    image="https://i.etsystatic.com/17434867/r/il/ad0808/1532319595/il_fullxfull.1532319595_iqvv.jpg"
-                                                    alt="stock image"
-                                                />
-                                                <CardContent>
-                                                    <Typography
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                        gutterBottom
-                                                        variant="p"
-                                                        component="div"
-                                                    >
-                                                        Dashiki Snoodie | Ankara
-                                                        Snoodie Jumper | Africa
-                                                        Inspired Patterns |
-                                                        Unisex | Black
-                                                    </Typography>
-
-                                                    <Rating
-                                                        name="read-only"
-                                                        value={3}
-                                                        readOnly
-                                                    />
-                                                    <Typography
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                        color="secondary"
-                                                    >
-                                                        $ 69.95
-                                                    </Typography>
-                                                </CardContent>
-                                                <CardActions>
-                                                    <Link
-                                                        to={`/product`}
-                                                        style={{
-                                                            textDecoration:
-                                                                "none",
-                                                            color: "inherit",
-                                                        }}
-                                                    >
-                                                        <Button
-                                                            size="small"
-                                                            variant="contained"
-                                                            color="secondary"
-                                                            bgcolor="secondary"
-                                                        >
-                                                            Add to Cart
-                                                        </Button>
-                                                    </Link>
-                                                </CardActions>
-                                            </Card>
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            </Box>
-                            {/* Women's Fashion */}
-                            <Box
-                                sx={{
-                                    textAlign: "left",
-
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        textAlign: "left",
-                                        height: "10%",
-                                        backgroundColor: "primary.contrastText",
-                                        p: 2,
-                                        borderRadius: 2,
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{ color: "primary.main" }}
-                                        variant="h6"
-                                    >
-                                        Women's Fashion
-                                    </Typography>
-                                </Box>
-                                <Grid
-                                    container
-                                    spacing={{ xs: 2, md: 3 }}
-                                    columns={{ xs: 6, sm: 6, md: 4 }}
-                                    sx={{ mt: 15 }}
-                                >
-                                    {Array.from(Array(4)).map((_, index) => (
-                                        <Grid
-                                            item
-                                            xs={3}
-                                            sm={2}
-                                            md={1}
-                                            key={index}
-                                        >
-                                            <Card>
-                                                <CardMedia
-                                                    component="img"
-                                                    height="172"
-                                                    image="https://i.etsystatic.com/17434867/r/il/3a0a9d/3568424169/il_fullxfull.3568424169_stlr.jpg"
-                                                    alt="stock image"
-                                                />
-                                                <CardContent>
-                                                    <Typography
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                        gutterBottom
-                                                        variant="p"
-                                                        component="div"
-                                                    >
-                                                        On SALE African Red
-                                                        Pendant Scarf Drop
-                                                        Beaded Multicolored
-                                                        Necklace | Maasai
-                                                        Necklace | Stylish |
-                                                        Gift for Her | Masai
-                                                        Mara
-                                                    </Typography>
-
-                                                    <Rating
-                                                        name="read-only"
-                                                        value={3}
-                                                        readOnly
-                                                    />
-                                                    <Typography
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                        color="secondary"
-                                                    >
-                                                        $ 34.99
-                                                    </Typography>
-                                                </CardContent>
-                                                <CardActions>
-                                                    <Link
-                                                        to={`/product`}
-                                                        style={{
-                                                            textDecoration:
-                                                                "none",
-                                                            color: "inherit",
-                                                        }}
-                                                    >
-                                                        <Button
-                                                            size="small"
-                                                            variant="contained"
-                                                            color="secondary"
-                                                            bgcolor="secondary"
-                                                        >
-                                                            Add to Cart
-                                                        </Button>
-                                                    </Link>
-                                                </CardActions>
-                                            </Card>
-                                        </Grid>
-                                    ))}
+                                            {error}
+                                        </div>
+                                    )}
+                                    {isPending && (
+                    <Backdrop
+                        sx={{
+                            color: "#fff",
+                            zIndex: (theme) => theme.zIndex.drawer + 1,
+                        }}
+                        open={true}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                )}
+                                    {products && (
+                                        <ProductCards products={products} />
+                                    )}
                                 </Grid>
                             </Box>
                         </Paper>
