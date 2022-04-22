@@ -155,7 +155,7 @@ const VendorSearchBar = () => {
                     bgcolor: "background.paper",
                 }}
             >
-                <Divider variant="middle" component="li" />
+                
                 <Link
                     to={`/vendor`}
                     style={{

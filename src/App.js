@@ -32,6 +32,9 @@ import CustomerOrders from "./customer-pages/Orders";
 import Order from "./customer-pages/Order";
 import BulkUpload from "./vendors-pages/BulkUpload";
 import Pages from "./components/dynamicPages"
+import GuestAccount from "./guest-pages/GuestAccount";
+import GuestShipment from "./guest-pages/GuestShipment";
+import GuestTransactions from "./guest-pages/GuestTransactions";
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -136,6 +139,9 @@ const App = () => {
                             path="customer/Continue%20shopping"
                             element={<Products />}
                         />
+                        <Route path="guest" element={<GuestAccount />} />
+                        <Route path="guest/Shipment" element={<GuestShipment />} />
+                        <Route path="guest/Transactions" element={<GuestTransactions />} />
                     </Routes>
                     <Footer />
                 </Router>

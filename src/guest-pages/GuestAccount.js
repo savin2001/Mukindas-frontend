@@ -1,7 +1,7 @@
 import React from "react";
 // import PropTypes from 'prop-types'; to be used for upload
-import VendorMenu from "../components/VendorMenu";
-import VendorSearchBar from "../components/VendorSearchBar";
+import GuestMenu from "../components/GuestMenu";
+import GuestSearchBar from "../components/GuestSearchBar";
 import {
     Container,
     Grid,
@@ -21,14 +21,14 @@ import {
     Button,
 } from "@mui/material";
 
-const VendorAccount = () => {
+const GuestAccount = () => {
     // const [name, setName] = useState("");
     // const handleChange = (event) => {
     //     setName(event.target.value);
     // };
     return (
         <>
-            <VendorSearchBar />
+            <GuestSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -41,7 +41,7 @@ const VendorAccount = () => {
                     <Grid item sx={{
                             display: { xs: "none", sm: "none", md: "block" },
                         }} md={3}>
-                        <VendorMenu />
+                        <GuestMenu />
                     </Grid>
                     <Grid item xs={4} sm={8} md={9} sx={{ mb: 1 }}>
                         <Card
@@ -59,7 +59,7 @@ const VendorAccount = () => {
                                     m: 3,
                                     bgcolor: "secondary.main",
                                 }}
-                                alt="Vendor Pic"
+                                alt="Guest Pic"
                                 src="/static/images/avatar/1.jpg"
                             />
                             <CardContent sx={{ width: "100%" }}>
@@ -441,4 +441,4 @@ const VendorAccount = () => {
     );
 };
 
-export default VendorAccount;
+export default GuestAccount;

@@ -46,7 +46,7 @@ const GuestMenu = () => {
                                 m: 1,
                                 bgcolor: "secondary.main",
                             }}
-                            alt="Customer Pic"
+                            alt="Guest Pic"
                             src="/static/images/avatar/1.jpg"
                         />
                         <CardContent sx={{ width: "100%" }}>
@@ -100,7 +100,7 @@ const GuestMenu = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor/Label`}
+                                to={`/guest/Shipment`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -136,6 +136,7 @@ const GuestMenu = () => {
                                     <ListItemText primary="Shipping transactions" />
                                 </ListItem>
                             </Link>
+                            <Divider variant="middle" />
                             <Link
                                 to={`/`}
                                 style={{

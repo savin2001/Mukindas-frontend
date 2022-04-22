@@ -14,32 +14,33 @@ import {
     TableRow,
     Paper,
 } from "@mui/material";
-import VendorSearchBar from "../components/VendorSearchBar";
-import VendorMenu from "../components/VendorMenu";
+import GuestMenu from "../components/GuestMenu";
+import GuestSearchBar from "../components/GuestSearchBar";
+import { Link } from "react-router-dom";
 
 function createRow(trans, date, tot) {
     return { trans, date, tot };
 }
 
 const rows = [
-    createRow("Transaction 1", "14/02/2021", "5"),
+    createRow("Transaction 1", "14/02/2021", "1"),
     createRow("Transaction 2", "14/02/2021", "4"),
-    createRow("Transaction 3", "14/02/2021", "6"),
+    createRow("Transaction 3", "14/02/2021", "3"),
     createRow("Transaction 4", "14/02/2021", "3"),
-    createRow("Transaction 5", "14/02/2021", "7"),
+    createRow("Transaction 5", "14/02/2021", "5"),
     createRow("Transaction 6", "14/02/2021", "5"),
-    createRow("Transaction 7", "14/02/2021", "9"),
-    createRow("Transaction 8", "14/02/2021", "5"),
+    createRow("Transaction 7", "14/02/2021", "8"),
+    createRow("Transaction 8", "14/02/2021", "4"),
     createRow("Transaction 9", "14/02/2021", "5"),
-    createRow("Transaction 10", "14/02/2021", "5"),
-    createRow("Transaction 11", "14/02/2021", "5"),
+    createRow("Transaction 10", "14/02/2021", "3"),
+    createRow("Transaction 11", "14/02/2021", "2"),
     createRow("Transaction 12", "14/02/2021", "5"),
 ];
 
-const ShippingLabels = () => {
+const GuestTransactions = () => {
     return (
         <>
-            <VendorSearchBar />
+            <GuestSearchBar />
             <Container
                 sx={{ flexGrow: 1, width: "100%", height: 100 }}
             ></Container>
@@ -56,7 +57,7 @@ const ShippingLabels = () => {
                         }}
                         md={3}
                     >
-                        <VendorMenu />
+                        <GuestMenu />
                     </Grid>
                     <Grid item xs={4} sm={8} md={9}>
                         <Card
@@ -86,14 +87,22 @@ const ShippingLabels = () => {
                                     sx={{ color: "primary.main" }}
                                     variant="h6"
                                 >
-                                    Shipping profiles
+                                    Shipped Items
                                 </Typography>
-                                <Typography
-                                    sx={{ color: "primary.main" }}
-                                    variant="h6"
+                                <Link
+                                    to={`/guest/Shipment`}
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                    }}
                                 >
-                                    + New profile
-                                </Typography>
+                                    <Typography
+                                        sx={{ color: "primary.main" }}
+                                        variant="h6"
+                                    >
+                                        + New dropship
+                                    </Typography>
+                                </Link>
                             </Box>
                             <Box
                                 sx={{
@@ -183,14 +192,22 @@ const ShippingLabels = () => {
                                     borderRadius: 2,
                                 }}
                             >
-                                <Button
-                                    size="large"
-                                    variant="contained"
-                                    color="secondary"
-                                    bgcolor="secondary"
+                                <Link
+                                    to={`/guest/Shipment`}
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                    }}
                                 >
-                                    + Create shipping profile
-                                </Button>
+                                    <Button
+                                        size="large"
+                                        variant="contained"
+                                        color="secondary"
+                                        bgcolor="secondary"
+                                    >
+                                        + New dropship
+                                    </Button>
+                                </Link>
                             </Box>
                         </Card>
                     </Grid>
@@ -200,4 +217,4 @@ const ShippingLabels = () => {
     );
 };
 
-export default ShippingLabels;
+export default GuestTransactions;
