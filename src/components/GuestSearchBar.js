@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
+
 import {
     AppBar,
     Container,
@@ -18,17 +18,24 @@ import {
     ListItemText,
     ListItemAvatar,
     Divider,
+    // Card,
+    // CardContent,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import StarHalfIcon from "@mui/icons-material/StarHalf";
+import LogoutIcon from "@mui/icons-material/Logout";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Link } from "react-router-dom";
-import LoginIcon from "@mui/icons-material/Login";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
+import { styled, alpha } from "@mui/material/styles";
+import { Link, useNavigate } from "react-router-dom";
 import Pages from "./dynamicPages"
+
+// Array of pages to be displayed on the top menu
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -71,21 +78,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-// Array of pages to be displayed on the top menu
-
-
-export default function PrimarySearchAppBar() {
-    const [searchInput, setSearchInput] = useState("");
+const GuestSearchBar = () => {
+    const navigate = useNavigate();
+    const [logoutUser, setLogoutUser] = useState(false);
+    console.log(logoutUser);
+    const logout = () => {
+        localStorage.removeItem("guestLogin");
+        setLogoutUser(true);
+        console.log(logoutUser);
+        navigate("/");
+    };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-    // Searching function
-    const searchItems = (searchValue) => {
-        setSearchInput(searchValue);
-        console.log(searchValue);
-        console.log(searchInput);
-    };
 
     // Function to open the page navigation menu
     const handleOpenNavMenu = (event) => {
@@ -142,7 +147,7 @@ export default function PrimarySearchAppBar() {
             onClose={handleMenuClose}
         >
             <Link
-                to={`/customer-login`}
+                to={`/customer`}
                 style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -151,46 +156,26 @@ export default function PrimarySearchAppBar() {
                 <ListItem>
                     <ListItemAvatar>
                         <Avatar sx={{ bgcolor: "secondary.main" }}>
-                            <LoginIcon />
+                            <AccountCircle />
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary="Log In" />
+                    <ListItemText primary="My account" />
                 </ListItem>
             </Link>
             <Divider variant="middle" component="li" />
-            <Link
-                to={`/vendor-login`}
+            <ListItem
+                onClick={logout}
                 style={{
-                    textDecoration: "none",
-                    color: "inherit",
+                    cursor: "pointer",
                 }}
             >
-                <ListItem>
-                    <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: "secondary.main" }}>
-                            <StorefrontIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Become a vendor" />
-                </ListItem>
-            </Link>
-            <Divider variant="middle" component="li" />
-            <Link
-                to={`/guest-login`}
-                style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                }}
-            >
-                <ListItem>
-                    <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: "secondary.main" }}>
-                            <AccessibilityNewIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Become a guest" />
-                </ListItem>
-            </Link>
+                <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: "secondary.main" }}>
+                        <LogoutIcon />
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Log Out" />
+            </ListItem>
         </Menu>
     );
 
@@ -237,7 +222,25 @@ export default function PrimarySearchAppBar() {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/customer-login`}
+                    to={`/customer/Favorites`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                >
+                    <MenuItem>
+                        <IconButton
+                            size="large"
+                            aria-label="show 17 new notifications"
+                            color="inherit"
+                        >
+                            <Badge badgeContent={17} color="secondary">
+                                <FavoriteIcon />
+                            </Badge>
+                        </IconButton>
+                        <p>Wish list</p>
+                    </MenuItem>
+                </Link>
+                <Divider variant="middle" component="li" />
+                <Link
+                    to={`/customer`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -246,15 +249,15 @@ export default function PrimarySearchAppBar() {
                     <ListItem>
                         <ListItemAvatar>
                             <Avatar sx={{ bgcolor: "secondary.main" }}>
-                                <LoginIcon />
+                                <AccountCircle />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary="Log In" />
+                        <ListItemText primary="My account" />
                     </ListItem>
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/vendor-login`}
+                    to={`/customer/Orders`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -263,15 +266,15 @@ export default function PrimarySearchAppBar() {
                     <ListItem>
                         <ListItemAvatar>
                             <Avatar sx={{ bgcolor: "secondary.main" }}>
-                                <StorefrontIcon />
+                                <ShoppingCartCheckoutIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary="Become a vendor" />
+                        <ListItemText primary="Orders" />
                     </ListItem>
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/guest-login`}
+                    to={`/customer/Payment`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -280,31 +283,58 @@ export default function PrimarySearchAppBar() {
                     <ListItem>
                         <ListItemAvatar>
                             <Avatar sx={{ bgcolor: "secondary.main" }}>
-                                <AccessibilityNewIcon />
+                                <PaymentsIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary="Become a guest" />
+                        <ListItemText primary="Payment details" />
                     </ListItem>
                 </Link>
+                <Divider variant="middle" component="li" />
+                <Link
+                    to={`/customer/Reviews`}
+                    style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                    }}
+                >
+                    <ListItem>
+                        <ListItemAvatar>
+                            <Avatar sx={{ bgcolor: "secondary.main" }}>
+                                <StarHalfIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary="Pending reviews" />
+                    </ListItem>
+                </Link>
+                <Divider variant="middle" component="li" />
+
+                <ListItem
+                    onClick={logout}
+                    style={{
+                        cursor: "pointer",
+                    }}
+                >
+                    <ListItemAvatar>
+                        <Avatar sx={{ bgcolor: "secondary.main" }}>
+                            <LogoutIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Log Out" />
+                </ListItem>
             </List>
         </Menu>
     );
-
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" id="navbar">
+            <AppBar position="fixed">
                 <Container maxWidth="xl">
-                    <Toolbar disableGutters sx={{ px: 3 }}>
+                    <Toolbar disableGutters>
                         <Typography
                             variant="h5"
                             noWrap
                             component="div"
-                            sx={{
-                                mr: 2,
-                                display: { xs: "none", md: "flex" },
-                            }}
+                            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
                         >
-                            {" "}
                             <Link
                                 to={`/`}
                                 style={{
@@ -332,7 +362,6 @@ export default function PrimarySearchAppBar() {
                             >
                                 <MenuIcon />
                             </IconButton>
-
                             <Menu
                                 id="menu-appbar"
                                 anchorEl={anchorElNav}
@@ -348,7 +377,11 @@ export default function PrimarySearchAppBar() {
                                 open={Boolean(anchorElNav)}
                                 onClose={handleCloseNavMenu}
                                 sx={{
-                                    display: { xs: "block", md: "none" },
+                                    display: {
+                                        xs: "block",
+                                        md: "none",
+                                    },
+                                    width: "150px",
                                 }}
                             >
                                 {Pages.map((page) => (
@@ -357,18 +390,14 @@ export default function PrimarySearchAppBar() {
                                         onClick={handleCloseNavMenu}
                                     >
                                         <Link
-                                            to={`/${page}`}
+                                            to={`/customer/${page}`}
                                             style={{
                                                 textDecoration: "none",
                                                 color: "inherit",
                                             }}
                                         >
-                                            <Typography
-                                                textAlign="center"
-                                                color="dark"
-                                            >
-                                                {page}
-                                            </Typography>
+                                            {page}
+                                            <Typography textAlign="center"></Typography>
                                         </Link>
                                     </MenuItem>
                                 ))}
@@ -393,7 +422,6 @@ export default function PrimarySearchAppBar() {
                                 Mukindas
                             </Link>
                         </Typography>
-
                         <Box
                             sx={{
                                 flexGrow: 1,
@@ -401,26 +429,18 @@ export default function PrimarySearchAppBar() {
                             }}
                         >
                             {Pages.map((page) => (
-                                <Link
-                                    to={`/${page}`}
-                                    style={{
-                                        textDecoration: "none",
-                                        color: "inherit",
-                                    }}
-                                    key={page}
-                                >
-                                    <Button
-                                        key={page}
-                                        onClick={handleCloseNavMenu}
-                                        sx={{
-                                            my: 2,
+                                <Button key={page} onClick={handleCloseNavMenu}>
+                                    <Link
+                                        to={`/${page}`}
+                                        style={{
+                                            textDecoration: "none",
                                             color: "black",
-                                            display: "block",
                                         }}
                                     >
                                         {page}
-                                    </Button>
-                                </Link>
+                                        <Typography textAlign="center"></Typography>
+                                    </Link>
+                                </Button>
                             ))}
                         </Box>
                         <Box sx={{ flexGrow: 1 }}>
@@ -430,9 +450,6 @@ export default function PrimarySearchAppBar() {
                                 </SearchIconWrapper>
                                 <StyledInputBase
                                     placeholder="Search…"
-                                    onChange={(e) =>
-                                        searchItems(e.target.value)
-                                    }
                                     inputProps={{ "aria-label": "search" }}
                                 />
                             </Search>
@@ -452,6 +469,23 @@ export default function PrimarySearchAppBar() {
                                 >
                                     <Badge badgeContent={4} color="secondary">
                                         <AddShoppingCartIcon />
+                                    </Badge>
+                                </IconButton>
+                            </Link>
+                            <Link
+                                to={`/customer/Favorites`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                <IconButton
+                                    size="large"
+                                    aria-label="show 17 new notifications"
+                                    color="inherit"
+                                >
+                                    <Badge badgeContent={17} color="secondary">
+                                        <FavoriteIcon />
                                     </Badge>
                                 </IconButton>
                             </Link>
@@ -487,4 +521,6 @@ export default function PrimarySearchAppBar() {
             {renderMenu}
         </Box>
     );
-}
+};
+
+export default GuestSearchBar;

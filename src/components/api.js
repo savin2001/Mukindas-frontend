@@ -1,2 +1,2 @@
-const api = "https://test-server-with-jwt.herokuapp.com"
+const api = "http://localhost:5000"
 export default api;

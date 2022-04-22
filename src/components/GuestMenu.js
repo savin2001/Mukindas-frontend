@@ -20,13 +20,13 @@ import {
     // Checkbox,
     // Button,
 } from "@mui/material";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Link } from "react-router-dom";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import LogoutIcon from "@mui/icons-material/Logout";
 
-const CustomerMenu = () => {
+
+const GuestMenu = () => {
     return (
         <>
             <Container>
@@ -56,7 +56,7 @@ const CustomerMenu = () => {
                                 component="div"
                                 sx={{ m: 1 }}
                             >
-                                Customer name
+                                Guest name
                             </Typography>
 
                             <Typography
@@ -66,15 +66,17 @@ const CustomerMenu = () => {
                                 color="secondary"
                             >
                                 <Link
-                                    to={`/customer`}
+                                    to={`/guest`}
+                                    
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
                                     }}
                                 >
-                                    Customer account
+                                    Guest account
                                 </Link>
                             </Typography>
+                            
                         </CardContent>
                     </Card>
                 </Box>
@@ -86,7 +88,7 @@ const CustomerMenu = () => {
                                 variant="h5"
                                 component="div"
                             >
-                                Order Details
+                                Drop shipping
                             </Typography>
                         </CardContent>
                         <Divider variant="middle" />
@@ -98,7 +100,7 @@ const CustomerMenu = () => {
                             }}
                         >
                             <Link
-                                to={`/customer/Orders`}
+                                to={`/vendor/Label`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -109,15 +111,15 @@ const CustomerMenu = () => {
                                         <Avatar
                                             sx={{ bgcolor: "secondary.main" }}
                                         >
-                                            <ShoppingCartCheckoutIcon />
+                                            <AddCircleOutlineIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="Orders" />
+                                    <ListItemText primary="New shipment" />
                                 </ListItem>
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/customer/Favorites`}
+                                to={`/guest/Transactions`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -128,29 +130,10 @@ const CustomerMenu = () => {
                                         <Avatar
                                             sx={{ bgcolor: "secondary.main" }}
                                         >
-                                            <FavoriteIcon />
+                                            <LocalShippingIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary="Favorites" />
-                                </ListItem>
-                            </Link>
-                            <Divider variant="middle" component="li" />
-                            <Link
-                                to={`/customer/Reviews`}
-                                style={{
-                                    textDecoration: "none",
-                                    color: "inherit",
-                                }}
-                            >
-                                <ListItem>
-                                    <ListItemAvatar>
-                                        <Avatar
-                                            sx={{ bgcolor: "secondary.main" }}
-                                        >
-                                            <StarHalfIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary="Pending reviews" />
+                                    <ListItemText primary="Shipping transactions" />
                                 </ListItem>
                             </Link>
                             <Link
@@ -172,11 +155,13 @@ const CustomerMenu = () => {
                                 </ListItem>
                             </Link>
                         </List>
+                        
                     </Card>
                 </Box>
+                
             </Container>
         </>
     );
 };
 
-export default CustomerMenu;
+export default GuestMenu;

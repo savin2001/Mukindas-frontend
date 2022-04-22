@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
     Container,
@@ -21,20 +23,23 @@ import {
     Button,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-
-import loginPic from "../media/login.png";
-import api from "../components/api";
+import registerPic from "../../media/register.png";
+import api from "../../components/api";
 import axios from "axios";
 
-const Login = () => {
-    const [values, setValues] = React.useState({
+const Register = () => {
+    const [values, setValues] = useState({
         showPassword: false,
     });
-
+    const [firstName, setFirstName] = useState("");
+    const [secondName, setSecondName] = useState("");
     const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
+    const [userType, setUserType] = useState("guest");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    // const [isPending, setIsPending] = useState(true);
 
     const handleClickShowPassword = () => {
         setValues({
@@ -46,26 +51,36 @@ const Login = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const login = (e) => {
+
+    const register = (e) => {
         e.preventDefault();
         axios
-            .post(`${api}/api/auth/login`, {
+            .post(`${api}/api/auth/register/guest`, {
+                firstName,
+                secondName,
                 email,
+                phone,
                 password,
+                userType,
             })
             .then((response) => {
                 console.log(response);
                 localStorage.setItem(
-                    "login",
+                    "guestLogin",
                     JSON.stringify({
                         userLogin: true,
                         token: response.data.access_token,
                     })
                 );
+                
                 setError("");
+                setFirstName("")
+                setSecondName("")
+                setPhone("")
                 setEmail("");
                 setPassword("");
-                navigate("/customer");
+                setUserType("")
+                navigate("/guest");
             })
             .catch((error) => setError(error.response.data.message));
     };
@@ -85,7 +100,7 @@ const Login = () => {
                             pt: 3,
                         }}
                     >
-                        Sign In
+                        Create a guest account
                     </Typography>
                 </Box>
                 <Grid
@@ -113,7 +128,7 @@ const Login = () => {
                         >
                             <CardMedia
                                 component="img"
-                                image={loginPic}
+                                image={registerPic}
                                 alt="stock image"
                             />
                         </Box>
@@ -128,12 +143,70 @@ const Login = () => {
                                 p: 1,
                                 m: 1,
                             }}
-                            onSubmit={login}
+                            onSubmit={register}
                         >
+                            <input
+                                type="hidden"
+                                name="userType"
+                                value={userType}
+                                onChange={(e) => setUserType(e.target.value)}
+                            />
                             <TextField
-                                id="email"
+                                label="First name"
+                                value={firstName}
+                                sx={{
+                                    my: 2,
+                                }}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <AccountCircle />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                variant="filled"
+                            />
+
+                            <TextField
+                                label="Second name"
+                                value={secondName}
+                                sx={{
+                                    my: 2,
+                                }}
+                                onChange={(e) => setSecondName(e.target.value)}
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <AccountCircle />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                variant="filled"
+                            />
+                            <TextField
+                                label="Phone number"
+                                value={phone}
+                                sx={{
+                                    my: 2,
+                                }}
+                                onChange={(e) => setPhone(e.target.value)}
+                                type="tel"
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <LocalPhoneIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                variant="filled"
+                            />
+                            <TextField
                                 label="Email address"
-                                type="text"
+                                type="email"
                                 value={email}
                                 sx={{
                                     my: 2,
@@ -161,7 +234,7 @@ const Login = () => {
                                     Password
                                 </InputLabel>
                                 <FilledInput
-                                    id="password"
+                                    id="filled-adornment-password"
                                     type={
                                         values.showPassword
                                             ? "text"
@@ -193,14 +266,7 @@ const Login = () => {
                                     }
                                 />
                             </FormControl>
-                            {error && (
-                                <Alert severity="error">
-                                    <AlertTitle>
-                                        <strong>{error}</strong>
-                                    </AlertTitle>
-                                    Please confirm your details
-                                </Alert>
-                            )}
+
                             <Button
                                 size="large"
                                 variant="outlined"
@@ -212,17 +278,24 @@ const Login = () => {
                                     my: 2,
                                 }}
                             >
-                                Login
+                                Register
                             </Button>
+                            {error && (
+                                <Alert severity="error">
+                                    <AlertTitle>{error}</AlertTitle>
+                                </Alert>
+                            )}
                         </form>
                         <Box
                             sx={{
                                 p: 2,
                                 m: 2,
+                                display: "flex",
+                                justifyContent: "space-between"
                             }}
                         >
                             <Link
-                                to={`/register`}
+                                to={`/guest-login`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -233,7 +306,22 @@ const Login = () => {
                                     variant="h6"
                                     color="secondary"
                                 >
-                                    Create an account
+                                    Already have an account
+                                </Typography>
+                            </Link>
+                            <Link
+                                to={`/`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                <Typography
+                                    sx={{ textAlign: "right" }}
+                                    variant="h6"
+                                    color="secondary"
+                                >
+                                   Back to main page
                                 </Typography>
                             </Link>
                         </Box>
@@ -244,4 +332,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;

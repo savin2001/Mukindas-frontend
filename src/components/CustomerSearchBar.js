@@ -26,17 +26,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import PaymentsIcon from "@mui/icons-material/Payments";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { styled, alpha } from "@mui/material/styles";
-
 import { Link, useNavigate } from "react-router-dom";
+import Pages from "./dynamicPages";
 
 // Array of pages to be displayed on the top menu
-const vendorPages = ["Clothing", "Jewellery", "Beauty", "Accessories"];
+
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderColor: "primary.main",
@@ -274,23 +273,6 @@ const CustomerSearchBar = () => {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/customer/Payment`}
-                    style={{
-                        textDecoration: "none",
-                        color: "inherit",
-                    }}
-                >
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Avatar sx={{ bgcolor: "secondary.main" }}>
-                                <PaymentsIcon />
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary="Payment details" />
-                    </ListItem>
-                </Link>
-                <Divider variant="middle" component="li" />
-                <Link
                     to={`/customer/Reviews`}
                     style={{
                         textDecoration: "none",
@@ -384,7 +366,7 @@ const CustomerSearchBar = () => {
                                     width: "150px",
                                 }}
                             >
-                                {vendorPages.map((page) => (
+                                {Pages.map((page) => (
                                     <MenuItem
                                         key={page}
                                         onClick={handleCloseNavMenu}
@@ -428,7 +410,7 @@ const CustomerSearchBar = () => {
                                 display: { xs: "none", md: "flex" },
                             }}
                         >
-                            {vendorPages.map((page) => (
+                            {Pages.map((page) => (
                                 <Button key={page} onClick={handleCloseNavMenu}>
                                     <Link
                                         to={`/${page}`}

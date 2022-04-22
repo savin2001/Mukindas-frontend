@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
     Container,
@@ -23,23 +21,20 @@ import {
     Button,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import registerPic from "../media/register.png";
-import api from "../components/api";
+
+import loginPic from "../../media/login.png";
+import api from "../../components/api";
 import axios from "axios";
 
-const Register = () => {
-    const [values, setValues] = useState({
+const Login = () => {
+    const [values, setValues] = React.useState({
         showPassword: false,
     });
-    const [firstName, setFirstName] = useState("");
-    const [secondName, setSecondName] = useState("");
+
     const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
-    const [userType, setUserType] = useState("customer");
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    // const [isPending, setIsPending] = useState(true);
 
     const handleClickShowPassword = () => {
         setValues({
@@ -51,36 +46,26 @@ const Register = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-
-    const register = (e) => {
+    const login = (e) => {
         e.preventDefault();
         axios
-            .post(`${api}/api/auth/register`, {
-                firstName,
-                secondName,
+            .post(`${api}/api/auth/login/guest`, {
                 email,
-                phone,
                 password,
-                userType,
             })
             .then((response) => {
                 console.log(response);
                 localStorage.setItem(
-                    "login",
+                    "guestLogin",
                     JSON.stringify({
                         userLogin: true,
                         token: response.data.access_token,
                     })
                 );
-                
                 setError("");
-                setFirstName("")
-                setSecondName("")
-                setPhone("")
                 setEmail("");
                 setPassword("");
-                setUserType("")
-                navigate("/customer");
+                navigate("/guest");
             })
             .catch((error) => setError(error.response.data.message));
     };
@@ -100,7 +85,7 @@ const Register = () => {
                             pt: 3,
                         }}
                     >
-                        Create an account
+                        Sign Into Guest Account
                     </Typography>
                 </Box>
                 <Grid
@@ -128,7 +113,7 @@ const Register = () => {
                         >
                             <CardMedia
                                 component="img"
-                                image={registerPic}
+                                image={loginPic}
                                 alt="stock image"
                             />
                         </Box>
@@ -143,70 +128,13 @@ const Register = () => {
                                 p: 1,
                                 m: 1,
                             }}
-                            onSubmit={register}
+                            onSubmit={login}
                         >
-                            <input
-                                type="hidden"
-                                name="userType"
-                                value={userType}
-                                onChange={(e) => setUserType(e.target.value)}
-                            />
+                            
                             <TextField
-                                label="First name"
-                                value={firstName}
-                                sx={{
-                                    my: 2,
-                                }}
-                                onChange={(e) => setFirstName(e.target.value)}
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <AccountCircle />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                variant="filled"
-                            />
-
-                            <TextField
-                                label="Second name"
-                                value={secondName}
-                                sx={{
-                                    my: 2,
-                                }}
-                                onChange={(e) => setSecondName(e.target.value)}
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <AccountCircle />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                variant="filled"
-                            />
-                            <TextField
-                                label="Phone number"
-                                value={phone}
-                                sx={{
-                                    my: 2,
-                                }}
-                                onChange={(e) => setPhone(e.target.value)}
-                                type="tel"
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <LocalPhoneIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                variant="filled"
-                            />
-                            <TextField
+                                id="email"
                                 label="Email address"
-                                type="email"
+                                type="text"
                                 value={email}
                                 sx={{
                                     my: 2,
@@ -234,7 +162,7 @@ const Register = () => {
                                     Password
                                 </InputLabel>
                                 <FilledInput
-                                    id="filled-adornment-password"
+                                    id="password"
                                     type={
                                         values.showPassword
                                             ? "text"
@@ -266,7 +194,14 @@ const Register = () => {
                                     }
                                 />
                             </FormControl>
-
+                            {error && (
+                                <Alert severity="error">
+                                    <AlertTitle>
+                                        <strong>{error}</strong>
+                                    </AlertTitle>
+                                    Please confirm your details
+                                </Alert>
+                            )}
                             <Button
                                 size="large"
                                 variant="outlined"
@@ -278,22 +213,19 @@ const Register = () => {
                                     my: 2,
                                 }}
                             >
-                                Register
+                                Login
                             </Button>
-                            {error && (
-                                <Alert severity="error">
-                                    <AlertTitle>{error}</AlertTitle>
-                                </Alert>
-                            )}
                         </form>
                         <Box
                             sx={{
                                 p: 2,
                                 m: 2,
+                                display: "flex",
+                                justifyContent: "space-between"
                             }}
                         >
                             <Link
-                                to={`/login`}
+                                to={`/guest-register`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -304,7 +236,22 @@ const Register = () => {
                                     variant="h6"
                                     color="secondary"
                                 >
-                                    Already have an account
+                                    Create a guest account
+                                </Typography>
+                            </Link>
+                            <Link
+                                to={`/`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                <Typography
+                                    sx={{ textAlign: "right" }}
+                                    variant="h6"
+                                    color="secondary"
+                                >
+                                   Back to main page
                                 </Typography>
                             </Link>
                         </Box>
@@ -315,4 +262,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Login;

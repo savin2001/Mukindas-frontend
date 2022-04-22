@@ -10,8 +10,12 @@ import Cart from "./home-pages/Cart";
 import Profile from "./customer-pages/CustomerAccount";
 import Products from "./home-pages/Products";
 import Product from "./home-pages/Product";
-import Login from "./authentication/Login";
-import Register from "./authentication/Register";
+import CustomerLogin from "./authentication/customerAuth/CustomerLogin";
+import CustomerRegister from "./authentication/customerAuth/CustomerRegister";
+import VendorLogin from "./authentication/vendorAuth/VendorLogin";
+import VendorRegister from "./authentication/vendorAuth/VendorRegister";
+import GuestLogin from "./authentication/guestAuth/GuestLogin";
+import GuestRegister from "./authentication/guestAuth/GuestRegister";
 import CheckOut from "./customer-pages/CheckOut";
 import VendorAccount from "./vendors-pages/VendorAccount";
 import VendorShop from "./vendors-pages/VendorShop";
@@ -27,7 +31,7 @@ import Favorites from "./customer-pages/Favorite";
 import CustomerOrders from "./customer-pages/Orders";
 import Order from "./customer-pages/Order";
 import BulkUpload from "./vendors-pages/BulkUpload";
-
+import Pages from "./components/dynamicPages"
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -48,7 +52,7 @@ const theme = createTheme({
 });
 
 // Remember to also change the list of pages in the Primary Navigation file too when you make changes to the pages array below
-const pages = ["Clothing", "Jewellery", "Beauty", "Accessories"];
+
 const App = () => {
     return (
         <ThemeProvider theme={theme}>
@@ -58,13 +62,29 @@ const App = () => {
                         <Route path="/" element={<Home />} />
                         <Route path="home" element={<Home />} />
                         <Route path="cart" element={<Cart />} />
-                        <Route path="login" element={<Login />} />
-                        <Route path="register" element={<Register />} />
+                        <Route
+                            path="customer-login"
+                            element={<CustomerLogin />}
+                        />
+                        <Route
+                            path="customer-register"
+                            element={<CustomerRegister />}
+                        />
+                        <Route path="vendor-login" element={<VendorLogin />} />
+                        <Route
+                            path="vendor-register"
+                            element={<VendorRegister />}
+                        />
+                        <Route path="guest-login" element={<GuestLogin />} />
+                        <Route
+                            path="guest-register"
+                            element={<GuestRegister />}
+                        />
                         <Route path="profile" element={<Profile />} />
                         <Route path="product" element={<Product />} />
                         <Route path="products/:id/" element={<Product />} />
                         <Route path="products" element={<Products />} />
-                        {pages.map((page) => (
+                        {Pages.map((page) => (
                             <Route
                                 path={page}
                                 element={<Products />}
