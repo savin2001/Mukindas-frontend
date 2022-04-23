@@ -23,7 +23,7 @@ import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { addToCart, decreaseCart, removeFromCart } from "../components/cartSlice";
+import { addToCart, clearCart, decreaseCart, removeFromCart } from "../components/cartSlice";
 
 const Cart = () => {
     const cart = useSelector((state) => state.cart);
@@ -36,6 +36,9 @@ const Cart = () => {
     };
     const handleIncreaseCart = (cartItem) => {
         dispatch(addToCart(cartItem));
+    };
+    const handleClearCart = () => {
+        dispatch(clearCart());
     };
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
 
@@ -329,6 +332,7 @@ const Cart = () => {
                                                     color="secondary"
                                                     variant="contained"
                                                     startIcon={<DeleteIcon />}
+                                                    onClick={()=> handleClearCart()}
                                                 >
                                                     Clear
                                                 </Button>
