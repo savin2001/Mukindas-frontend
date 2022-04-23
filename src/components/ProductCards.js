@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Grid,
     Typography,
@@ -10,14 +10,20 @@ import {
     Rating,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../components/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, getTotals } from "../components/cartSlice";
 
 const ProductCards = ({ products }) => {
+    const cart = useSelector((state) => state.cart);
     const dispatch = useDispatch();
+
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
     };
+
+    useEffect(() => {
+        dispatch(getTotals());
+    }, [cart, dispatch]);
 
     return (
         <>

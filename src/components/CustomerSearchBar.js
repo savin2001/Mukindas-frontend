@@ -211,10 +211,10 @@ const CustomerSearchBar = () => {
                     <MenuItem>
                         <IconButton
                             size="large"
-                            aria-label="show 4 new mails"
+                            aria-label=""
                             color="inherit"
                         >
-                            <Badge badgeContent={4} color="secondary">
+                            <Badge badgeContent={cartTotalQuantity} color="secondary">
                                 <AddShoppingCartIcon />
                             </Badge>
                         </IconButton>
@@ -448,7 +448,7 @@ const CustomerSearchBar = () => {
                             >
                                 <IconButton
                                     size="large"
-                                    aria-label="show 4 new mails"
+                                    aria-label=""
                                     color="inherit"
                                 >
                                     <Badge badgeContent={cartTotalQuantity} color="secondary">

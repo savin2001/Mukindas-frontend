@@ -234,7 +234,7 @@ export default function PrimarySearchAppBar() {
                     <MenuItem>
                         <IconButton
                             size="large"
-                            aria-label="show 4 new mails"
+                            aria-label=""
                             color="inherit"
                         >
                             <Badge badgeContent={cartTotalQuantity} color="secondary">
@@ -462,7 +462,7 @@ export default function PrimarySearchAppBar() {
                             >
                                 <IconButton
                                     size="large"
-                                    aria-label="show 4 new mails"
+                                    aria-label=""
                                     color="inherit"
                                 >
                                     <Badge badgeContent={cartTotalQuantity} color="secondary">
