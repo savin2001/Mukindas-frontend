@@ -5,13 +5,14 @@ import App from "./App";
 
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import cartReducer from "./components/cartSlice";
+import cartReducer, { getTotals } from "./components/cartSlice";
 
 const store = configureStore({
     reducer: {
         cart: cartReducer,
     },
 });
+store.dispatch(getTotals());
 
 ReactDOM.render(
     <React.StrictMode>

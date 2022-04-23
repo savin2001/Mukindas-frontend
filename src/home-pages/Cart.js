@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     Container,
@@ -23,11 +23,22 @@ import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { addToCart, clearCart, decreaseCart, removeFromCart } from "../components/cartSlice";
+import {
+    addToCart,
+    clearCart,
+    decreaseCart,
+    getTotals,
+    removeFromCart,
+} from "../components/cartSlice";
 
 const Cart = () => {
     const cart = useSelector((state) => state.cart);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getTotals());
+    }, [cart, dispatch]);
+
     const handleRemoveFromCart = (cartItem) => {
         dispatch(removeFromCart(cartItem));
     };
@@ -332,7 +343,9 @@ const Cart = () => {
                                                     color="secondary"
                                                     variant="contained"
                                                     startIcon={<DeleteIcon />}
-                                                    onClick={()=> handleClearCart()}
+                                                    onClick={() =>
+                                                        handleClearCart()
+                                                    }
                                                 >
                                                     Clear
                                                 </Button>

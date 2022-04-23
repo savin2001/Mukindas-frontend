@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { styled, alpha } from "@mui/material/styles";
 import {
     AppBar,
@@ -19,16 +20,17 @@ import {
     ListItemAvatar,
     Divider,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Link } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import Pages from "./dynamicPages";
+import { useSelector } from "react-redux";
 // import axios from "axios";
 // import useFetch from "./useFetch";
 // import api from "./api";
@@ -75,6 +77,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 // Array of pages to be displayed on the top menu
 
 export default function PrimarySearchAppBar() {
+    const {cartTotalQuantity} = useSelector((state) => state.cart);
     const [searchInput, setSearchInput] = useState("");
     // const [data, setData] = useState("");
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -234,7 +237,7 @@ export default function PrimarySearchAppBar() {
                             aria-label="show 4 new mails"
                             color="inherit"
                         >
-                            <Badge badgeContent={4} color="secondary">
+                            <Badge badgeContent={cartTotalQuantity} color="secondary">
                                 <AddShoppingCartIcon />
                             </Badge>
                         </IconButton>
@@ -462,7 +465,7 @@ export default function PrimarySearchAppBar() {
                                     aria-label="show 4 new mails"
                                     color="inherit"
                                 >
-                                    <Badge badgeContent={4} color="secondary">
+                                    <Badge badgeContent={cartTotalQuantity} color="secondary">
                                         <AddShoppingCartIcon />
                                     </Badge>
                                 </IconButton>

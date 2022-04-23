@@ -33,6 +33,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { styled, alpha } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import Pages from "./dynamicPages";
+import { useSelector } from "react-redux";
 
 // Array of pages to be displayed on the top menu
 
@@ -78,6 +79,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const CustomerSearchBar = () => {
+    const {cartTotalQuantity} = useSelector((state) => state.cart);
     const navigate = useNavigate();
     const [logoutUser, setLogoutUser] = useState(false);
     console.log(logoutUser);
@@ -230,7 +232,7 @@ const CustomerSearchBar = () => {
                             aria-label="show 17 new notifications"
                             color="inherit"
                         >
-                            <Badge badgeContent={17} color="secondary">
+                            <Badge badgeContent={cartTotalQuantity} color="secondary">
                                 <FavoriteIcon />
                             </Badge>
                         </IconButton>
@@ -449,7 +451,7 @@ const CustomerSearchBar = () => {
                                     aria-label="show 4 new mails"
                                     color="inherit"
                                 >
-                                    <Badge badgeContent={4} color="secondary">
+                                    <Badge badgeContent={cartTotalQuantity} color="secondary">
                                         <AddShoppingCartIcon />
                                     </Badge>
                                 </IconButton>
