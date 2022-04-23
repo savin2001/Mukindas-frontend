@@ -1,18 +1,11 @@
 import React from "react";
-import {
-    Box,
-    Container,
-    Grid,
-    Typography,
-    Paper,
-    Backdrop,
-    CircularProgress,
-} from "@mui/material";
+import { Box, Container, Grid, Typography, Paper } from "@mui/material";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import api from "../components/api";
 import useFetch from "../components/useFetch";
 import ProductCards from "../components/ProductCards";
+import Loading from "../components/Loading";
 
 const Products = () => {
     const { data: products, isPending, error } = useFetch(`${api}/products`);
@@ -269,17 +262,7 @@ const Products = () => {
                                             {error}
                                         </div>
                                     )}
-                                    {isPending && (
-                    <Backdrop
-                        sx={{
-                            color: "#fff",
-                            zIndex: (theme) => theme.zIndex.drawer + 1,
-                        }}
-                        open={true}
-                    >
-                        <CircularProgress color="inherit" />
-                    </Backdrop>
-                )}
+                                    {isPending && <Loading />}
                                     {products && (
                                         <ProductCards products={products} />
                                     )}

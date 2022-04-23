@@ -28,7 +28,10 @@ import { Link } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
-import Pages from "./dynamicPages"
+import Pages from "./dynamicPages";
+// import axios from "axios";
+// import useFetch from "./useFetch";
+// import api from "./api";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -47,16 +50,6 @@ const Search = styled("div")(({ theme }) => ({
     },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "inherit",
     "& .MuiInputBase-input": {
@@ -73,19 +66,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // Array of pages to be displayed on the top menu
 
-
 export default function PrimarySearchAppBar() {
     const [searchInput, setSearchInput] = useState("");
+    // const [data, setData] = useState("");
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-
+    
     // Searching function
-    const searchItems = (searchValue) => {
-        setSearchInput(searchValue);
-        console.log(searchValue);
-        console.log(searchInput);
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        // return await axios
+        //     .get(`${api}/products?q=${searchInput}`)
+        //     .then((response) => {
+        //         setData(response.data);
+        //         setSearchInput("");
+        //     })
+        //     .catch((err) => console.log(err));
     };
+    
 
     // Function to open the page navigation menu
     const handleOpenNavMenu = (event) => {
@@ -380,7 +379,7 @@ export default function PrimarySearchAppBar() {
                             component="div"
                             sx={{
                                 flexGrow: 1,
-                                display: { xs: "flex", md: "none" },
+                                display: { xs: "none", sm: "flex", md: "none" },
                             }}
                         >
                             <Link
@@ -425,16 +424,21 @@ export default function PrimarySearchAppBar() {
                         </Box>
                         <Box sx={{ flexGrow: 1 }}>
                             <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search…"
-                                    onChange={(e) =>
-                                        searchItems(e.target.value)
-                                    }
-                                    inputProps={{ "aria-label": "search" }}
-                                />
+                                <form onSubmit={handleSearch}>
+                                    <Button color="secondary" type="submit">
+                                        <SearchIcon />
+                                    </Button>
+
+                                    <StyledInputBase
+                                        type="text"
+                                        value={searchInput}
+                                        placeholder="Search…"
+                                        onChange={(e) =>
+                                            setSearchInput(e.target.value)
+                                        }
+                                        inputProps={{ "aria-label": "search" }}
+                                    />
+                                </form>
                             </Search>
                         </Box>
                         <Box sx={{ display: { xs: "none", md: "flex" } }}>

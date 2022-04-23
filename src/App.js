@@ -35,6 +35,8 @@ import Pages from "./components/dynamicPages"
 import GuestAccount from "./guest-pages/GuestAccount";
 import GuestShipment from "./guest-pages/GuestShipment";
 import GuestTransactions from "./guest-pages/GuestTransactions";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -61,6 +63,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <div className="App">
                 <Router>
+                    <ToastContainer/>
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="home" element={<Home />} />

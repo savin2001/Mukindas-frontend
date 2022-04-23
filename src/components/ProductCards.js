@@ -10,28 +10,42 @@ import {
     Rating,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { addToCart } from "../components/cartSlice";
 
 const ProductCards = ({ products }) => {
+    const dispatch = useDispatch();
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+    };
+
     return (
         <>
             {products.map((product) => (
-                <Grid item xs={3} sm={2} md={1} key={product.id}>
-                    <Link
-                        to={`/products/${product.id}`}
-                        style={{
-                            textDecoration: "none",
-                            color: "inherit",
-                        }}
-                    >
-                        <Card>
+                <Grid item xs={6} sm={3} md={1} key={product.id}>
+                    <Card>
+                        <Link
+                            to={`/products/${product.id}`}
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                            }}
+                        >
                             <CardMedia
                                 component="img"
                                 height="175"
                                 image={product.pic1}
                                 alt={product.product}
                             />
-                            <CardContent>
+                        </Link>
+                        <CardContent>
+                            <Link
+                                to={`/products/${product.id}`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
                                 <Typography
                                     sx={{
                                         textAlign: "left",
@@ -42,29 +56,29 @@ const ProductCards = ({ products }) => {
                                 >
                                     {product.product}
                                 </Typography>
-
-                                <Rating name="read-only" value={3} readOnly />
-                                <Typography
-                                    sx={{
-                                        textAlign: "left",
-                                    }}
-                                    color="secondary"
-                                >
-                                   {product.currency} &nbsp;{product.price}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button
-                                    size="small"
-                                    variant="contained"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Add to Cart
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    </Link>
+                            </Link>
+                            <Rating name="read-only" value={3} readOnly />
+                            <Typography
+                                sx={{
+                                    textAlign: "left",
+                                }}
+                                color="secondary"
+                            >
+                                {product.currency} &nbsp;{product.price}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button
+                                size="small"
+                                variant="contained"
+                                color="secondary"
+                                bgcolor="secondary"
+                                onClick={() => handleAddToCart(product)}
+                            >
+                                Add to cart
+                            </Button>
+                        </CardActions>
+                    </Card>
                 </Grid>
             ))}
         </>

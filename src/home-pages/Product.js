@@ -11,16 +11,16 @@ import {
     // CardContent,
     Button,
     Rating,
-    Backdrop,
-    CircularProgress,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import { useParams } from "react-router-dom";
 import api from "../components/api";
 import useFetch from "../components/useFetch";
-
+import Loading from "../components/Loading";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../components/cartSlice";
 
 const Product = () => {
     const { id } = useParams();
@@ -30,6 +30,13 @@ const Product = () => {
         error,
     } = useFetch(`${api}/products/` + id);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+        navigate("/cart")
+    };
+
     return (
         <>
             {isLogInTrue && isLogInTrue.userLogin ? (
@@ -54,17 +61,7 @@ const Product = () => {
                         {error}
                     </div>
                 )}
-                {isPending && (
-                    <Backdrop
-                        sx={{
-                            color: "#fff",
-                            zIndex: (theme) => theme.zIndex.drawer + 1,
-                        }}
-                        open={true}
-                    >
-                        <CircularProgress color="inherit" />
-                    </Backdrop>
-                )}
+                {isPending && <Loading />}
                 {product && (
                     <Grid
                         container
@@ -174,7 +171,7 @@ const Product = () => {
                                     {product.productDesc}
                                 </Typography>
 
-                                <Typography
+                                {/* <Typography
                                     variant="caption"
                                     sx={{
                                         textAlign: "left",
@@ -184,7 +181,7 @@ const Product = () => {
                                     }}
                                 >
                                     426 views in the last days!
-                                </Typography>
+                                </Typography> */}
                                 <Box
                                     sx={{
                                         my: 3,
@@ -192,22 +189,23 @@ const Product = () => {
                                         color: "primary.light",
                                     }}
                                 >
-                                    <Link
+                                    {/* <Link
                                         to={`/cart`}
                                         style={{
                                             textDecoration: "none",
                                             color: "inherit",
                                         }}
+                                    > */}
+                                    <Button
+                                        size="large"
+                                        variant="contained"
+                                        color="secondary"
+                                        bgcolor="secondary"
+                                        onClick={() => handleAddToCart(product)}
                                     >
-                                        <Button
-                                            size="large"
-                                            variant="contained"
-                                            color="secondary"
-                                            bgcolor="secondary"
-                                        >
-                                            Add to cart
-                                        </Button>
-                                    </Link>
+                                        Add to cart
+                                    </Button>
+                                    {/* </Link> */}
                                 </Box>
                                 <Box
                                     sx={{

@@ -20,10 +20,13 @@ import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 // import api from "../components/api";
 // import useFetch from "../components/useFetch";
+// import Loading from "../components/Loading";
 // import ProductCards from "../components/ProductCards";
 
 const Home = () => {
-    // const { data: products, error } = useFetch(`${api}/products`);
+    // const { data: products,isPending, error } = useFetch(`${api}/products`);
+    // const latest = products.slice(0, 7);
+    // console.log(latest);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     return (
         <>
@@ -124,22 +127,8 @@ const Home = () => {
                     spacing={{ xs: 2, md: 3 }}
                     columns={{ xs: 4, sm: 8, md: 16 }}
                 >
-                    {/* {error && (
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                width: "100%",
-                                alignItems: "center",
-                                fontSize: "30px",
-                                background: "#c20f00",
-                            }}
-                        >
-                            {error}
-                        </div>
-                    )} */}
                     {Array.from(Array(4)).map((_, index) => (
-                        <Grid item xs={2} sm={8} md={4} key={index}>
+                        <Grid item xs={4} sm={8} md={4} key={index}>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardMedia
                                     component="img"
@@ -215,11 +204,13 @@ const Home = () => {
                 <Grid
                     container
                     spacing={{ xs: 2, md: 3 }}
-                    columns={{ xs: 6, sm: 6, md: 6 }}
+                    columns={{ xs: 6, sm: 6, md: 8 }}
                     sx={{ mt: 15 }}
                 >
+                    
+                    
                     {Array.from(Array(6)).map((_, index) => (
-                        <Grid item xs={3} sm={2} md={1} key={index}>
+                        <Grid item xs={6} sm={3} md={2} key={index}>
                             <Card>
                                 <CardMedia
                                     component="img"
