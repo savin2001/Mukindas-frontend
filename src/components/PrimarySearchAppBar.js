@@ -49,7 +49,15 @@ const Search = styled("div")(({ theme }) => ({
         width: "auto",
     },
 }));
-
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+}));
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "inherit",
     "& .MuiInputBase-input": {
@@ -72,7 +80,7 @@ export default function PrimarySearchAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-    
+
     // Searching function
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -84,7 +92,6 @@ export default function PrimarySearchAppBar() {
         //     })
         //     .catch((err) => console.log(err));
     };
-    
 
     // Function to open the page navigation menu
     const handleOpenNavMenu = (event) => {
@@ -425,14 +432,15 @@ export default function PrimarySearchAppBar() {
                         <Box sx={{ flexGrow: 1 }}>
                             <Search>
                                 <form onSubmit={handleSearch}>
-                                    <Button color="secondary" type="submit">
-                                        <SearchIcon />
-                                    </Button>
-
+                                    <SearchIconWrapper>
+                                        <Button color="secondary" type="submit">
+                                            <SearchIcon />
+                                        </Button>
+                                    </SearchIconWrapper>
                                     <StyledInputBase
                                         type="text"
                                         value={searchInput}
-                                        placeholder="Search…"
+                                        placeholder="...Search"
                                         onChange={(e) =>
                                             setSearchInput(e.target.value)
                                         }
