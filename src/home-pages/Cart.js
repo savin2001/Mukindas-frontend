@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     Container,
     Typography,
@@ -23,9 +23,20 @@ import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { addToCart, decreaseCart, removeFromCart } from "../components/cartSlice";
 
 const Cart = () => {
     const cart = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+    const handleRemoveFromCart = (cartItem) => {
+        dispatch(removeFromCart(cartItem));
+    };
+    const handleDecreaseCart = (cartItem) => {
+        dispatch(decreaseCart(cartItem));
+    };
+    const handleIncreaseCart = (cartItem) => {
+        dispatch(addToCart(cartItem));
+    };
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
 
     return (
@@ -208,9 +219,10 @@ const Cart = () => {
                                                                     },
                                                                 }}
                                                             >
-                                                                {
-                                                                    cartItem.productDesc
-                                                                }
+                                                                {cartItem.productDesc.slice(
+                                                                    0,
+                                                                    400
+                                                                )}
                                                             </Typography>
                                                             <Box sx={{ mt: 1 }}>
                                                                 <Button
@@ -221,6 +233,11 @@ const Cart = () => {
                                                                     <Typography
                                                                         color="secondary"
                                                                         variant="caption"
+                                                                        onClick={() =>
+                                                                            handleRemoveFromCart(
+                                                                                cartItem
+                                                                            )
+                                                                        }
                                                                     >
                                                                         Remove
                                                                     </Typography>
@@ -241,15 +258,29 @@ const Cart = () => {
                                                     orientation="vertical"
                                                     aria-label="outlined button group"
                                                 >
-                                                    <Button>+</Button>
-                                                    <Button size="small">
+                                                    <Button
+                                                        onClick={() =>
+                                                            handleIncreaseCart(
+                                                                cartItem
+                                                            )
+                                                        }
+                                                    >
+                                                        +
+                                                    </Button>
+                                                    <Button>
                                                         <Typography variant="body1">
                                                             {
                                                                 cartItem.cartQuantity
                                                             }
                                                         </Typography>
                                                     </Button>
-                                                    <Button size="small">
+                                                    <Button
+                                                        onClick={() =>
+                                                            handleDecreaseCart(
+                                                                cartItem
+                                                            )
+                                                        }
+                                                    >
                                                         -
                                                     </Button>
                                                 </ButtonGroup>
@@ -264,7 +295,7 @@ const Cart = () => {
                                     ))}
 
                                     <TableRow>
-                                        <TableCell />
+                                        <TableCell rowSpan={2} />
                                         <TableCell colSpan={2}>
                                             <Typography variant="body1">
                                                 Subtotal
