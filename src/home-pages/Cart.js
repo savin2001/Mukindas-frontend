@@ -22,6 +22,8 @@ import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
     addToCart,
@@ -279,7 +281,7 @@ const Cart = () => {
                                                             )
                                                         }
                                                     >
-                                                        +
+                                                       <KeyboardArrowUpIcon/>
                                                     </Button>
                                                     <Button>
                                                         <Typography variant="body1">
@@ -295,7 +297,7 @@ const Cart = () => {
                                                             )
                                                         }
                                                     >
-                                                        -
+                                                        <KeyboardArrowDownIcon/>
                                                     </Button>
                                                 </ButtonGroup>
                                             </TableCell>
