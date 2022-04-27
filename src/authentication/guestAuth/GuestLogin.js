@@ -32,6 +32,7 @@ const Login = () => {
     });
 
     const [email, setEmail] = useState("");
+    const [phone_number, setPhoneNumber] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -49,8 +50,9 @@ const Login = () => {
     const login = (e) => {
         e.preventDefault();
         axios
-            .post(`${api}/api/auth/login/guest`, {
+            .post(`${api}/login`, {
                 email,
+                phone_number,
                 password,
             })
             .then((response) => {
@@ -64,6 +66,7 @@ const Login = () => {
                 );
                 setError("");
                 setEmail("");
+                setPhoneNumber("");
                 setPassword("");
                 navigate("/guest");
             })
@@ -130,16 +133,18 @@ const Login = () => {
                             }}
                             onSubmit={login}
                         >
-                            
                             <TextField
                                 id="email"
-                                label="Email address"
+                                label="Email address or Phone number"
                                 type="text"
-                                value={email}
+                                value={email || phone_number}
                                 sx={{
                                     my: 2,
                                 }}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => {
+                                    setEmail(e.target.value) ||
+                                        setPhoneNumber(e.target.value);
+                                }}
                                 fullWidth
                                 InputProps={{
                                     endAdornment: (
@@ -221,7 +226,7 @@ const Login = () => {
                                 p: 2,
                                 m: 2,
                                 display: "flex",
-                                justifyContent: "space-between"
+                                justifyContent: "space-between",
                             }}
                         >
                             <Link
@@ -251,7 +256,7 @@ const Login = () => {
                                     variant="h6"
                                     color="secondary"
                                 >
-                                   Back to main page
+                                    Back to main page
                                 </Typography>
                             </Link>
                         </Box>

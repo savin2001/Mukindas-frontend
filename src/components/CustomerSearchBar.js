@@ -87,7 +87,7 @@ const CustomerSearchBar = () => {
         localStorage.removeItem("login");
         setLogoutUser(true);
         console.log(logoutUser);
-        navigate("/");
+        navigate("/customer-login");
     };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

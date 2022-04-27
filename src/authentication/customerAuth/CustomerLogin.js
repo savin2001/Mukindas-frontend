@@ -32,6 +32,7 @@ const Login = () => {
     });
 
     const [email, setEmail] = useState("");
+    const [phone_number, setPhoneNumber] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -49,7 +50,8 @@ const Login = () => {
     const login = (e) => {
         e.preventDefault();
         axios
-            .post(`${api}/api/auth/login/customer`, {
+            .post(`${api}/login`, {
+                phone_number,
                 email,
                 password,
             })
@@ -59,14 +61,21 @@ const Login = () => {
                     "login",
                     JSON.stringify({
                         userLogin: true,
-                        token: response.data.access_token,
+                        token: response.data.token,
                     })
                 );
                 setError("");
                 setEmail("");
+                setPhoneNumber("");
                 setPassword("");
-                navigate("/customer");
+                navigate(`/customer`);
+                // console.log(response.data.token);
             })
+            .then((data) => {
+                // localStorage.setItem("currentUser", JSON.stringify(user));
+                console.log(data);
+            })
+
             .catch((error) => setError(error.response.data.message));
     };
 
@@ -130,16 +139,18 @@ const Login = () => {
                             }}
                             onSubmit={login}
                         >
-                            
                             <TextField
-                                id="email"
-                                label="Email address"
+                                id="text"
+                                label="Email address or Phone number"
                                 type="text"
-                                value={email}
+                                value={email || phone_number}
                                 sx={{
                                     my: 2,
                                 }}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => {
+                                    setEmail(e.target.value) ||
+                                        setPhoneNumber(e.target.value);
+                                }}
                                 fullWidth
                                 InputProps={{
                                     endAdornment: (
@@ -221,7 +232,7 @@ const Login = () => {
                                 p: 2,
                                 m: 2,
                                 display: "flex",
-                                justifyContent: "space-between"
+                                justifyContent: "space-between",
                             }}
                         >
                             <Link
@@ -251,7 +262,7 @@ const Login = () => {
                                     variant="h6"
                                     color="secondary"
                                 >
-                                   Back to main page
+                                    Back to main page
                                 </Typography>
                             </Link>
                         </Box>
