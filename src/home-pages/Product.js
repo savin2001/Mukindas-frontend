@@ -28,7 +28,7 @@ const Product = () => {
         data: product,
         isPending,
         error,
-    } = useFetch(`${api}/products/` + id);
+    } = useFetch(`https://mukindas-test-server.herokuapp.com/products/` + id);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const dispatch = useDispatch();
     const navigate = useNavigate();

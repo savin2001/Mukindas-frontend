@@ -8,7 +8,7 @@ import ProductCards from "../components/ProductCards";
 import Loading from "../components/Loading";
 
 const Products = () => {
-    const { data: products, isPending, error } = useFetch(`${api}/products`);
+    const { data: products, isPending, error } = useFetch(`https://mukindas-test-server.herokuapp.com/products`);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     return (
         <>
