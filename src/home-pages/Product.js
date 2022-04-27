@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import { useParams } from "react-router-dom";
-import api from "../components/api";
+// import api from "../components/api";
 import useFetch from "../components/useFetch";
 import Loading from "../components/Loading";
 import { useDispatch } from "react-redux";

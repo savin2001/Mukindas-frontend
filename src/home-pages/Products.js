@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Container, Grid, Typography, Paper } from "@mui/material";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
-import api from "../components/api";
+// import api from "../components/api";
 import useFetch from "../components/useFetch";
 import ProductCards from "../components/ProductCards";
 import Loading from "../components/Loading";
