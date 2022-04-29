@@ -46,10 +46,10 @@ const VendorSearchBar = () => {
     const [logoutUser, setLogoutUser] = useState(false);
     console.log(logoutUser);
     const logout = () => {
-        localStorage.removeItem("vendorLogin");
+        localStorage.removeItem("login");
         setLogoutUser(true);
         console.log(logoutUser);
-        navigate("/vendor-login");
+        navigate("/login");
     };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

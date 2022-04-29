@@ -85,7 +85,7 @@ const Register = () => {
                 setPassword("");
                 setAddress("");
                 setUserType("");
-                navigate("/customer-login");
+                navigate("/login");
             })
             .catch((error) => setError(error.response.data.message));
     };
@@ -870,7 +870,7 @@ const Register = () => {
                             }}
                         >
                             <Link
-                                to={`/customer-login`}
+                                to={`/login`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",

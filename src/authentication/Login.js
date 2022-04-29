@@ -22,8 +22,8 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
-import loginPic from "../../media/login.png";
-import api from "../../components/api";
+import loginPic from "../media/login.png";
+import api from "../components/api";
 import axios from "axios";
 
 const Login = () => {
@@ -51,25 +51,42 @@ const Login = () => {
         e.preventDefault();
         axios
             .post(`${api}/login`, {
-                email,
                 phone_number,
+                email,
                 password,
             })
             .then((response) => {
                 console.log(response);
                 localStorage.setItem(
-                    "vendorLogin",
+                    "login",
                     JSON.stringify({
                         userLogin: true,
-                        token: response.data.access_token,
+                        user: response.data,
                     })
                 );
                 setError("");
                 setEmail("");
                 setPhoneNumber("");
                 setPassword("");
-                navigate("/vendor");
+                if (response.data.role === "customer"){
+                    navigate(`/customer/${response.data.token}`);
+                }else if (response.data.role === "vendor"){
+                    navigate(`/vendor/${response.data.token}`);
+                }else if (response.data.role === "admin"){
+                    navigate(`/admin/${response.data.token}`);
+                }else if (response.data.role === "guest"){
+                    navigate(`/guest/${response.data.token}`);
+                }else {
+                    setError("Unknown user path");
+                }
+                
+                // console.log(response.data.token);
             })
+            .then((data) => {
+                // localStorage.setItem("currentUser", JSON.stringify(user));
+                console.log(data);
+            })
+
             .catch((error) => setError(error.response.data.message));
     };
 
@@ -88,7 +105,7 @@ const Login = () => {
                             pt: 3,
                         }}
                     >
-                        Welcome to Your Shop
+                        Sign In
                     </Typography>
                 </Box>
                 <Grid
@@ -97,6 +114,30 @@ const Login = () => {
                     columns={{ xs: 4, sm: 8, md: 8 }}
                     sx={{ mb: 5 }}
                 >
+                    <Grid
+                        item
+                        sx={{
+                            display: { xs: "none", sm: "none", md: "block" },
+                        }}
+                        md={4}
+                    >
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "flex-start",
+                                justifyContent: "flex-start",
+                                p: 2,
+                                m: 2,
+                            }}
+                        >
+                            <CardMedia
+                                component="img"
+                                image={loginPic}
+                                alt="stock image"
+                            />
+                        </Box>
+                    </Grid>
                     <Grid item xs={4} sm={8} md={4}>
                         <form
                             sx={{
@@ -110,7 +151,7 @@ const Login = () => {
                             onSubmit={login}
                         >
                             <TextField
-                                id="email"
+                                id="text"
                                 label="Email address or Phone number"
                                 type="text"
                                 value={email || phone_number}
@@ -206,7 +247,7 @@ const Login = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor-register`}
+                                to={`/customer-register`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -217,7 +258,7 @@ const Login = () => {
                                     variant="h6"
                                     color="secondary"
                                 >
-                                    Create a new shop
+                                    Create a customer account
                                 </Typography>
                             </Link>
                             <Link
@@ -235,30 +276,6 @@ const Login = () => {
                                     Back to main page
                                 </Typography>
                             </Link>
-                        </Box>
-                    </Grid>
-                    <Grid
-                        item
-                        sx={{
-                            display: { xs: "none", sm: "none", md: "block" },
-                        }}
-                        md={4}
-                    >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "flex-start",
-                                justifyContent: "flex-start",
-                                p: 2,
-                                m: 2,
-                            }}
-                        >
-                            <CardMedia
-                                component="img"
-                                image={loginPic}
-                                alt="stock image"
-                            />
                         </Box>
                     </Grid>
                 </Grid>

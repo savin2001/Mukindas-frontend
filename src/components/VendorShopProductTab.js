@@ -5,13 +5,21 @@ import {
     Typography,
     Box,
     Button,
-    CardContent,
+    // CardContent,
     // CardActions,
-    CardMedia,
+    // CardMedia,
     // TextField,
 } from "@mui/material";
+import useFetch from "./useFetch";
+import Loading from "./Loading";
+import VendorProductCards from "./VendorProductCards";
 
 const VendorShopProductTab = () => {
+    const {
+        data: products,
+        isPending,
+        error,
+    } = useFetch(`https://mukindas-test-server.herokuapp.com/products`);
     return (
         <>
             <Card
@@ -214,7 +222,7 @@ const VendorShopProductTab = () => {
                                 sx={{ color: "primary.main" }}
                                 variant="h6"
                             >
-                                Men category
+                                My items
                             </Typography>
                         </Box>
                         <Grid
@@ -223,50 +231,24 @@ const VendorShopProductTab = () => {
                             columns={{ xs: 6, sm: 6, md: 4 }}
                             sx={{ mt: 15 }}
                         >
-                            {Array.from(Array(4)).map((_, index) => (
-                                <Grid item xs={3} sm={2} md={1} key={index}>
-                                    <Card>
-                                        <CardMedia
-                                            component="img"
-                                            height="175"
-                                            image="https://i.etsystatic.com/17434867/r/il/1d4e7f/1479707788/il_fullxfull.1479707788_bry2.jpg"
-                                            alt="stock image"
-                                        />
-                                        <CardContent>
-                                            <Typography
-                                                sx={{
-                                                    textAlign: "left",
-                                                }}
-                                                gutterBottom
-                                                variant="h6"
-                                                component="div"
-                                            >
-                                                Red okre Maasai Earrings |
-                                                Maasai Mara Earrings
-                                            </Typography>
-
-                                            
-                                            <Typography
-                                                sx={{
-                                                    textAlign: "left",
-                                                    mb: 2,
-                                                }}
-                                                color="secondary"
-                                            >
-                                                $ 13.99
-                                            </Typography>
-                                            <Button
-                                                size="small"
-                                                variant="contained"
-                                                color="secondary"
-                                                bgcolor="secondary"
-                                            >
-                                                Change price
-                                            </Button>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
+                            {error && (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        width: "100%",
+                                        alignItems: "center",
+                                        fontSize: "30px",
+                                        background: "#c20f00",
+                                    }}
+                                >
+                                    {error}
+                                </div>
+                            )}
+                            {isPending && <Loading />}
+                            {products && (
+                                <VendorProductCards products={products} />
+                            )}
                         </Grid>
                     </Box>
                 </Box>

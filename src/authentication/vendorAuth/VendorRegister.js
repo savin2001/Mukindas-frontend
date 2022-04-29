@@ -74,15 +74,7 @@ const Register = () => {
                 password,
             })
             .then((response) => {
-                console.log(response);
-                localStorage.setItem(
-                    "vendorLogin",
-                    JSON.stringify({
-                        userLogin: true,
-                        token: response.data.access_token,
-                    })
-                );
-
+                
                 setError("");
                 setFirstName("");
                 setSecondName("");
@@ -94,7 +86,7 @@ const Register = () => {
                 setPassword("");
                 setAddress("");
                 setUserType("");
-                navigate("/vendor-login");
+                navigate("/login");
             })
             .catch((error) => setError(error.response.data.message));
     };
@@ -855,7 +847,7 @@ const Register = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor-login`}
+                                to={`/login`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",

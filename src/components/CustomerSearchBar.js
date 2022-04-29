@@ -81,13 +81,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const CustomerSearchBar = () => {
     const {cartTotalQuantity} = useSelector((state) => state.cart);
     const navigate = useNavigate();
-    const [logoutUser, setLogoutUser] = useState(false);
-    console.log(logoutUser);
+    const [logoutUser, setLogoutUser] = useState(false);    
     const logout = () => {
         localStorage.removeItem("login");
         setLogoutUser(true);
         console.log(logoutUser);
-        navigate("/customer-login");
+        navigate("/login");
     };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

@@ -86,7 +86,7 @@ const Register = () => {
                 setPassword("");
                 setAddress("");
                 setUserType("");
-                navigate("/guest-login");
+                navigate("/login");
             })
             .catch((error) => setError(error.response.data.message));
     };
@@ -871,7 +871,7 @@ const Register = () => {
                             }}
                         >
                             <Link
-                                to={`/guest-login`}
+                                to={`/login`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",

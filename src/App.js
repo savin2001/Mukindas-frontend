@@ -10,11 +10,9 @@ import Cart from "./home-pages/Cart";
 import Profile from "./customer-pages/CustomerAccount";
 import Products from "./home-pages/Products";
 import Product from "./home-pages/Product";
-import CustomerLogin from "./authentication/customerAuth/CustomerLogin";
+import Login from "./authentication/Login";
 import CustomerRegister from "./authentication/customerAuth/CustomerRegister";
-import VendorLogin from "./authentication/vendorAuth/VendorLogin";
 import VendorRegister from "./authentication/vendorAuth/VendorRegister";
-import GuestLogin from "./authentication/guestAuth/GuestLogin";
 import GuestRegister from "./authentication/guestAuth/GuestRegister";
 import CheckOut from "./customer-pages/CheckOut";
 import VendorAccount from "./vendors-pages/VendorAccount";
@@ -31,12 +29,12 @@ import Favorites from "./customer-pages/Favorite";
 import CustomerOrders from "./customer-pages/Orders";
 import Order from "./customer-pages/Order";
 import BulkUpload from "./vendors-pages/BulkUpload";
-import Pages from "./components/dynamicPages"
+import Pages from "./components/dynamicPages";
 import GuestAccount from "./guest-pages/GuestAccount";
 import GuestShipment from "./guest-pages/GuestShipment";
 import GuestTransactions from "./guest-pages/GuestTransactions";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import "react-toastify/dist/ReactToastify.css";
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -63,25 +61,20 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <div className="App">
                 <Router>
-                    <ToastContainer/>
+                    <ToastContainer />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="home" element={<Home />} />
                         <Route path="cart" element={<Cart />} />
-                        <Route
-                            path="customer-login"
-                            element={<CustomerLogin />}
-                        />
+                        <Route path="login" element={<Login />} />
                         <Route
                             path="customer-register"
                             element={<CustomerRegister />}
                         />
-                        <Route path="vendor-login" element={<VendorLogin />} />
                         <Route
                             path="vendor-register"
                             element={<VendorRegister />}
                         />
-                        <Route path="guest-login" element={<GuestLogin />} />
                         <Route
                             path="guest-register"
                             element={<GuestRegister />}
@@ -97,8 +90,18 @@ const App = () => {
                                 key={page}
                             />
                         ))}
+                        {Pages.map((page) => (
+                            <Route
+                                path={`customer/${page}`}
+                                element={<Products />}
+                                key={page}
+                            />
+                        ))}
 
-                        <Route path="vendor" element={<VendorAccount />} />
+                        <Route
+                            path="vendor/:userToken"
+                            element={<VendorAccount />}
+                        />
                         <Route path="vendor/Shop" element={<VendorShop />} />
                         <Route
                             path="vendor/Wallet"
@@ -120,7 +123,10 @@ const App = () => {
                             element={<ShippingCalculator />}
                         />
                         <Route path="vendor/upload" element={<BulkUpload />} />
-                        <Route path="customer" element={<CustomerAccount />} />
+                        <Route
+                            path="customer/:userToken"
+                            element={<CustomerAccount />}
+                        />
                         <Route
                             path="customer/Favorites"
                             element={<Favorites />}
@@ -142,9 +148,18 @@ const App = () => {
                             path="customer/Continue%20shopping"
                             element={<Products />}
                         />
-                        <Route path="guest" element={<GuestAccount />} />
-                        <Route path="guest/Shipment" element={<GuestShipment />} />
-                        <Route path="guest/Transactions" element={<GuestTransactions />} />
+                        <Route
+                            path="guest/:userToken"
+                            element={<GuestAccount />}
+                        />
+                        <Route
+                            path="guest/Shipment"
+                            element={<GuestShipment />}
+                        />
+                        <Route
+                            path="guest/Transactions"
+                            element={<GuestTransactions />}
+                        />
                     </Routes>
                     <Footer />
                 </Router>

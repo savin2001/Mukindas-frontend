@@ -378,7 +378,7 @@ const Cart = () => {
                                             </Link>
                                         ) : (
                                             <Link
-                                                to={`/customer-login`}
+                                                to={`/login`}
                                                 style={{
                                                     textDecoration: "none",
                                                     color: "inherit",

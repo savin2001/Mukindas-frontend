@@ -29,6 +29,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import LoginIcon from "@mui/icons-material/Login";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Pages from "./dynamicPages";
 import { useSelector } from "react-redux";
 // import axios from "axios";
@@ -77,7 +78,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 // Array of pages to be displayed on the top menu
 
 export default function PrimarySearchAppBar() {
-    const {cartTotalQuantity} = useSelector((state) => state.cart);
+    const { cartTotalQuantity } = useSelector((state) => state.cart);
     const [searchInput, setSearchInput] = useState("");
     // const [data, setData] = useState("");
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -151,7 +152,7 @@ export default function PrimarySearchAppBar() {
             onClose={handleMenuClose}
         >
             <Link
-                to={`/customer-login`}
+                to={`/login`}
                 style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -168,7 +169,24 @@ export default function PrimarySearchAppBar() {
             </Link>
             <Divider variant="middle" component="li" />
             <Link
-                to={`/vendor-login`}
+                to={`/customer-register`}
+                style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                }}
+            >
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar sx={{ bgcolor: "secondary.main" }}>
+                            <ShoppingBasketIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Become a customer" />
+                </ListItem>
+            </Link>
+            <Divider variant="middle" component="li" />
+            <Link
+                to={`/vendor-register`}
                 style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -185,7 +203,7 @@ export default function PrimarySearchAppBar() {
             </Link>
             <Divider variant="middle" component="li" />
             <Link
-                to={`/guest-login`}
+                to={`/guest-register`}
                 style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -232,12 +250,11 @@ export default function PrimarySearchAppBar() {
                     style={{ textDecoration: "none", color: "inherit" }}
                 >
                     <MenuItem>
-                        <IconButton
-                            size="large"
-                            aria-label=""
-                            color="inherit"
-                        >
-                            <Badge badgeContent={cartTotalQuantity} color="secondary">
+                        <IconButton size="large" aria-label="" color="inherit">
+                            <Badge
+                                badgeContent={cartTotalQuantity}
+                                color="secondary"
+                            >
                                 <AddShoppingCartIcon />
                             </Badge>
                         </IconButton>
@@ -246,7 +263,7 @@ export default function PrimarySearchAppBar() {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/customer-login`}
+                    to={`/login`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -263,7 +280,24 @@ export default function PrimarySearchAppBar() {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/vendor-login`}
+                    to={`/customer-register`}
+                    style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                    }}
+                >
+                    <ListItem>
+                        <ListItemAvatar>
+                            <Avatar sx={{ bgcolor: "secondary.main" }}>
+                                <ShoppingBasketIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary="Become a customer" />
+                    </ListItem>
+                </Link>
+                <Divider variant="middle" component="li" />
+                <Link
+                    to={`/vendor-register`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -280,7 +314,7 @@ export default function PrimarySearchAppBar() {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/guest-login`}
+                    to={`/guest-register`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -465,7 +499,10 @@ export default function PrimarySearchAppBar() {
                                     aria-label=""
                                     color="inherit"
                                 >
-                                    <Badge badgeContent={cartTotalQuantity} color="secondary">
+                                    <Badge
+                                        badgeContent={cartTotalQuantity}
+                                        color="secondary"
+                                    >
                                         <AddShoppingCartIcon />
                                     </Badge>
                                 </IconButton>

@@ -13,6 +13,7 @@ import {
 import VendorMenu from "../components/VendorMenu";
 import VendorShopProductTab from "../components/VendorShopProductTab";
 
+
 const children = [
     <ToggleButton value="left" key="left">
         <Typography>Products</Typography>
@@ -24,6 +25,7 @@ const children = [
 
 const VendorShop = () => {
     const [alignment, setAlignment] = useState("left");
+    
     const handleToggleChange = (event, newAlignment) => {
         setAlignment(newAlignment);
     };
