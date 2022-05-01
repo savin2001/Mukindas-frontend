@@ -135,7 +135,7 @@ const App = () => {
                             path="customer/Orders"
                             element={<CustomerOrders />}
                         />
-                        <Route path="customer/Order" element={<Order />} />
+                        <Route path="customer/Order/:orderID" element={<Order />} />
                         <Route
                             path="customer/Checkout"
                             element={<CheckOut />}
