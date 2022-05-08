@@ -29,7 +29,6 @@ import Favorites from "./customer-pages/Favorite";
 import CustomerOrders from "./customer-pages/Orders";
 import Order from "./customer-pages/Order";
 import BulkUpload from "./vendors-pages/BulkUpload";
-import Pages from "./components/dynamicPages";
 import GuestAccount from "./guest-pages/GuestAccount";
 import GuestShipment from "./guest-pages/GuestShipment";
 import GuestTransactions from "./guest-pages/GuestTransactions";
@@ -37,6 +36,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import api from "./components/api";
+import ProductUpdate from "./vendors-pages/ProductUpdate";
+import SingleProductUpload from "./vendors-pages/SingleProductUpload";
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -98,19 +99,14 @@ const App = () => {
                                 key={category.id}
                             />
                         ))}
-                        {Pages.map((page) => (
-                            <Route
-                                path={`customer/${page}`}
-                                element={<Products />}
-                                key={page}
-                            />
-                        ))}
+                        
 
                         <Route
                             path="vendor/:userToken"
                             element={<VendorAccount />}
                         />
                         <Route path="vendor/Shop" element={<VendorShop />} />
+                        <Route path="vendor/Shop/:productId" element={<ProductUpdate />} />
                         <Route
                             path="vendor/Wallet"
                             element={<VendorWallet />}
@@ -130,7 +126,8 @@ const App = () => {
                             path="vendor/Calculator"
                             element={<ShippingCalculator />}
                         />
-                        <Route path="vendor/upload" element={<BulkUpload />} />
+                        <Route path="vendor/upload/bulk" element={<BulkUpload />} />
+                        <Route path="vendor/upload/single" element={<SingleProductUpload />} />
                         <Route
                             path="customer/:userToken"
                             element={<CustomerAccount />}

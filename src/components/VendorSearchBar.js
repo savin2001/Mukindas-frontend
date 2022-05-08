@@ -44,7 +44,6 @@ const vendorPages = [
 const VendorSearchBar = () => {
     const navigate = useNavigate();
     const [logoutUser, setLogoutUser] = useState(false);
-    console.log(logoutUser);
     const logout = () => {
         localStorage.removeItem("login");
         setLogoutUser(true);

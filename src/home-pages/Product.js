@@ -6,9 +6,10 @@ import {
     Grid,
     Box,
     Paper,
-    // CardActions,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
     CardMedia,
-    // CardContent,
     Button,
     Rating,
 } from "@mui/material";
@@ -16,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import { useParams } from "react-router-dom";
-// import api from "../components/api";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useFetch from "../components/useFetch";
 import Loading from "../components/Loading";
 import { useDispatch } from "react-redux";
@@ -35,7 +36,7 @@ const Product = () => {
     const navigate = useNavigate();
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
-        navigate("/cart")
+        navigate("/cart");
     };
 
     return (
@@ -172,7 +173,6 @@ const Product = () => {
                                     {product.description}
                                 </Typography>
 
-                                
                                 <Box
                                     sx={{
                                         my: 3,
@@ -180,7 +180,6 @@ const Product = () => {
                                         color: "primary.light",
                                     }}
                                 >
-                                    
                                     <Button
                                         size="large"
                                         variant="contained"
@@ -198,15 +197,36 @@ const Product = () => {
                                         color: "primary.light",
                                     }}
                                 >
-                                    
-                                    <Button
-                                        size="large"
-                                        variant="contained"
-                                        color="secondary"
-                                        sx={{ bgcolor: "primary.dark" }}
-                                    >
-                                        Contact seller
-                                    </Button>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography
+                                                variant="h6"
+                                                color="secondary"
+                                            >
+                                                Contact vendor
+                                            </Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography
+                                                sx={{
+                                                    mb: 3,
+                                                }}
+                                            >
+                                                {product.vendor_email}
+                                            </Typography>
+                                            <Button
+                                                size="small"
+                                                variant="text"
+                                                sx={{ color: "primary.light" }}
+                                            >
+                                                More from the vendor
+                                            </Button>
+                                        </AccordionDetails>
+                                    </Accordion>
                                 </Box>
                             </Box>
                         </Grid>

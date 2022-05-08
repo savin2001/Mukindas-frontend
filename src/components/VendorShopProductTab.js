@@ -13,13 +13,11 @@ import {
 import useFetch from "./useFetch";
 import Loading from "./Loading";
 import VendorProductCards from "./VendorProductCards";
+import api from "./api";
 
 const VendorShopProductTab = () => {
-    const {
-        data: products,
-        isPending,
-        error,
-    } = useFetch(`https://mukindas-test-server.herokuapp.com/products`);
+    const { data: categories } = useFetch(`${api}/products/categories`);
+    const { data: products, isPending, error } = useFetch(`${api}/products/`);
     return (
         <>
             <Card
@@ -39,171 +37,50 @@ const VendorShopProductTab = () => {
                     <Grid
                         container
                         width="100%"
-                        spacing={{ xs: 1, md: 1 }}
+                        spacing={{ xs: 3, md: 3, sm: 3 }}
                         columns={{ xs: 4, sm: 8, md: 12 }}
                     >
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="contained"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Men
-                                </Button>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Women
-                                </Button>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Trousers
-                                </Button>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Tops
-                                </Button>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Earrings
-                                </Button>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Necklaces
-                                </Button>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Shoes
-                                </Button>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={2} sm={4} md={3}>
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    m: 1,
-                                    columnGap: 3,
-                                    rowGap: 1,
-                                }}
-                            >
-                                <Button
-                                    size="large"
-                                    variant="outlined"
-                                    color="secondary"
-                                    bgcolor="secondary"
-                                >
-                                    Headgear
-                                </Button>
-                            </Box>
-                        </Grid>
+                        {categories && (
+                            <>
+                                {categories.map((category) => (
+                                    <Grid
+                                        item
+                                        xs={2}
+                                        sm={4}
+                                        md={4}
+                                        key={category.id}
+                                    >
+                                        <Box
+                                            sx={{
+                                                p: 1,
+                                                m: 3,
+                                                columnGap: 3,
+                                                rowGap: 1,
+                                            }}
+                                        >
+                                            <Button
+                                                size="large"
+                                                variant="outlined"
+                                                color="secondary"
+                                                bgcolor="secondary"
+                                            >
+                                                {category.name}
+                                            </Button>
+                                        </Box>
+                                    </Grid>
+                                ))}
+                            </>
+                        )}
                     </Grid>
                 </Box>
-                <Box>
+                <Box sx={{width: "100%", display: "flex", flexDirection: "column"}}>
                     <Typography variant="h6" content="div" sx={{ my: 2 }}>
                         Change price of individual products
                     </Typography>
                     <Box
                         sx={{
                             textAlign: "left",
-
+                            flexGrow: 1,
                             width: "100%",
                             height: "100%",
                             mb: 3,
@@ -212,7 +89,7 @@ const VendorShopProductTab = () => {
                         <Box
                             sx={{
                                 textAlign: "left",
-                                height: "10%",
+                                height: "100%",
                                 backgroundColor: "primary.contrastText",
                                 p: 2,
                                 borderRadius: 2,

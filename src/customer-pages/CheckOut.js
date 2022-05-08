@@ -22,7 +22,7 @@ import CustomerSearchBar from "../components/CustomerSearchBar";
 import { useSelector } from "react-redux";
 import CustomerMenu from "../components/CustomerMenu";
 
-const TAX_RATE = 0.07;
+const TAX_RATE = 0;
 
 function ccyFormat(num) {
     return `${num.toFixed(2)}`;

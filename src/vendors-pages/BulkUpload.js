@@ -19,6 +19,7 @@ import VendorSearchBar from "../components/VendorSearchBar";
 import VendorMenu from "../components/VendorMenu";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { Link } from "react-router-dom";
 
 const Input = styled("input")({
     display: "none",
@@ -144,23 +145,26 @@ const BulkUpload = () => {
                                             }}
                                         >
                                             <label htmlFor="contained-button-file">
-                                                <Input
-                                                    accept="image/*"
-                                                    id="contained-button-file"
-                                                    multiple
-                                                    type="file"
-                                                />
-                                                <Button
-                                                    size="large"
-                                                    variant="outlined"
-                                                    color="secondary"
-                                                    component="span"
-                                                    startIcon={
-                                                        <UploadFileIcon />
-                                                    }
+                                                
+                                                <Link
+                                                    to={`/vendor/upload/single`}
+                                                    style={{
+                                                        textDecoration: "none",
+                                                        color: "inherit",
+                                                    }}
                                                 >
-                                                    Single Product Upload
-                                                </Button>
+                                                    <Button
+                                                        size="large"
+                                                        variant="outlined"
+                                                        color="secondary"
+                                                        component="span"
+                                                        startIcon={
+                                                            <UploadFileIcon />
+                                                        }
+                                                    >
+                                                        Single Product Upload
+                                                    </Button>
+                                                </Link>
                                             </label>
                                         </Box>
                                     </Grid>

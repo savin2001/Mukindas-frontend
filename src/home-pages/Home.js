@@ -18,15 +18,13 @@ import customer from "../media/customer-service.png";
 import simpsec from "../media/simple-secure.png";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import CustomerSearchBar from "../components/CustomerSearchBar";
-// import api from "../components/api";
-// import useFetch from "../components/useFetch";
-// import Loading from "../components/Loading";
+import api from "../components/api";
+import useFetch from "../components/useFetch";
+import Loading from "../components/Loading";
 // import ProductCards from "../components/ProductCards";
 
 const Home = () => {
-    // const { data: products,isPending, error } = useFetch(`${api}/products`);
-    // const latest = products.slice(0, 7);
-    // console.log(latest);
+    const { data: products, isPending, error } = useFetch(`${api}/products/`);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     return (
         <>
@@ -113,178 +111,253 @@ const Home = () => {
             </Container>
 
             {/* Products */}
-            <Container sx={{ flexGrow: 1, my: 3 }}>
-                <Typography
-                    variant="h4"
-                    sx={{ p: 3, m: 3 }}
-                    gutterBottom
-                    component="div"
+            {error && (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
+                        alignItems: "center",
+                        fontSize: "30px",
+                        background: "#c20f00",
+                    }}
                 >
-                    Popular Products
-                </Typography>
-                <Grid
-                    container
-                    spacing={{ xs: 2, md: 3 }}
-                    columns={{ xs: 4, sm: 8, md: 16 }}
-                >
-                    {Array.from(Array(4)).map((_, index) => (
-                        <Grid item xs={4} sm={8} md={4} key={index}>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image="https://i.etsystatic.com/17434867/r/il/9fff97/1532353867/il_fullxfull.1532353867_bg3w.jpg"
-                                    alt="bracelet"
-                                />
-                                <CardContent>
-                                    <Typography
-                                        sx={{ textAlign: "left" }}
-                                        gutterBottom
-                                        variant="h6"
-                                        component="div"
-                                    >
-                                        Kenyan Flag bracelet | Beaded Bracelet
-                                    </Typography>
-
-                                    <Typography
-                                        sx={{ textAlign: "left" }}
-                                        color="text.secondary"
-                                    >
-                                        Show your love for Kenya by getting this
-                                        beautiful Piece. We can also custom make
-                                        any for your Country. Go on and get
-                                        yours!
-                                    </Typography>
-                                    <Rating
-                                        name="read-only"
-                                        value={3}
-                                        readOnly
-                                    />
-                                    <Typography
-                                        sx={{ textAlign: "left" }}
-                                        color="secondary"
-                                    >
-                                        $ 29.95
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Link
-                                        to={`/product`}
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    >
-                                        <Button
-                                            size="small"
-                                            variant="contained"
-                                            color="secondary"
-                                            bgcolor="secondary"
+                    {error}
+                </div>
+            )}
+            {isPending && <Loading />}
+            {products && (
+                <>
+                    <Container sx={{ flexGrow: 1, my: 3 }}>
+                        <Typography
+                            variant="h4"
+                            sx={{ p: 3, m: 3 }}
+                            gutterBottom
+                            component="div"
+                        >
+                            Popular Products
+                        </Typography>
+                        <Grid
+                            container
+                            spacing={{ xs: 2, md: 3 }}
+                            columns={{ xs: 4, sm: 8, md: 16 }}
+                        >
+                            {products.map((product) => (
+                                <Grid
+                                    item
+                                    xs={4}
+                                    sm={4}
+                                    md={4}
+                                    key={product.id}
+                                >
+                                    <Card sx={{ maxWidth: 345 }}>
+                                        <Link
+                                            to={`/products/${product.id}`}
+                                            style={{
+                                                textDecoration: "none",
+                                                color: "inherit",
+                                            }}
                                         >
-                                            View product
-                                        </Button>
-                                    </Link>
-                                </CardActions>
-                            </Card>
+                                            <CardMedia
+                                                component="img"
+                                                height="175"
+                                                image={product.image}
+                                                alt={product.name}
+                                            />
+                                        </Link>
+                                        <CardContent>
+                                            <Link
+                                                to={`/products/${product.id}`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                <Typography
+                                                    sx={{
+                                                        textAlign: "left",
+                                                    }}
+                                                    gutterBottom
+                                                    variant="subtitle"
+                                                    component="div"
+                                                >
+                                                    {product.name}
+                                                </Typography>
+
+                                                <Typography
+                                                    sx={{ textAlign: "left" }}
+                                                    color="text.secondary"
+                                                >
+                                                    {product.description}
+                                                </Typography>
+                                            </Link>
+                                            <Box sx={{ textAlign: "left" }}>
+                                                <Rating
+                                                    name="read-only"
+                                                    value={5}
+                                                    readOnly
+                                                />
+                                            </Box>
+
+                                            <Typography
+                                                sx={{ textAlign: "left" }}
+                                                color="secondary"
+                                            >
+                                                {product.currency} &nbsp;
+                                                {product.price}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Link
+                                                to={`/product`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                <Button
+                                                    size="small"
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    bgcolor="secondary"
+                                                >
+                                                    View product
+                                                </Button>
+                                            </Link>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))}
                         </Grid>
-                    ))}
-                </Grid>
-            </Container>
+                    </Container>
+                </>
+            )}
 
             {/* Latest product */}
-            <Container sx={{ flexGrow: 1, my: 3 }}>
-                <Typography
-                    variant="h4"
-                    sx={{ p: 3, m: 3 }}
-                    gutterBottom
-                    component="div"
+            {error && (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
+                        alignItems: "center",
+                        fontSize: "30px",
+                        background: "#c20f00",
+                    }}
                 >
-                    Latest Products
-                </Typography>
-                <Grid
-                    container
-                    spacing={{ xs: 2, md: 3 }}
-                    columns={{ xs: 6, sm: 6, md: 8 }}
-                    sx={{ mt: 15 }}
-                >
-                    
-                    
-                    {Array.from(Array(6)).map((_, index) => (
-                        <Grid item xs={6} sm={3} md={2} key={index}>
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    height="150"
-                                    image="https://i.etsystatic.com/17434867/r/il/d4c634/2490833996/il_fullxfull.2490833996_g1w9.jpg"
-                                    alt="Maasai shuka"
-                                />
-                                <CardContent>
-                                    <Typography
-                                        sx={{
-                                            textAlign: "left",
-                                        }}
-                                        gutterBottom
-                                        variant="p"
-                                        component="div"
-                                    >
-                                        Blue Red Maasai Shuka |Camping Shawl
-                                    </Typography>
-
-                                    <Rating
-                                        name="read-only"
-                                        value={3}
-                                        readOnly
-                                    />
-                                    <Typography
-                                        sx={{
-                                            textAlign: "left",
-                                        }}
-                                        color="secondary"
-                                    >
-                                        $ 49.95
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
+                    {error}
+                </div>
+            )}
+            {isPending && <Loading />}
+            {products && (
+                <Container sx={{ flexGrow: 1, my: 3 }}>
+                    <Typography
+                        variant="h4"
+                        sx={{ p: 3, m: 3 }}
+                        gutterBottom
+                        component="div"
+                    >
+                        Latest Products
+                    </Typography>
+                    <Grid
+                        container
+                        spacing={{ xs: 2, md: 3 }}
+                        columns={{ xs: 6, sm: 6, md: 8 }}
+                        sx={{ mt: 15 }}
+                    >
+                        {products.map((product) => (
+                            <Grid item xs={6} sm={3} md={2} key={product.id}>
+                                <Card>
                                     <Link
-                                        to={`/product`}
+                                        to={`/products/${product.id}`}
                                         style={{
                                             textDecoration: "none",
                                             color: "inherit",
                                         }}
                                     >
-                                        <Button
-                                            size="small"
-                                            variant="contained"
-                                            color="secondary"
-                                            bgcolor="secondary"
-                                        >
-                                            View product
-                                        </Button>
+                                        <CardMedia
+                                            component="img"
+                                            height="175"
+                                            image={product.image}
+                                            alt={product.name}
+                                        />
                                     </Link>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-                <Box sx={{ flexGrow: 1, my: 4 }}>
-                    <Link
-                        to={`/products`}
-                        style={{
-                            textDecoration: "none",
-                            color: "inherit",
-                        }}
-                    >
-                        <Button
-                            size="large"
-                            variant="contained"
-                            color="secondary"
-                            bgcolor="secondary"
+                                    <CardContent>
+                                        <Link
+                                            to={`/products/${product.id}`}
+                                            style={{
+                                                textDecoration: "none",
+                                                color: "inherit",
+                                            }}
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    textAlign: "left",
+                                                }}
+                                                gutterBottom
+                                                variant="subtitle"
+                                                component="div"
+                                            >
+                                                {product.name}
+                                            </Typography>
+                                        </Link>
+                                        <Rating
+                                            name="read-only"
+                                            value={4.6}
+                                            readOnly
+                                        />
+                                        <Typography
+                                            sx={{
+                                                textAlign: "left",
+                                            }}
+                                            color="secondary"
+                                        >
+                                            {product.currency} &nbsp;
+                                            {product.price}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Link
+                                            to={`/product`}
+                                            style={{
+                                                textDecoration: "none",
+                                                color: "inherit",
+                                            }}
+                                        >
+                                            <Button
+                                                size="small"
+                                                variant="contained"
+                                                color="secondary"
+                                                bgcolor="secondary"
+                                            >
+                                                View product
+                                            </Button>
+                                        </Link>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <Box sx={{ flexGrow: 1, my: 4 }}>
+                        <Link
+                            to={`/products`}
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                            }}
                         >
-                            SHOP BY CATEGORY
-                        </Button>
-                    </Link>
-                </Box>
-            </Container>
+                            <Button
+                                size="large"
+                                variant="contained"
+                                color="secondary"
+                                bgcolor="secondary"
+                            >
+                                SHOP BY CATEGORY
+                            </Button>
+                        </Link>
+                    </Box>
+                </Container>
+            )}
 
             {/* Focus */}
             <Container sx={{ flexGrow: 1, my: 3 }}>
