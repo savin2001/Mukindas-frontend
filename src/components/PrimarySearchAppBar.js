@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { styled, alpha } from "@mui/material/styles";
 import {
@@ -29,12 +29,11 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import LoginIcon from "@mui/icons-material/Login";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import Pages from "./dynamicPages";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { useSelector } from "react-redux";
-// import axios from "axios";
-// import useFetch from "./useFetch";
-// import api from "./api";
+import axios from "axios";
+import api from "./api";
+
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -78,6 +77,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 // Array of pages to be displayed on the top menu
 
 export default function PrimarySearchAppBar() {
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        axios.get(`${api}/products/categories`).then((response) => {
+            setCategories(response.data.data);
+        });
+        return () => console.log("");
+    }, []);
     const { cartTotalQuantity } = useSelector((state) => state.cart);
     const [searchInput, setSearchInput] = useState("");
     // const [data, setData] = useState("");
@@ -394,13 +400,13 @@ export default function PrimarySearchAppBar() {
                                     display: { xs: "block", md: "none" },
                                 }}
                             >
-                                {Pages.map((page) => (
+                                {categories.map((category) => (
                                     <MenuItem
-                                        key={page}
+                                        key={category.id}
                                         onClick={handleCloseNavMenu}
                                     >
                                         <Link
-                                            to={`/${page}`}
+                                            to={`/${category.name}`}
                                             style={{
                                                 textDecoration: "none",
                                                 color: "inherit",
@@ -410,7 +416,7 @@ export default function PrimarySearchAppBar() {
                                                 textAlign="center"
                                                 color="dark"
                                             >
-                                                {page}
+                                                {category.name}
                                             </Typography>
                                         </Link>
                                     </MenuItem>
@@ -443,17 +449,17 @@ export default function PrimarySearchAppBar() {
                                 display: { xs: "none", md: "flex" },
                             }}
                         >
-                            {Pages.map((page) => (
+                            {categories.map((category) => (
                                 <Link
-                                    to={`/${page}`}
+                                    to={`/${category.name}`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
                                     }}
-                                    key={page}
+                                    key={category.id}
                                 >
                                     <Button
-                                        key={page}
+                                        key={category.name}
                                         onClick={handleCloseNavMenu}
                                         sx={{
                                             my: 2,
@@ -461,7 +467,7 @@ export default function PrimarySearchAppBar() {
                                             display: "block",
                                         }}
                                     >
-                                        {page}
+                                        {category.name}
                                     </Button>
                                 </Link>
                             ))}

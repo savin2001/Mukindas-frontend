@@ -40,8 +40,8 @@ const ProductCards = ({ products }) => {
                             <CardMedia
                                 component="img"
                                 height="175"
-                                image={product.pic1}
-                                alt={product.product}
+                                image={product.image}
+                                alt={product.name}
                             />
                         </Link>
                         <CardContent>
@@ -60,10 +60,10 @@ const ProductCards = ({ products }) => {
                                     variant="subtitle"
                                     component="div"
                                 >
-                                    {product.product}
+                                    {product.name}
                                 </Typography>
                             </Link>
-                            <Rating name="read-only" value={3} readOnly />
+                            <Rating name="read-only" value={4.6} readOnly />
                             <Typography
                                 sx={{
                                     textAlign: "left",

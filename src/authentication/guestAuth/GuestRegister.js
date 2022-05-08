@@ -61,7 +61,7 @@ const Register = () => {
     const register = (e) => {
         e.preventDefault();
         axios
-            .post(`${api}/register`, {
+            .post(`${api}/users/register`, {
                 first_name,
                 second_name,
                 email,

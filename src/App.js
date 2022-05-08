@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";
 import Footer from "./components/Footer";
@@ -35,6 +35,8 @@ import GuestShipment from "./guest-pages/GuestShipment";
 import GuestTransactions from "./guest-pages/GuestTransactions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import api from "./components/api";
 
 // This function changes the overall color of the whole application
 const theme = createTheme({
@@ -54,9 +56,15 @@ const theme = createTheme({
     },
 });
 
-// Remember to also change the list of pages in the Primary Navigation file too when you make changes to the pages array below
 
 const App = () => {
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        axios.get(`${api}/products/categories`).then((response) => {
+            setCategories(response.data.data);
+        });
+        return () => console.log("clean up categories");
+    }, []);
     return (
         <ThemeProvider theme={theme}>
             <div className="App">
@@ -83,11 +91,11 @@ const App = () => {
                         <Route path="product" element={<Product />} />
                         <Route path="products/:id/" element={<Product />} />
                         <Route path="products" element={<Products />} />
-                        {Pages.map((page) => (
+                        {categories.map((category) => (
                             <Route
-                                path={page}
+                                path={category.name}
                                 element={<Products />}
-                                key={page}
+                                key={category.id}
                             />
                         ))}
                         {Pages.map((page) => (

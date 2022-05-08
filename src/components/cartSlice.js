@@ -22,10 +22,7 @@ const cartSlice = createSlice({
                 toast.info(
                     `added ${
                         state.cartItems[itemIndex].cartQuantity
-                    } more of ${action.payload.product.slice(
-                        0,
-                        15
-                    )}... to cart `,
+                    } more of ${action.payload.name}... to cart `,
                     {
                         position: "bottom-left ",
                     }
@@ -35,7 +32,7 @@ const cartSlice = createSlice({
                 const tempProduct = { ...action.payload, cartQuantity: 1 };
                 state.cartItems.push(tempProduct);
                 toast.success(
-                    `${action.payload.product.slice(0, 15)}... added to cart`,
+                    `${action.payload.name}... added to cart`,
                     {
                         position: "bottom-left ",
                     }
@@ -51,7 +48,7 @@ const cartSlice = createSlice({
             state.cartItems = nextCartItems;
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
             toast.error(
-                `${action.payload.product.slice(0, 15)}... removed from cart`,
+                `${action.payload.name}... removed from cart`,
                 {
                     position: "bottom-left ",
                 }
@@ -64,10 +61,7 @@ const cartSlice = createSlice({
             if (state.cartItems[itemIndex].cartQuantity > 1) {
                 state.cartItems[itemIndex].cartQuantity -= 1;
                 toast.error(
-                    `Decreased ${action.payload.product.slice(
-                        0,
-                        15
-                    )}... cart quantity`,
+                    `Decreased ${action.payload.name}... cart quantity`,
                     {
                         position: "bottom-left ",
                     }
@@ -79,10 +73,7 @@ const cartSlice = createSlice({
                 state.cartItems = nextCartItems;
 
                 toast.error(
-                    `${action.payload.product.slice(
-                        0,
-                        15
-                    )}... removed from cart`,
+                    `${action.payload.name}... removed from cart`,
                     {
                         position: "bottom-left ",
                     }

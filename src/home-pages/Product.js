@@ -21,6 +21,7 @@ import useFetch from "../components/useFetch";
 import Loading from "../components/Loading";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../components/cartSlice";
+import api from "../components/api";
 
 const Product = () => {
     const { id } = useParams();
@@ -28,7 +29,7 @@ const Product = () => {
         data: product,
         isPending,
         error,
-    } = useFetch(`https://mukindas-test-server.herokuapp.com/products/` + id);
+    } = useFetch(`${api}/products/` + id);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -107,11 +108,11 @@ const Product = () => {
                                                 sx={{ color: "primary.dark" }}
                                                 variant="h6"
                                             >
-                                                Seller Name
+                                                {product.vendor}
                                             </Typography>
                                             <Rating
                                                 name="half-rating-read"
-                                                defaultValue={2.5}
+                                                defaultValue={5}
                                                 precision={0.5}
                                                 readOnly
                                             />
@@ -120,8 +121,8 @@ const Product = () => {
                                     <Box sx={{ pt: 2 }}>
                                         <CardMedia
                                             component="img"
-                                            image={product.pic1}
-                                            alt="stock image"
+                                            image={product.image}
+                                            alt={product.name}
                                         />
                                     </Box>
                                 </Paper>
@@ -145,10 +146,10 @@ const Product = () => {
                                         fontWeight: 600,
                                     }}
                                 >
-                                    {product.product}
+                                    {product.name}
                                 </Typography>
                                 <Typography
-                                    variant="h4"
+                                    variant="h6"
                                     color="secondary"
                                     sx={{
                                         textAlign: "left",
@@ -168,20 +169,10 @@ const Product = () => {
                                         pt: 3,
                                     }}
                                 >
-                                    {product.productDesc}
+                                    {product.description}
                                 </Typography>
 
-                                {/* <Typography
-                                    variant="caption"
-                                    sx={{
-                                        textAlign: "left",
-                                        my: 3,
-                                        pt: 3,
-                                        color: "primary.light",
-                                    }}
-                                >
-                                    426 views in the last days!
-                                </Typography> */}
+                                
                                 <Box
                                     sx={{
                                         my: 3,
@@ -189,13 +180,7 @@ const Product = () => {
                                         color: "primary.light",
                                     }}
                                 >
-                                    {/* <Link
-                                        to={`/cart`}
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    > */}
+                                    
                                     <Button
                                         size="large"
                                         variant="contained"
@@ -205,7 +190,6 @@ const Product = () => {
                                     >
                                         Add to cart
                                     </Button>
-                                    {/* </Link> */}
                                 </Box>
                                 <Box
                                     sx={{
@@ -214,13 +198,7 @@ const Product = () => {
                                         color: "primary.light",
                                     }}
                                 >
-                                    {/* <Link
-                                            to={`/cart`}
-                                            style={{
-                                                textDecoration: "none",
-                                                color: "inherit",
-                                            }}
-                                        > */}
+                                    
                                     <Button
                                         size="large"
                                         variant="contained"
@@ -229,7 +207,6 @@ const Product = () => {
                                     >
                                         Contact seller
                                     </Button>
-                                    {/* </Link> */}
                                 </Box>
                             </Box>
                         </Grid>

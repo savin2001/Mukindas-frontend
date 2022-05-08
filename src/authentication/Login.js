@@ -50,7 +50,7 @@ const Login = () => {
     const login = (e) => {
         e.preventDefault();
         axios
-            .post(`${api}/login`, {
+            .post(`${api}/users/login`, {
                 phone_number,
                 email,
                 password,

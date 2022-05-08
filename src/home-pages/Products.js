@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Container, Grid, Typography, Paper } from "@mui/material";
 import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
@@ -6,9 +6,25 @@ import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import useFetch from "../components/useFetch";
 import ProductCards from "../components/ProductCards";
 import Loading from "../components/Loading";
+import axios from "axios";
+import api from "../components/api";
 
 const Products = () => {
-    const { data: products, isPending, error } = useFetch(`https://mukindas-test-server.herokuapp.com/products`);
+    const [categories, setCategories] = useState([]);
+    const {
+        data: products,
+        isPending,
+        error,
+    } = useFetch(`${api}/products/`);
+
+
+    useEffect(() => {
+        axios.get(`${api}/products/categories`).then((response) => {
+            setCategories(response.data.data);
+        });
+        return () => console.log("");
+    }, []);
+
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     return (
         <>
@@ -35,84 +51,45 @@ const Products = () => {
                         }}
                         md={3}
                     >
-                        <Paper
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                flexWrap: "wrap",
-                                "& > :not(style)": {
-                                    m: 1,
-                                    width: "100%",
-                                    height: "100%",
-                                },
-                            }}
-                        >
-                            <Box sx={{ textAlign: "left", p: 1 }}>
-                                <Typography variant="h6">Category</Typography>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ textAlign: "left", p: 1 }}>
-                                <Typography variant="h6">Category</Typography>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ textAlign: "left", p: 1 }}>
-                                <Typography variant="h6">Category</Typography>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ textAlign: "left", p: 1 }}>
-                                <Typography variant="h6">Category</Typography>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{ textAlign: "left", p: 1 }}>
-                                <Typography variant="h6">Category</Typography>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ textAlign: "center", p: 1 }}>
-                                    <Typography variant="p">
-                                        Sub-category
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </Paper>
+                        {" "}
+                        {categories && (
+                            <Paper
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    flexWrap: "wrap",
+                                    "& > :not(style)": {
+                                        m: 1,
+                                        width: "100%",
+                                        height: "100%",
+                                    },
+                                }}
+                            >
+                                {categories.map((category) => (
+                                    <Box
+                                        sx={{ textAlign: "left", p: 1 }}
+                                        key={category.id}
+                                    >
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ textTransform: "capitalize" }}
+                                        >
+                                            {category.name}
+                                        </Typography>
+                                        {/* <Box sx={{ textAlign: "center", p: 1 }}>
+                                            <Typography variant="p">
+                                                Sub-category
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ textAlign: "center", p: 1 }}>
+                                            <Typography variant="p">
+                                                Sub-category
+                                            </Typography>
+                                        </Box> */}
+                                    </Box>
+                                ))}
+                            </Paper>
+                        )}
                         <Box sx={{ width: "100%", height: "30px" }} />
                         <Paper
                             sx={{

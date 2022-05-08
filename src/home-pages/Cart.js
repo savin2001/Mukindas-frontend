@@ -22,8 +22,8 @@ import CustomerSearchBar from "../components/CustomerSearchBar";
 import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
     addToCart,
@@ -193,10 +193,10 @@ const Cart = () => {
                                                             <CardMedia
                                                                 component="img"
                                                                 image={
-                                                                    cartItem.pic1
+                                                                    cartItem.image
                                                                 }
                                                                 alt={
-                                                                    cartItem.product
+                                                                    cartItem.name
                                                                 }
                                                             />
                                                         </Card>
@@ -220,9 +220,7 @@ const Cart = () => {
                                                                 variant="body1"
                                                                 sx={{ mb: 1 }}
                                                             >
-                                                                {
-                                                                    cartItem.product
-                                                                }
+                                                                {cartItem.name}
                                                             </Typography>
                                                             <Typography
                                                                 variant="body2"
@@ -235,7 +233,7 @@ const Cart = () => {
                                                                     },
                                                                 }}
                                                             >
-                                                                {cartItem.productDesc.slice(
+                                                                {cartItem.description.slice(
                                                                     0,
                                                                     400
                                                                 )}
@@ -264,7 +262,8 @@ const Cart = () => {
                                                 </Grid>
                                             </TableCell>
                                             <TableCell align="right">
-                                                ${cartItem.price}
+                                                {cartItem.currency}&nbsp;
+                                                {cartItem.price}
                                             </TableCell>
                                             <TableCell align="right">
                                                 <ButtonGroup
@@ -281,7 +280,7 @@ const Cart = () => {
                                                             )
                                                         }
                                                     >
-                                                       <KeyboardArrowUpIcon/>
+                                                        <KeyboardArrowUpIcon />
                                                     </Button>
                                                     <Button>
                                                         <Typography variant="body1">
@@ -297,13 +296,13 @@ const Cart = () => {
                                                             )
                                                         }
                                                     >
-                                                        <KeyboardArrowDownIcon/>
+                                                        <KeyboardArrowDownIcon />
                                                     </Button>
                                                 </ButtonGroup>
                                             </TableCell>
 
                                             <TableCell align="right">
-                                                $
+                                                {cartItem.currency}&nbsp;
                                                 {cartItem.price *
                                                     cartItem.cartQuantity}
                                             </TableCell>
@@ -319,7 +318,7 @@ const Cart = () => {
                                         </TableCell>
                                         <TableCell align="right">
                                             <Typography variant="body1">
-                                                ${cart.cartTotalAmount}
+                                            {cart.cartTotalAmount}
                                             </Typography>
                                         </TableCell>
                                     </TableRow>

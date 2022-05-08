@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
     AppBar,
@@ -32,8 +32,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { styled, alpha } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-import Pages from "./dynamicPages";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import api from "./api";
 
 // Array of pages to be displayed on the top menu
 
@@ -79,6 +80,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const CustomerSearchBar = () => {
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        axios.get(`${api}/products/categories`).then((response) => {
+            setCategories(response.data.data);
+        });
+        return () => console.log("");
+    }, []);
     const {cartTotalQuantity} = useSelector((state) => state.cart);
     const navigate = useNavigate();
     const [logoutUser, setLogoutUser] = useState(false);    
@@ -367,19 +375,19 @@ const CustomerSearchBar = () => {
                                     width: "150px",
                                 }}
                             >
-                                {Pages.map((page) => (
+                                {categories.map((category) => (
                                     <MenuItem
-                                        key={page}
+                                        key={category.id}
                                         onClick={handleCloseNavMenu}
                                     >
                                         <Link
-                                            to={`/customer/${page}`}
+                                            to={`/customer/${category.name}`}
                                             style={{
                                                 textDecoration: "none",
                                                 color: "inherit",
                                             }}
                                         >
-                                            {page}
+                                            {category.name}
                                             <Typography textAlign="center"></Typography>
                                         </Link>
                                     </MenuItem>
@@ -411,16 +419,16 @@ const CustomerSearchBar = () => {
                                 display: { xs: "none", md: "flex" },
                             }}
                         >
-                            {Pages.map((page) => (
-                                <Button key={page} onClick={handleCloseNavMenu}>
+                            {categories.map((category) => (
+                                <Button key={category.id} onClick={handleCloseNavMenu}>
                                     <Link
-                                        to={`/${page}`}
+                                        to={`/${category.name}`}
                                         style={{
                                             textDecoration: "none",
                                             color: "black",
                                         }}
                                     >
-                                        {page}
+                                        {category.name}
                                         <Typography textAlign="center"></Typography>
                                     </Link>
                                 </Button>
