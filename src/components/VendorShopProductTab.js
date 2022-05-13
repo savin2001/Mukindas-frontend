@@ -1,23 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Grid,
     Card,
     Typography,
     Box,
     Button,
-    // CardContent,
-    // CardActions,
-    // CardMedia,
-    // TextField,
+    Dialog,
+    DialogTitle,
+    ListItem,
+    TextField,
+    List,
 } from "@mui/material";
 import useFetch from "./useFetch";
 import Loading from "./Loading";
 import VendorProductCards from "./VendorProductCards";
 import api from "./api";
+import axios from "axios";
 
 const VendorShopProductTab = () => {
     const { data: categories } = useFetch(`${api}/products/categories`);
     const { data: products, isPending, error } = useFetch(`${api}/products/`);
+    const [open, setOpen] = useState(false);
+    const [name, setName] = useState("");
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleAddNewCategory = (e) => {
+        e.preventDefault();
+        axios
+            .post(`${api}/products/categories`, {
+                name,
+            })
+            .then((response) => {
+                setName("");
+                handleClose();
+                window.location.reload();
+            })
+            .catch((error) => console.log(error.response.data.message));
+    };
     return (
         <>
             <Card
@@ -38,7 +63,7 @@ const VendorShopProductTab = () => {
                         container
                         width="100%"
                         spacing={{ xs: 3, md: 3, sm: 3 }}
-                        columns={{ xs: 4, sm: 8, md: 12 }}
+                        columns={{ xs: 4, sm: 8, md: 16 }}
                     >
                         {categories && (
                             <>
@@ -69,11 +94,37 @@ const VendorShopProductTab = () => {
                                         </Box>
                                     </Grid>
                                 ))}
+                                <Grid item xs={2} sm={4} md={4}>
+                                    <Box
+                                        sx={{
+                                            p: 1,
+                                            m: 3,
+                                            columnGap: 3,
+                                            rowGap: 1,
+                                        }}
+                                    >
+                                        <Button
+                                            size="large"
+                                            variant="contained"
+                                            color="secondary"
+                                            bgcolor="secondary"
+                                            onClick={handleClickOpen}
+                                        >
+                                            New
+                                        </Button>
+                                    </Box>
+                                </Grid>
                             </>
                         )}
                     </Grid>
                 </Box>
-                <Box sx={{width: "100%", display: "flex", flexDirection: "column"}}>
+                <Box
+                    sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                >
                     <Typography variant="h6" content="div" sx={{ my: 2 }}>
                         Change price of individual products
                     </Typography>
@@ -130,6 +181,50 @@ const VendorShopProductTab = () => {
                     </Box>
                 </Box>
             </Card>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        Enter the new category
+                    </DialogTitle>
+                    <Box sx={{ maxWidth: "560px" }}>
+                        <List>
+                            <ListItem>
+                                <TextField
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    label="Category"
+                                    variant="filled"
+                                />
+                            </ListItem>
+
+                            <ListItem>
+                                <Button
+                                    fullWidth
+                                    size="small"
+                                    variant="contained"
+                                    color="secondary"
+                                    bgcolor="secondary"
+                                    onClick={handleAddNewCategory}
+                                >
+                                    Add category
+                                </Button>
+                            </ListItem>
+                        </List>
+                    </Box>
+                </Box>
+            </Dialog>
         </>
     );
 };

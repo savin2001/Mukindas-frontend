@@ -31,6 +31,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 const VendorMenu = () => {
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const sellerToken = isLogInTrue.user.token;
     return (
         <>
             <Container>
@@ -69,7 +71,7 @@ const VendorMenu = () => {
                                 component="div"
                             >
                                 <Link
-                                    to={`/vendor`}
+                                    to={`/vendor/${sellerToken}`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
@@ -254,7 +256,7 @@ const VendorMenu = () => {
                             </Link>
                             <Divider variant="middle" component="li" />
                             <Link
-                                to={`/vendor/Upload`}
+                                to={`/vendor/upload/bulk`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",

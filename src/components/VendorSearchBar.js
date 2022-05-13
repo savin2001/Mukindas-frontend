@@ -27,6 +27,7 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 import { Link, useNavigate } from "react-router-dom";
 
 // Array of pages to be displayed on the top menu
@@ -43,6 +44,8 @@ const vendorPages = [
 
 const VendorSearchBar = () => {
     const navigate = useNavigate();
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const sellerToken = isLogInTrue.user.token;
     const [logoutUser, setLogoutUser] = useState(false);
     const logout = () => {
         localStorage.removeItem("login");
@@ -53,7 +56,7 @@ const VendorSearchBar = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-        // Checking if menu is open
+    // Checking if menu is open
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -98,7 +101,7 @@ const VendorSearchBar = () => {
             onClose={handleMenuClose}
         >
             <Link
-                to={`/vendor`}
+                to={`/vendor/${sellerToken}`}
                 style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -154,9 +157,8 @@ const VendorSearchBar = () => {
                     bgcolor: "background.paper",
                 }}
             >
-                
                 <Link
-                    to={`/vendor`}
+                    to={`/vendor/${sellerToken}`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -169,6 +171,23 @@ const VendorSearchBar = () => {
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText primary="My account" />
+                    </ListItem>
+                </Link>
+                <Divider variant="middle" component="li" />
+                <Link
+                    to={`/vendor/Shop`}
+                    style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                    }}
+                >
+                    <ListItem>
+                        <ListItemAvatar>
+                            <Avatar sx={{ bgcolor: "secondary.main" }}>
+                                <StorefrontIcon />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary="My shop" />
                     </ListItem>
                 </Link>
                 <Divider variant="middle" component="li" />
@@ -275,7 +294,7 @@ const VendorSearchBar = () => {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/vendor/Upload`}
+                    to={`/vendor/upload/bulk`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",

@@ -27,6 +27,8 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const CustomerMenu = () => {
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const customerToken = isLogInTrue.user.token;
     return (
         <>
             <Container>
@@ -66,7 +68,7 @@ const CustomerMenu = () => {
                                 color="secondary"
                             >
                                 <Link
-                                    to={`/customer`}
+                                    to={`/customer/${customerToken}`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",

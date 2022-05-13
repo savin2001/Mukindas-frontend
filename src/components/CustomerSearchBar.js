@@ -81,6 +81,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const CustomerSearchBar = () => {
     const [categories, setCategories] = useState([]);
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const customerToken = isLogInTrue.user.token;
     useEffect(() => {
         axios.get(`${api}/products/categories`).then((response) => {
             setCategories(response.data.data);
@@ -155,7 +157,7 @@ const CustomerSearchBar = () => {
             onClose={handleMenuClose}
         >
             <Link
-                to={`/customer`}
+                to={`/customer/${customerToken}`}
                 style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -239,7 +241,7 @@ const CustomerSearchBar = () => {
                             aria-label="show 17 new notifications"
                             color="inherit"
                         >
-                            <Badge badgeContent={cartTotalQuantity} color="secondary">
+                            <Badge badgeContent={17} color="secondary">
                                 <FavoriteIcon />
                             </Badge>
                         </IconButton>
@@ -248,7 +250,7 @@ const CustomerSearchBar = () => {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/customer`}
+                    to={`/customer/${customerToken}`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
