@@ -57,7 +57,6 @@ const theme = createTheme({
     },
 });
 
-
 const App = () => {
     const [categories, setCategories] = useState([]);
     useEffect(() => {
@@ -99,14 +98,16 @@ const App = () => {
                                 key={category.id}
                             />
                         ))}
-                        
 
                         <Route
                             path="vendor/:userToken"
                             element={<VendorAccount />}
                         />
                         <Route path="vendor/Shop" element={<VendorShop />} />
-                        <Route path="vendor/Shop/:productId" element={<ProductUpdate />} />
+                        <Route
+                            path="vendor/Shop/:productId"
+                            element={<ProductUpdate />}
+                        />
                         <Route
                             path="vendor/Wallet"
                             element={<VendorWallet />}
@@ -126,8 +127,14 @@ const App = () => {
                             path="vendor/Calculator"
                             element={<ShippingCalculator />}
                         />
-                        <Route path="vendor/upload/bulk" element={<BulkUpload />} />
-                        <Route path="vendor/upload/single" element={<SingleProductUpload />} />
+                        <Route
+                            path="vendor/upload/bulk"
+                            element={<BulkUpload />}
+                        />
+                        <Route
+                            path="vendor/upload/single"
+                            element={<SingleProductUpload />}
+                        />
                         <Route
                             path="customer/:userToken"
                             element={<CustomerAccount />}
@@ -140,7 +147,10 @@ const App = () => {
                             path="customer/Orders"
                             element={<CustomerOrders />}
                         />
-                        <Route path="customer/Order/:orderID" element={<Order />} />
+                        <Route
+                            path="customer/Order/:orderID"
+                            element={<Order />}
+                        />
                         <Route
                             path="customer/Checkout"
                             element={<CheckOut />}

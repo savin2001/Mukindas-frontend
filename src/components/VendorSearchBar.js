@@ -339,7 +339,7 @@ const VendorSearchBar = () => {
                             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
                         >
                             <Link
-                                to={`/vendor`}
+                                to={`/vendor/${sellerToken}`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -365,7 +365,7 @@ const VendorSearchBar = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor`}
+                                to={`/vendor/${sellerToken}`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",

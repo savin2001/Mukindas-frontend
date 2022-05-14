@@ -12,6 +12,10 @@ import {
     Typography,
     Slide,
     IconButton,
+    FormControl,
+    Select,
+    MenuItem,
+    InputLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -19,16 +23,17 @@ import Loading from "../components/Loading";
 import { Link, useNavigate } from "react-router-dom";
 import VendorSearchBar from "../components/VendorSearchBar";
 import axios from "axios";
+import useFetch from "../components/useFetch";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const SingleProductUpload = () => {
+    const { data: categories } = useFetch(`${api}/products/categories`);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const vendorName = `${isLogInTrue.user.first_name} ${isLogInTrue.user.second_name}`;
     const vendorEmail = isLogInTrue.user.email;
-    console.log(vendorEmail);
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
     const handleClose = () => {
@@ -140,7 +145,7 @@ const SingleProductUpload = () => {
                                                 onChange={(e) =>
                                                     setName(e.target.value)
                                                 }
-                                                label="product"
+                                                label="Product name"
                                                 variant="filled"
                                             />
                                         </ListItem>
@@ -148,21 +153,53 @@ const SingleProductUpload = () => {
                                             <TextField
                                                 value={description}
                                                 onChange={(e) =>
-                                                    setDescription(e.target.value)
+                                                    setDescription(
+                                                        e.target.value
+                                                    )
                                                 }
-                                                label="product description"
+                                                label="Product description"
                                                 variant="filled"
                                             />
                                         </ListItem>
                                         <ListItem>
-                                            <TextField
-                                                value={category}
-                                                onChange={(e) =>
-                                                    setCategory(e.target.value)
-                                                }
-                                                label="category"
+                                            <FormControl
                                                 variant="filled"
-                                            />
+                                                fullWidth
+                                            >
+                                                <InputLabel id="demo-simple-select-label">
+                                                    Category
+                                                </InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={category}
+                                                    label="Age"
+                                                    onChange={(e) =>
+                                                        setCategory(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    {categories.map(
+                                                        (category) => (
+                                                            <MenuItem
+                                                                value={
+                                                                    category.name
+                                                                }
+                                                                key={
+                                                                    category.id
+                                                                }
+                                                                sx={{
+                                                                    textTransform:
+                                                                        "capitalize",
+                                                                }}
+                                                            >
+                                                                {category.name}
+                                                            </MenuItem>
+                                                        )
+                                                    )}
+                                                </Select>
+                                            </FormControl>
                                         </ListItem>
                                         <ListItem>
                                             <TextField
@@ -170,7 +207,7 @@ const SingleProductUpload = () => {
                                                 onChange={(e) =>
                                                     setCurrency(e.target.value)
                                                 }
-                                                label="currency"
+                                                label="Currency"
                                                 variant="filled"
                                             />
                                         </ListItem>
@@ -181,7 +218,7 @@ const SingleProductUpload = () => {
                                                 onChange={(e) =>
                                                     setPrice(e.target.value)
                                                 }
-                                                label="price"
+                                                label="Price"
                                                 variant="filled"
                                             />
                                         </ListItem>
@@ -192,7 +229,7 @@ const SingleProductUpload = () => {
                                                 onChange={(e) =>
                                                     setQuantity(e.target.value)
                                                 }
-                                                label="quantity"
+                                                label="Quantity"
                                                 variant="filled"
                                             />
                                         </ListItem>
@@ -202,7 +239,7 @@ const SingleProductUpload = () => {
                                                 onChange={(e) =>
                                                     setImage(e.target.value)
                                                 }
-                                                label="picture link"
+                                                label="Image link"
                                                 variant="filled"
                                             />
                                         </ListItem>

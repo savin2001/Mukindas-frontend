@@ -56,7 +56,6 @@ const Login = () => {
                 password,
             })
             .then((response) => {
-                console.log(response);
                 localStorage.setItem(
                     "login",
                     JSON.stringify({

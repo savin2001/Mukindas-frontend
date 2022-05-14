@@ -28,6 +28,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 const CustomerMenu = () => {
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const customerName = `${isLogInTrue.user.first_name} ${isLogInTrue.user.second_name}`;
     const customerToken = isLogInTrue.user.token;
     return (
         <>
@@ -58,7 +59,7 @@ const CustomerMenu = () => {
                                 component="div"
                                 sx={{ m: 1 }}
                             >
-                                Customer name
+                                {customerName}
                             </Typography>
 
                             <Typography

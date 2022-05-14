@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
     Container,
     Grid,
     Typography,
     Card,
+    CardMedia,
     Box,
     Button,
     Table,
@@ -14,241 +15,476 @@ import {
     TableHead,
     TableRow,
     Paper,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    ListItem,
+    List,
+    IconButton,
 } from "@mui/material";
 import VendorSearchBar from "../components/VendorSearchBar";
 import VendorMenu from "../components/VendorMenu";
+import SendIcon from "@mui/icons-material/Send";
+import CloseIcon from "@mui/icons-material/Close";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Link } from "react-router-dom";
+import BulkUploadExamplePic from "../media/BulkUploadExamplePic.png";
+import Loading from "../components/Loading";
+import axios from "axios";
+import api from "../components/api";
 
 const Input = styled("input")({
-    display: "none",
+    display: "blick",
 });
 
-function createRow(trans, date, tot) {
-    return { trans, date, tot };
-}
-
-const rows = [
-    createRow("Upload 1", "14/02/2021", "5"),
-    createRow("Upload 2", "14/02/2021", "4"),
-    createRow("Upload 3", "14/02/2021", "6"),
-    createRow("Upload 4", "14/02/2021", "3"),
-    createRow("Upload 5", "14/02/2021", "7"),
-    createRow("Upload 6", "14/02/2021", "5"),
-    createRow("Upload 7", "14/02/2021", "9"),
-    createRow("Upload 8", "14/02/2021", "5"),
-    createRow("Upload 9", "14/02/2021", "5"),
-    createRow("Upload 10", "14/02/2021", "5"),
-    createRow("Upload 11", "14/02/2021", "5"),
-    createRow("Upload 12", "14/02/2021", "5"),
-];
-
 const BulkUpload = () => {
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    // const vendorName = `${isLogInTrue.user.first_name} ${isLogInTrue.user.second_name}`;
+    // const vendorEmail = isLogInTrue.user.email;
+    // const vendor = vendorName;
+    // const vendor_email = vendorEmail;
+    const [error, setError] = useState("");
+    const [isPending, setIsPending] = useState(false);
+
+    const [open, setOpen] = useState(false);
+    const [file, setFile] = useState("");
+    const [array, setArray] = useState([]);
+
+    const fileReader = new FileReader();
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOnChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const csvFileToArray = (string) => {
+        const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
+        const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
+
+        const array = csvRows.map((i) => {
+            const values = i.split(",");
+            const obj = csvHeader.reduce((object, header, index) => {
+                object[header] = values[index];
+                return object;
+            }, {});
+            return obj;
+        });
+
+        setArray(array);
+        localStorage.setItem("bulkUpload", JSON.stringify(array));
+        handleClose();
+    };
+
+    const handleOnSubmit = (e) => {
+        e.preventDefault();
+
+        if (file) {
+            fileReader.onload = function (event) {
+                const text = event.target.result;
+                csvFileToArray(text);
+            };
+
+            fileReader.readAsText(file);
+        }
+    };
+    const handleBulkUpload = (e) => {
+        e.preventDefault();
+        if (array.length > 0) {
+            const BulkUploadArray = JSON.parse(
+                localStorage.getItem("bulkUpload")
+            );
+            console.log(BulkUploadArray);
+            localStorage.removeItem("bulkUpload");
+            window.location.reload();
+            const payload = {BulkUploadArray}
+            
+            
+            axios
+                .post(`${api}/products/product`,  payload, {
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    }
+                })
+                .then((response) => {
+                    // console.log(response);
+                    setIsPending(true);
+                })
+                .catch((error) => setError(error.response.data.message));
+        }
+    };
+
+    const headerKeys = Object.keys(Object.assign({}, ...array));
+
     return (
         <>
-            <VendorSearchBar />
-            <Container
-                sx={{ flexGrow: 1, width: "100%", height: 100 }}
-            ></Container>
-            <Container>
-                <Grid
-                    container
-                    spacing={{ xs: 2, md: 1 }}
-                    columns={{ xs: 4, sm: 8, md: 12 }}
-                >
-                    <Grid
-                        item
-                        sx={{
-                            display: { xs: "none", sm: "none", md: "block" },
-                        }}
-                        md={3}
-                    >
-                        <VendorMenu />
-                    </Grid>
-                    <Grid item xs={4} sm={8} md={9}>
-                        <Card
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "flex-start",
-                                p: 4,
-                                textAlign: "left",
-                            }}
+            {isLogInTrue &&
+            isLogInTrue.userLogin &&
+            isLogInTrue.user.role === "vendor" ? (
+                <>
+                    <VendorSearchBar />
+                    <Container
+                        sx={{ flexGrow: 1, width: "100%", height: 100 }}
+                    ></Container>
+
+                    {isPending && <Loading />}
+                    <Container>
+                        <Grid
+                            container
+                            spacing={{ xs: 2, md: 1 }}
+                            columns={{ xs: 4, sm: 8, md: 12 }}
                         >
-                            <Box
+                            <Grid
+                                item
                                 sx={{
-                                    textAlign: "left",
-                                    width: "95%",
-                                    height: "10%",
-                                    backgroundColor: "primary.contrastText",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    p: 2,
-                                    mb: 2,
-                                    borderRadius: 2,
+                                    display: {
+                                        xs: "none",
+                                        sm: "none",
+                                        md: "block",
+                                    },
                                 }}
+                                md={3}
                             >
-                                <Typography
-                                    sx={{ color: "primary.main" }}
-                                    variant="h6"
+                                <VendorMenu />
+                            </Grid>
+                            <Grid item xs={4} sm={8} md={9}>
+                                <Card
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "flex-start",
+                                        p: 4,
+                                        textAlign: "left",
+                                    }}
                                 >
-                                    Products upload
-                                </Typography>
-                            </Box>
-                            <Box sx={{ width: "100%" }}>
-                                <Grid
-                                    container
-                                    width="100%"
-                                    spacing={{ xs: 1, md: 1 }}
-                                    columns={{ xs: 6, sm: 8, md: 12 }}
-                                >
-                                    <Grid item xs={6} sm={8} md={6}>
-                                        <Box
-                                            sx={{
-                                                p: 1,
-                                                m: 1,
-                                                columnGap: 3,
-                                                rowGap: 1,
-                                                width: "100%",
-                                            }}
+                                    <Box
+                                        sx={{
+                                            textAlign: "left",
+                                            width: "95%",
+                                            height: "10%",
+                                            backgroundColor:
+                                                "primary.contrastText",
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            p: 2,
+                                            mb: 2,
+                                            borderRadius: 2,
+                                        }}
+                                    >
+                                        <Typography
+                                            sx={{ color: "primary.main" }}
+                                            variant="h6"
                                         >
-                                            <label htmlFor="contained-button-file">
-                                                <Input
-                                                    accept="image/*"
-                                                    id="contained-button-file"
-                                                    multiple
-                                                    type="file"
-                                                />
-                                                <Button
-                                                    size="large"
-                                                    variant="contained"
-                                                    color="secondary"
-                                                    component="span"
-                                                    startIcon={
-                                                        <DriveFolderUploadIcon />
-                                                    }
-                                                >
-                                                    Bulk Product Upload
-                                                </Button>
-                                            </label>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={6} sm={8} md={6}>
-                                        <Box
-                                            sx={{
-                                                p: 1,
-                                                m: 1,
-                                                columnGap: 3,
-                                                rowGap: 1,
-                                            }}
+                                            Products upload
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ width: "100%" }}>
+                                        <Grid
+                                            container
+                                            width="100%"
+                                            spacing={{ xs: 1, md: 1 }}
+                                            columns={{ xs: 6, sm: 8, md: 12 }}
                                         >
-                                            <label htmlFor="contained-button-file">
-                                                
-                                                <Link
-                                                    to={`/vendor/upload/single`}
-                                                    style={{
-                                                        textDecoration: "none",
-                                                        color: "inherit",
+                                            <Grid item xs={6} sm={8} md={6}>
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        columnGap: 3,
+                                                        rowGap: 1,
+                                                        width: "100%",
                                                     }}
                                                 >
                                                     <Button
                                                         size="large"
-                                                        variant="outlined"
+                                                        variant="contained"
                                                         color="secondary"
                                                         component="span"
+                                                        onClick={
+                                                            handleClickOpen
+                                                        }
                                                         startIcon={
-                                                            <UploadFileIcon />
+                                                            <DriveFolderUploadIcon />
                                                         }
                                                     >
-                                                        Single Product Upload
+                                                        Bulk Product Upload
                                                     </Button>
-                                                </Link>
-                                            </label>
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                            <Box
-                                sx={{
-                                    textAlign: "left",
-                                    width: "98%",
-                                    height: "10%",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    p: 2,
-                                    mb: 2,
-                                    borderRadius: 2,
-                                }}
-                            >
-                                <TableContainer component={Paper}>
-                                    <Table aria-label="spanning table">
-                                        <TableHead>
-                                            <TableRow
-                                                sx={{
-                                                    backgroundColor:
-                                                        "secondary.main",
-                                                }}
-                                            >
-                                                <TableCell>
-                                                    <Typography
-                                                        variant="h6"
-                                                        color="white"
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                    >
-                                                        Uploads
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell align="right">
-                                                    <Typography
-                                                        variant="h6"
-                                                        color="white"
-                                                    >
-                                                        Date
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell align="right">
-                                                    <Typography
-                                                        variant="h6"
-                                                        color="white"
-                                                    >
-                                                        Total products
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.trans}>
-                                                    <TableCell>
-                                                        <Typography
-                                                            variant="body1"
-                                                            sx={{
-                                                                mb: 1,
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={6} sm={8} md={6}>
+                                                <Box
+                                                    sx={{
+                                                        p: 1,
+                                                        m: 1,
+                                                        columnGap: 3,
+                                                        rowGap: 1,
+                                                    }}
+                                                >
+                                                    <label htmlFor="contained-button-file">
+                                                        <Link
+                                                            to={`/vendor/upload/single`}
+                                                            style={{
+                                                                textDecoration:
+                                                                    "none",
+                                                                color: "inherit",
                                                             }}
                                                         >
-                                                            {row.trans}
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell align="right">
-                                                        {row.date}
-                                                    </TableCell>
-                                                    <TableCell align="right">
-                                                        {row.tot}
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Box>
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Container>
+                                                            <Button
+                                                                size="large"
+                                                                variant="outlined"
+                                                                color="secondary"
+                                                                component="span"
+                                                                startIcon={
+                                                                    <UploadFileIcon />
+                                                                }
+                                                            >
+                                                                Single Product
+                                                                Upload
+                                                            </Button>
+                                                        </Link>
+                                                    </label>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            textAlign: "left",
+                                            width: "98%",
+                                            height: "10%",
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            p: 2,
+                                            mb: 2,
+                                            borderRadius: 2,
+                                        }}
+                                    >
+                                        <TableContainer component={Paper}>
+                                            <Table aria-label="spanning table">
+                                                <TableHead>
+                                                    <TableRow
+                                                        sx={{
+                                                            backgroundColor:
+                                                                "secondary.main",
+                                                        }}
+                                                    >
+                                                        {headerKeys.map(
+                                                            (key) => (
+                                                                <TableCell>
+                                                                    <Typography
+                                                                        variant="h6"
+                                                                        color="white"
+                                                                        sx={{
+                                                                            textAlign:
+                                                                                "left",
+                                                                        }}
+                                                                    >
+                                                                        {key}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            )
+                                                        )}
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {array.map((item) => (
+                                                        <TableRow key={item.id}>
+                                                            {Object.values(
+                                                                item
+                                                            ).map((val) => (
+                                                                <TableCell>
+                                                                    <Typography
+                                                                        variant="body1"
+                                                                        sx={{
+                                                                            mb: 1,
+                                                                        }}
+                                                                    >
+                                                                        {val}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            ))}
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </Box>
+                                    {array.length === 0 ? (
+                                        <>
+                                            {error && (
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent:
+                                                            "center",
+                                                        alignItems: "center",
+                                                        fontSize: "30px",
+                                                        background: "#c20f00",
+                                                    }}
+                                                >
+                                                    {error}
+                                                </div>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Box sx={{ width: "100%" }}>
+                                                <ListItem>
+                                                    <Button
+                                                        fullWidth
+                                                        size="small"
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        bgcolor="secondary"
+                                                        onClick={(e) => {
+                                                            handleBulkUpload(e);
+                                                        }}
+                                                        startIcon={<SendIcon />}
+                                                    >
+                                                        Add the products
+                                                    </Button>
+                                                </ListItem>
+                                            </Box>
+                                        </>
+                                    )}
+                                </Card>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                    <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                Choose your CSV file
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    The structure of the CSV should be as shown
+                                    in the example below.
+                                    <br />
+                                    <strong>
+                                        <i>
+                                            Ensure there are no commas in the
+                                            fields and that the heading fields
+                                            of your CSV file are exactly as
+                                            shown
+                                        </i>
+                                    </strong>
+                                </DialogContentText>
+                                <Card
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "flex-start",
+                                        p: 4,
+                                        textAlign: "left",
+                                    }}
+                                >
+                                    <CardMedia
+                                        component="img"
+                                        image={BulkUploadExamplePic}
+                                        alt="Bulk upload structure"
+                                    />
+                                </Card>
+                            </DialogContent>
+                            <DialogActions>
+                                <Box sx={{ maxWidth: "560px" }}>
+                                    <List>
+                                        <ListItem>
+                                            <label htmlFor="contained-button-file">
+                                                <Input
+                                                    accept=".csv*"
+                                                    id="contained-button-file"
+                                                    onChange={handleOnChange}
+                                                    type="file"
+                                                />
+                                                <Button
+                                                    variant="contained"
+                                                    component="span"
+                                                    startIcon={
+                                                        <UploadFileIcon />
+                                                    }
+                                                    onClick={(e) => {
+                                                        handleOnSubmit(e);
+                                                    }}
+                                                >
+                                                    Upload CSV file
+                                                </Button>
+                                            </label>
+                                        </ListItem>
+                                    </List>
+                                </Box>
+                            </DialogActions>
+                        </Box>
+                    </Dialog>
+                </>
+            ) : (
+                <Container
+                    sx={{
+                        flexGrow: 1,
+                        my: 3,
+                        height: "100vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Box>
+                        <Typography
+                            variant="h2"
+                            sx={{
+                                color: "primary.light",
+                                mb: 5,
+                            }}
+                        >
+                            Page not found
+                        </Typography>
+                        <Link
+                            to={`/login`}
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                            }}
+                        >
+                            <Typography variant="h6" color="secondary">
+                                <KeyboardBackspaceIcon fontSize="small" />
+                                <span>Log into your account</span>
+                            </Typography>
+                        </Link>
+                    </Box>
+                </Container>
+            )}
         </>
     );
 };
