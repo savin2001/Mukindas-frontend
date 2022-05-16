@@ -23,6 +23,7 @@ import {
     ListItem,
     List,
     IconButton,
+    Slide,
 } from "@mui/material";
 import VendorSearchBar from "../components/VendorSearchBar";
 import VendorMenu from "../components/VendorMenu";
@@ -38,7 +39,10 @@ import axios from "axios";
 import api from "../components/api";
 
 const Input = styled("input")({
-    display: "blick",
+    display: "block",
+});
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const BulkUpload = () => {
@@ -363,6 +367,7 @@ const BulkUpload = () => {
                     </Container>
                     <Dialog
                         fullScreen
+                        TransitionComponent={Transition}
                         open={open}
                         onClose={handleClose}
                         aria-labelledby="alert-dialog-title"

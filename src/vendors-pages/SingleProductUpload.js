@@ -169,36 +169,36 @@ const SingleProductUpload = () => {
                                                 <InputLabel id="demo-simple-select-label">
                                                     Category
                                                 </InputLabel>
-                                                <Select
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={category}
-                                                    label="Age"
-                                                    onChange={(e) =>
-                                                        setCategory(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    {categories.map(
-                                                        (category) => (
-                                                            <MenuItem
-                                                                value={
-                                                                    category.name
-                                                                }
-                                                                key={
-                                                                    category.id
-                                                                }
-                                                                sx={{
-                                                                    textTransform:
-                                                                        "capitalize",
-                                                                }}
-                                                            >
-                                                                {category.name}
-                                                            </MenuItem>
-                                                        )
-                                                    )}
-                                                </Select>
+                                                {categories && (
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={category}
+                                                        label="Age"
+                                                        onChange={(e) =>
+                                                            setCategory(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    >
+                                                        {categories.map(
+                                                            (category) => (
+                                                                <MenuItem
+                                                                    value={
+                                                                        category.name
+                                                                    }
+                                                                    key={
+                                                                        category.id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        category.name
+                                                                    }
+                                                                </MenuItem>
+                                                            )
+                                                        )}
+                                                    </Select>
+                                                )}
                                             </FormControl>
                                         </ListItem>
                                         <ListItem>

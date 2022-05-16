@@ -88,7 +88,7 @@ const App = () => {
                             element={<GuestRegister />}
                         />
                         <Route path="profile" element={<Profile />} />
-                        <Route path="product" element={<Product />} />
+                        {/* <Route path="product" element={<Product />} /> */}
                         <Route path="products/:id/" element={<Product />} />
                         <Route path="products" element={<Products />} />
                         {categories.map((category) => (

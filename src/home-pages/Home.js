@@ -111,32 +111,33 @@ const Home = () => {
             </Container>
 
             {/* Products */}
-            {error && (
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "100%",
-                        alignItems: "center",
-                        fontSize: "30px",
-                        background: "#c20f00",
-                    }}
-                >
-                    {error}
-                </div>
-            )}
-            {isPending && <Loading />}
-            {products && (
-                <>
-                    <Container sx={{ flexGrow: 1, my: 3 }}>
-                        <Typography
-                            variant="h4"
-                            sx={{ p: 3, m: 3 }}
-                            gutterBottom
-                            component="div"
+
+            <>
+                <Container sx={{ flexGrow: 1, my: 3 }}>
+                    <Typography
+                        variant="h4"
+                        sx={{ p: 3, m: 3 }}
+                        gutterBottom
+                        component="div"
+                    >
+                        Popular Products
+                    </Typography>
+                    {error && (
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                width: "100%",
+                                alignItems: "center",
+                                fontSize: "30px",
+                                background: "#c20f00",
+                            }}
                         >
-                            Popular Products
-                        </Typography>
+                            {error}
+                        </div>
+                    )}
+                    {isPending && <Loading />}
+                    {products && (
                         <Grid
                             container
                             spacing={{ xs: 2, md: 3 }}
@@ -209,7 +210,7 @@ const Home = () => {
                                         </CardContent>
                                         <CardActions>
                                             <Link
-                                                to={`/product`}
+                                                to={`/product/${product.id}`}
                                                 style={{
                                                     textDecoration: "none",
                                                     color: "inherit",
@@ -229,60 +230,53 @@ const Home = () => {
                                 </Grid>
                             ))}
                         </Grid>
-                    </Container>
-                </>
-            )}
+                    )}
+                </Container>
+            </>
 
             {/* Latest product */}
-            {error && (
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "100%",
-                        alignItems: "center",
-                        fontSize: "30px",
-                        background: "#c20f00",
-                    }}
+
+            <Container sx={{ flexGrow: 1, my: 3 }}>
+                <Typography
+                    variant="h4"
+                    sx={{ p: 3, m: 3 }}
+                    gutterBottom
+                    component="div"
                 >
-                    {error}
-                </div>
-            )}
-            {isPending && <Loading />}
-            {products && (
-                <Container sx={{ flexGrow: 1, my: 3 }}>
-                    <Typography
-                        variant="h4"
-                        sx={{ p: 3, m: 3 }}
-                        gutterBottom
-                        component="div"
+                    Latest Products
+                </Typography>
+                {error && (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            width: "100%",
+                            alignItems: "center",
+                            fontSize: "30px",
+                            background: "#c20f00",
+                        }}
                     >
-                        Latest Products
-                    </Typography>
-                    <Grid
-                        container
-                        spacing={{ xs: 2, md: 3 }}
-                        columns={{ xs: 6, sm: 6, md: 8 }}
-                        sx={{ mt: 15 }}
-                    >
-                        {products.map((product) => (
-                            <Grid item xs={6} sm={3} md={2} key={product.id}>
-                                <Card>
-                                    <Link
-                                        to={`/products/${product.id}`}
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    >
-                                        <CardMedia
-                                            component="img"
-                                            height="175"
-                                            image={product.image}
-                                            alt={product.name}
-                                        />
-                                    </Link>
-                                    <CardContent>
+                        {error}
+                    </div>
+                )}
+                {isPending && <Loading />}
+                {products && (
+                    <>
+                        <Grid
+                            container
+                            spacing={{ xs: 2, md: 3 }}
+                            columns={{ xs: 6, sm: 6, md: 8 }}
+                            sx={{ mt: 15 }}
+                        >
+                            {products.map((product) => (
+                                <Grid
+                                    item
+                                    xs={6}
+                                    sm={3}
+                                    md={2}
+                                    key={product.id}
+                                >
+                                    <Card>
                                         <Link
                                             to={`/products/${product.id}`}
                                             style={{
@@ -290,74 +284,90 @@ const Home = () => {
                                                 color: "inherit",
                                             }}
                                         >
+                                            <CardMedia
+                                                component="img"
+                                                height="175"
+                                                image={product.image}
+                                                alt={product.name}
+                                            />
+                                        </Link>
+                                        <CardContent>
+                                            <Link
+                                                to={`/products/${product.id}`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                <Typography
+                                                    sx={{
+                                                        textAlign: "left",
+                                                    }}
+                                                    gutterBottom
+                                                    variant="subtitle"
+                                                    component="div"
+                                                >
+                                                    {product.name}
+                                                </Typography>
+                                            </Link>
+                                            <Rating
+                                                name="read-only"
+                                                value={4.6}
+                                                readOnly
+                                            />
                                             <Typography
                                                 sx={{
                                                     textAlign: "left",
                                                 }}
-                                                gutterBottom
-                                                variant="subtitle"
-                                                component="div"
-                                            >
-                                                {product.name}
-                                            </Typography>
-                                        </Link>
-                                        <Rating
-                                            name="read-only"
-                                            value={4.6}
-                                            readOnly
-                                        />
-                                        <Typography
-                                            sx={{
-                                                textAlign: "left",
-                                            }}
-                                            color="secondary"
-                                        >
-                                            {product.currency} &nbsp;
-                                            {product.price}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Link
-                                            to={`/product`}
-                                            style={{
-                                                textDecoration: "none",
-                                                color: "inherit",
-                                            }}
-                                        >
-                                            <Button
-                                                size="small"
-                                                variant="contained"
                                                 color="secondary"
-                                                bgcolor="secondary"
                                             >
-                                                View product
-                                            </Button>
-                                        </Link>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                    <Box sx={{ flexGrow: 1, my: 4 }}>
-                        <Link
-                            to={`/products`}
-                            style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                            }}
-                        >
-                            <Button
-                                size="large"
-                                variant="contained"
-                                color="secondary"
-                                bgcolor="secondary"
+                                                {product.currency} &nbsp;
+                                                {product.price}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Link
+                                                to={`/product/${product.id}`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                <Button
+                                                    size="small"
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    bgcolor="secondary"
+                                                >
+                                                    View product
+                                                </Button>
+                                            </Link>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <Box sx={{ flexGrow: 1, my: 4 }}>
+                            <Link
+                                to={`/products`}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
                             >
-                                SHOP BY CATEGORY
-                            </Button>
-                        </Link>
-                    </Box>
-                </Container>
-            )}
+                                <Button
+                                    size="large"
+                                    variant="contained"
+                                    color="secondary"
+                                    bgcolor="secondary"
+                                >
+                                    SHOP BY CATEGORY
+                                </Button>
+                            </Link>
+                        </Box>
+                    </>
+                )}
+            </Container>
 
             {/* Focus */}
             <Container sx={{ flexGrow: 1, my: 3 }}>
