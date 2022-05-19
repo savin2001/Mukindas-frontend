@@ -18,6 +18,7 @@ import api from "./api";
 import axios from "axios";
 
 const VendorShopProductTab = () => {
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const { data: categories } = useFetch(`${api}/products/categories`);
     const { data: products, isPending, error } = useFetch(`${api}/products/`);
     const [open, setOpen] = useState(false);

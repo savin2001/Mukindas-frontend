@@ -49,8 +49,9 @@ const Login = () => {
     };
     const login = (e) => {
         e.preventDefault();
+        
         axios
-            .post(`${api}/users/login`, {
+            .post(`${api}/users/login`,  {
                 phone_number,
                 email,
                 password,
@@ -68,13 +69,13 @@ const Login = () => {
                 setPhoneNumber("");
                 setPassword("");
                 if (response.data.role === "customer"){
-                    navigate(`/customer/${response.data.token}`);
+                    navigate(`/customer/${response.data.id}`);
                 }else if (response.data.role === "vendor"){
-                    navigate(`/vendor/${response.data.token}`);
+                    navigate(`/vendor/${response.data.id}`);
                 }else if (response.data.role === "admin"){
-                    navigate(`/admin/${response.data.token}`);
+                    navigate(`/admin/${response.data.id}`);
                 }else if (response.data.role === "guest"){
-                    navigate(`/guest/${response.data.token}`);
+                    navigate(`/guest/${response.data.id}`);
                 }else {
                     setError("Unknown user path");
                 }
@@ -82,8 +83,8 @@ const Login = () => {
                 // console.log(response.data.token);
             })
             .then((data) => {
-                // localStorage.setItem("currentUser", JSON.stringify(user));
-                console.log(data);
+                
+                // console.log(data);
             })
 
             .catch((error) => setError(error.response.data.message));

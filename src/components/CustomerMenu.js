@@ -29,7 +29,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 const CustomerMenu = () => {
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const customerName = `${isLogInTrue.user.first_name} ${isLogInTrue.user.second_name}`;
-    const customerToken = isLogInTrue.user.token;
+    const customerID = isLogInTrue.user.id;
     return (
         <>
             <Container>
@@ -69,7 +69,7 @@ const CustomerMenu = () => {
                                 color="secondary"
                             >
                                 <Link
-                                    to={`/customer/${customerToken}`}
+                                    to={`/customer/${customerID}`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",

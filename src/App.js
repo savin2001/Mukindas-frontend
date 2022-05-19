@@ -100,7 +100,7 @@ const App = () => {
                         ))}
 
                         <Route
-                            path="vendor/:userToken"
+                            path="vendor/:userId"
                             element={<VendorAccount />}
                         />
                         <Route path="vendor/Shop" element={<VendorShop />} />
@@ -136,7 +136,7 @@ const App = () => {
                             element={<SingleProductUpload />}
                         />
                         <Route
-                            path="customer/:userToken"
+                            path="customer/:userId"
                             element={<CustomerAccount />}
                         />
                         <Route
@@ -164,7 +164,7 @@ const App = () => {
                             element={<Products />}
                         />
                         <Route
-                            path="guest/:userToken"
+                            path="guest/:userId"
                             element={<GuestAccount />}
                         />
                         <Route

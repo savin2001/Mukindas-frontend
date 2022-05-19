@@ -33,7 +33,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 const VendorMenu = () => {
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const vendorName = `${isLogInTrue.user.first_name} ${isLogInTrue.user.second_name}`;
-    const sellerToken = isLogInTrue.user.token;
+    const vendorID = isLogInTrue.user.id;
     return (
         <>
             <Container>
@@ -72,7 +72,7 @@ const VendorMenu = () => {
                                 component="div"
                             >
                                 <Link
-                                    to={`/vendor/${sellerToken}`}
+                                    to={`/vendor/${vendorID}`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",

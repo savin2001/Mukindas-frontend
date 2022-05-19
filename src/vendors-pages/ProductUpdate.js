@@ -95,7 +95,7 @@ const ProductUpdate = () => {
                                     <DialogTitle id="alert-dialog-title">
                                         Change product details
                                     </DialogTitle>
-                                    <Box sx={{maxWidth: "560px"}}>
+                                    <Box sx={{width: "80%", maxWidth: "760px"}}>
                                         <List>
                                             <ListItem>
                                                 <TextField

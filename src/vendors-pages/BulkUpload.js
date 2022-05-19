@@ -47,10 +47,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const BulkUpload = () => {
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
-    // const vendorName = `${isLogInTrue.user.first_name} ${isLogInTrue.user.second_name}`;
-    // const vendorEmail = isLogInTrue.user.email;
-    // const vendor = vendorName;
-    // const vendor_email = vendorEmail;
+    const vendorID = isLogInTrue.user.id;
+    const vendorToken = isLogInTrue.user.token;
     const [error, setError] = useState("");
     const [isPending, setIsPending] = useState(false);
 
@@ -91,7 +89,6 @@ const BulkUpload = () => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-
         if (file) {
             fileReader.onload = function (event) {
                 const text = event.target.result;
@@ -103,27 +100,31 @@ const BulkUpload = () => {
     };
     const handleBulkUpload = (e) => {
         e.preventDefault();
+
         if (array.length > 0) {
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${vendorToken}`,
+            };
             const BulkUploadArray = JSON.parse(
                 localStorage.getItem("bulkUpload")
             );
-            console.log(BulkUploadArray);
-            localStorage.removeItem("bulkUpload");
-            window.location.reload();
-            const payload = {BulkUploadArray}
-            
-            
-            axios
-                .post(`${api}/products/product`,  payload, {
-                    headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                    }
-                })
-                .then((response) => {
-                    // console.log(response);
-                    setIsPending(true);
-                })
-                .catch((error) => setError(error.response.data.message));
+            BulkUploadArray.forEach((element) => {
+                element["vendor"] = vendorID;
+                const payload = { element };
+                console.log(payload);
+
+                axios
+                    .post(`${api}/products/product`, element, {
+                        headers,
+                    })
+                    .then((response) => {
+                        console.log(BulkUploadArray);
+                        localStorage.removeItem("bulkUpload");
+                        setIsPending(true);
+                    })
+                    .catch((error) => setError(error.response.data.message));
+            });
         }
     };
 
@@ -292,6 +293,9 @@ const BulkUpload = () => {
                                                                             textAlign:
                                                                                 "left",
                                                                         }}
+                                                                        key={
+                                                                            key
+                                                                        }
                                                                     >
                                                                         {key}
                                                                     </Typography>
@@ -312,6 +316,9 @@ const BulkUpload = () => {
                                                                         sx={{
                                                                             mb: 1,
                                                                         }}
+                                                                        key={
+                                                                            val
+                                                                        }
                                                                     >
                                                                         {val}
                                                                     </Typography>

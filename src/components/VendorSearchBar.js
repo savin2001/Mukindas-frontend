@@ -45,7 +45,7 @@ const vendorPages = [
 const VendorSearchBar = () => {
     const navigate = useNavigate();
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
-    const sellerToken = isLogInTrue.user.token;
+    const vendorID = isLogInTrue.user.id;
     const [logoutUser, setLogoutUser] = useState(false);
     const logout = () => {
         localStorage.removeItem("login");
@@ -101,7 +101,7 @@ const VendorSearchBar = () => {
             onClose={handleMenuClose}
         >
             <Link
-                to={`/vendor/${sellerToken}`}
+                to={`/vendor/${vendorID}`}
                 style={{
                     textDecoration: "none",
                     color: "inherit",
@@ -158,7 +158,7 @@ const VendorSearchBar = () => {
                 }}
             >
                 <Link
-                    to={`/vendor/${sellerToken}`}
+                    to={`/vendor/${vendorID}`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",
@@ -339,7 +339,7 @@ const VendorSearchBar = () => {
                             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
                         >
                             <Link
-                                to={`/vendor/${sellerToken}`}
+                                to={`/vendor/${vendorID}`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",
@@ -365,7 +365,7 @@ const VendorSearchBar = () => {
                             }}
                         >
                             <Link
-                                to={`/vendor/${sellerToken}`}
+                                to={`/vendor/${vendorID}`}
                                 style={{
                                     textDecoration: "none",
                                     color: "inherit",

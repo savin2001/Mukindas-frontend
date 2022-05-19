@@ -34,10 +34,7 @@ const Checkout = () => {
         const userDetails = JSON.parse(localStorage.getItem("login"));
         if (userDetails) {
             if (userDetails.user.role === "customer") {
-                const user = userDetails.user;
-                setFirstName(user.first_name);
-                setSecondName(user.second_name);
-                setEmail(user.email);
+                const user = userDetails.user.token;
                 setPhone(user.phone_number);
                 setCountry(user.country);
                 setCity(user.city);
@@ -48,9 +45,7 @@ const Checkout = () => {
             }
         }
     }, []);
-    const [first_name, setFirstName] = useState("");
-    const [second_name, setSecondName] = useState("");
-    const [email, setEmail] = useState("");
+    const [user, setUser] = useState("");
     const [phone_number, setPhone] = useState("");
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
@@ -67,11 +62,9 @@ const Checkout = () => {
         localStorage.setItem(
             "order",
             JSON.stringify({
-                orderID: Math.floor(Math.random() * 100000),
                 totalPrice: ccyFormat(invoiceTotal),
                 products: cart.cartItems,
-                user: first_name + " " + second_name,
-                userEmail: email,
+                user: "",
                 userPhone: phone_number,
                 userCountry: country,
                 userCity: city,
@@ -297,7 +290,7 @@ const Checkout = () => {
                                                                             </Grid>
                                                                         </TableCell>
                                                                         <TableCell align="right">
-                                                                            $
+                                                                            
                                                                             {
                                                                                 cartItem.price
                                                                             }
@@ -313,7 +306,6 @@ const Checkout = () => {
                                                                 </TableCell>
                                                                 <TableCell align="right">
                                                                     <Typography variant="body1">
-                                                                        $
                                                                         {ccyFormat(
                                                                             invoiceSubtotal
                                                                         )}
@@ -329,7 +321,6 @@ const Checkout = () => {
 
                                                                 <TableCell align="right">
                                                                     <Typography variant="body1">
-                                                                        $
                                                                         {ccyFormat(
                                                                             invoiceTaxes
                                                                         )}
@@ -345,7 +336,6 @@ const Checkout = () => {
                                                                 </TableCell>
                                                                 <TableCell align="right">
                                                                     <Typography variant="body1">
-                                                                        $
                                                                         {ccyFormat(
                                                                             shippingCost
                                                                         )}
@@ -360,7 +350,6 @@ const Checkout = () => {
                                                                 </TableCell>
                                                                 <TableCell align="right">
                                                                     <Typography variant="body1">
-                                                                        $
                                                                         {ccyFormat(
                                                                             invoiceTotal
                                                                         )}
@@ -434,205 +423,7 @@ const Checkout = () => {
                                                                             md: 12,
                                                                         }}
                                                                     >
-                                                                        <Grid
-                                                                            item
-                                                                            xs={
-                                                                                4
-                                                                            }
-                                                                            sm={
-                                                                                8
-                                                                            }
-                                                                            md={
-                                                                                6
-                                                                            }
-                                                                            sx={{
-                                                                                mb: 1,
-                                                                            }}
-                                                                        >
-                                                                            <Box
-                                                                                sx={{
-                                                                                    p: 1,
-                                                                                    m: 1,
-                                                                                    display:
-                                                                                        "flex",
-                                                                                    alignItems:
-                                                                                        "center",
-                                                                                    columnGap: 1,
-                                                                                    rowGap: 1,
-                                                                                }}
-                                                                            >
-                                                                                <Typography
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                >
-                                                                                    First
-                                                                                    name
-                                                                                </Typography>
-                                                                                <TextField
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                    value={
-                                                                                        first_name
-                                                                                    }
-                                                                                    label="First name"
-                                                                                    variant="filled"
-                                                                                    fullWidth
-                                                                                    // onChange={handleChange}
-                                                                                    // disabled
-                                                                                />
-                                                                            </Box>
-                                                                        </Grid>
-                                                                        <Grid
-                                                                            item
-                                                                            xs={
-                                                                                4
-                                                                            }
-                                                                            sm={
-                                                                                8
-                                                                            }
-                                                                            md={
-                                                                                6
-                                                                            }
-                                                                            sx={{
-                                                                                mb: 1,
-                                                                            }}
-                                                                        >
-                                                                            <Box
-                                                                                sx={{
-                                                                                    p: 1,
-                                                                                    m: 1,
-                                                                                    display:
-                                                                                        "flex",
-                                                                                    alignItems:
-                                                                                        "center",
-                                                                                    columnGap: 1,
-                                                                                    rowGap: 1,
-                                                                                }}
-                                                                            >
-                                                                                <Typography
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                >
-                                                                                    Second
-                                                                                    name
-                                                                                </Typography>
-                                                                                <TextField
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                    value={
-                                                                                        second_name
-                                                                                    }
-                                                                                    label="Second name"
-                                                                                    variant="filled"
-                                                                                    fullWidth
-                                                                                    // onChange={handleChange}
-                                                                                    // disabled
-                                                                                />
-                                                                            </Box>
-                                                                        </Grid>
-                                                                        <Grid
-                                                                            item
-                                                                            xs={
-                                                                                4
-                                                                            }
-                                                                            sm={
-                                                                                8
-                                                                            }
-                                                                            md={
-                                                                                6
-                                                                            }
-                                                                            sx={{
-                                                                                mb: 1,
-                                                                            }}
-                                                                        >
-                                                                            <Box
-                                                                                sx={{
-                                                                                    p: 1,
-                                                                                    m: 1,
-                                                                                    display:
-                                                                                        "flex",
-                                                                                    alignItems:
-                                                                                        "center",
-                                                                                    columnGap: 1,
-                                                                                    rowGap: 1,
-                                                                                }}
-                                                                            >
-                                                                                <Typography
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                >
-                                                                                    Email
-                                                                                </Typography>
-                                                                                <TextField
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                    value={
-                                                                                        email
-                                                                                    }
-                                                                                    label="Email address"
-                                                                                    variant="filled"
-                                                                                    fullWidth
-                                                                                    // onChange={handleChange}
-                                                                                    // disabled
-                                                                                />
-                                                                            </Box>
-                                                                        </Grid>
-                                                                        <Grid
-                                                                            item
-                                                                            xs={
-                                                                                4
-                                                                            }
-                                                                            sm={
-                                                                                8
-                                                                            }
-                                                                            md={
-                                                                                6
-                                                                            }
-                                                                            sx={{
-                                                                                mb: 1,
-                                                                            }}
-                                                                        >
-                                                                            <Box
-                                                                                sx={{
-                                                                                    p: 1,
-                                                                                    m: 1,
-                                                                                    display:
-                                                                                        "flex",
-                                                                                    alignItems:
-                                                                                        "center",
-                                                                                    columnGap: 1,
-                                                                                    rowGap: 1,
-                                                                                }}
-                                                                            >
-                                                                                <Typography
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                >
-                                                                                    Phone
-                                                                                    number
-                                                                                </Typography>
-                                                                                <TextField
-                                                                                    sx={{
-                                                                                        flexGrow: 1,
-                                                                                    }}
-                                                                                    value={
-                                                                                        phone_number
-                                                                                    }
-                                                                                    label="Phone number"
-                                                                                    variant="filled"
-                                                                                    fullWidth
-                                                                                    // onChange={handleChange}
-                                                                                    // disabled
-                                                                                />
-                                                                            </Box>
-                                                                        </Grid>
+                                                                        
                                                                         <Grid
                                                                             item
                                                                             xs={
