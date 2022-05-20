@@ -53,9 +53,10 @@ const SingleProductUpload = () => {
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const vendorID = isLogInTrue.user.id;
     const vendorToken = isLogInTrue.user.token;
-
     const [isFilePicked, setIsFilePicked] = useState(false);
-    const [imageInfo, setImageInfo] = useState();
+    const [imagePreview, setImagePreview] = useState();
+    const [base64, setBase64] = useState("");
+    const [size, setSize] = useState("");
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
     const handleClose = () => {
@@ -74,16 +75,41 @@ const SingleProductUpload = () => {
     const [quantity, setQuantity] = useState("");
     const [vendor, setVendorName] = useState(vendorID);
 
-    const changeHandler = (event) => {
-        const [file] = event.target.files;
-        setImageInfo(URL.createObjectURL(file));
-        console.log(imageInfo)
-        setImage(event.target.files[0]);        
-        setIsFilePicked(true);
-    };
+    const photoUpload = (e) => {
+        e.preventDefault();
+        const reader = new FileReader();
+        const file = e.target.files[0];
+        console.log("reader", reader)
+        console.log("file", file)
+        if (reader !== undefined && file !== undefined) {
+          reader.onloadend = () => {
+            setImage(file)
+            setSize(file.size);
+            setName(file.name)
+            setImagePreview(reader.result)
+          }
+          reader.readAsDataURL(file);
+        }
+      }
 
+    const onChange  = (e) => {
+        console.log("file", e.target.files[0]);
+        let file = e.target.files[0];
+        setIsFilePicked(true);
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = _handleReaderLoaded;
+            reader.readAsBinaryString(file);
+        }
+    };
+    const _handleReaderLoaded = (readerEvt) => {
+        let binaryString = readerEvt.target.result;
+        setBase64(btoa(binaryString));
+    };
     const handleAddNewProduct = (e) => {
         e.preventDefault();
+        let payload = { image: base64 };
+        console.log("payload", payload);
         const formData = new FormData();
         formData.append("vendor", vendor);
         formData.append("category", category);
@@ -1267,7 +1293,8 @@ const SingleProductUpload = () => {
                                                     id="contained-button-file"
                                                     multiple
                                                     type="file"
-                                                    onChange={changeHandler}
+                                                    onChange={photoUpload}
+                                                    src={imagePreview}
                                                 />
                                                 {isFilePicked ? (
                                                     <Box
@@ -1284,20 +1311,28 @@ const SingleProductUpload = () => {
                                                     >
                                                         <CardMedia
                                                             component="img"
-                                                            image={imageInfo}
+                                                            image={imagePreview}
                                                             alt={image.name}
                                                         />
-                                                        <p>
-                                                            Filename:{" "}
-                                                            {image.name}
-                                                        </p>
+                                                        <p>Filename: {name}</p>
 
                                                         <p>
                                                             Size :
-                                                            {bytesToSize(
-                                                                image.size
-                                                            )}
+                                                            {bytesToSize(size)}
                                                         </p>
+                                                        <Button
+                                                            width="100%"
+                                                            size="large"
+                                                            variant="contained"
+                                                            color="secondary"
+                                                            startIcon={
+                                                                <AddPhotoAlternateIcon />
+                                                            }
+                                                            component="span"
+                                                        >
+                                                            Change the product
+                                                            image
+                                                        </Button>
                                                         <Button
                                                             width="100%"
                                                             size="large"
@@ -1308,7 +1343,7 @@ const SingleProductUpload = () => {
                                                             }
                                                             component="span"
                                                         >
-                                                            Change the product
+                                                            Remove  
                                                             image
                                                         </Button>
                                                     </Box>
