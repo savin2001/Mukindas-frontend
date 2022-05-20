@@ -175,7 +175,7 @@ const VendorSearchBar = () => {
                 </Link>
                 <Divider variant="middle" component="li" />
                 <Link
-                    to={`/vendor/Shop`}
+                    to={`/vendor/Shop/`}
                     style={{
                         textDecoration: "none",
                         color: "inherit",

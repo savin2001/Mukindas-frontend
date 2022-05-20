@@ -19,8 +19,9 @@ import axios from "axios";
 
 const VendorShopProductTab = () => {
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
+    const vendorID = isLogInTrue.user.id;
     const { data: categories } = useFetch(`${api}/products/categories`);
-    const { data: products, isPending, error } = useFetch(`${api}/products/`);
+    const { data: products, isPending, error } = useFetch(`${api}/products/vendor/${vendorID}/`);
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const handleClickOpen = () => {

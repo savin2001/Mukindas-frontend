@@ -18,6 +18,7 @@ import CheckOut from "./customer-pages/CheckOut";
 import VendorAccount from "./vendors-pages/VendorAccount";
 import VendorShop from "./vendors-pages/VendorShop";
 import VendorWallet from "./vendors-pages/VendorWallet";
+import VendorView from "./vendors-pages/VendorView";
 import ShippingCalculator from "./vendors-pages/ShippingCalculator";
 import NewLabel from "./vendors-pages/NewLabel";
 import ShippingLabels from "./vendors-pages/ShippingLabels";
@@ -103,7 +104,11 @@ const App = () => {
                             path="vendor/:userId"
                             element={<VendorAccount />}
                         />
-                        <Route path="vendor/Shop" element={<VendorShop />} />
+                        <Route path="vendor/Shop/" element={<VendorShop />} />
+                        <Route
+                            path="vendor/Shop/product/:id"
+                            element={<VendorView />}
+                        />
                         <Route
                             path="vendor/Shop/:productId"
                             element={<ProductUpdate />}

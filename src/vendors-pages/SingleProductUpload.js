@@ -74,39 +74,35 @@ const SingleProductUpload = () => {
     const [quantity, setQuantity] = useState("");
     const [vendor, setVendorName] = useState(vendorID);
 
-    const changeHandler = (e) => {
-        const [file] = e.target.files;
+    const changeHandler = (event) => {
+        const [file] = event.target.files;
         setImageInfo(URL.createObjectURL(file));
-        setImage(e.target.files[0]);
+        console.log(imageInfo)
+        setImage(event.target.files[0]);        
         setIsFilePicked(true);
     };
 
     const handleAddNewProduct = (e) => {
         e.preventDefault();
         const formData = new FormData();
+        formData.append("vendor", vendor);
+        formData.append("category", category);
+        formData.append("name", name);
         formData.append("image", image);
+        formData.append("description", description);
+        formData.append("quantity", quantity);
+        formData.append("currency", currency);
+        formData.append("price", price);
         const headers = {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${vendorToken}`,
         };
         axios
-            .post(
-                `${api}/products/product`,
-                {
-                    vendor,
-                    category,
-                    name,
-                    image,
-                    description,
-                    quantity,
-                    currency,
-                    price,
-                },
-                {
-                    headers,
-                }
-            )
+            .post(`${api}/products/product`, formData, {
+                headers,
+            })
             .then((response) => {
+                console.log("The form data is" + formData);
                 console.log(response);
                 setIsPending(true);
                 setError("");
@@ -120,7 +116,7 @@ const SingleProductUpload = () => {
                 setVendorName("");
                 navigate("/vendor/Shop");
             })
-            .catch((error) => setError(error.response.detail));
+            .catch((error) => setError(error.response.message));
     };
     return (
         <>
@@ -230,6 +226,7 @@ const SingleProductUpload = () => {
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
                                                         value={category}
+                                                        required
                                                         label="Age"
                                                         onChange={(e) =>
                                                             setCategory(
@@ -268,6 +265,7 @@ const SingleProductUpload = () => {
                                                 <Select
                                                     labelId="demo-simple-select-label"
                                                     id="demo-simple-select"
+                                                    required
                                                     value={currency}
                                                     label="Age"
                                                     onChange={(e) =>
@@ -1230,6 +1228,7 @@ const SingleProductUpload = () => {
                                         <ListItem>
                                             <TextField
                                                 fullWidth
+                                                required
                                                 value={price}
                                                 type="number"
                                                 onChange={(e) =>
@@ -1242,6 +1241,7 @@ const SingleProductUpload = () => {
                                         <ListItem>
                                             <TextField
                                                 fullWidth
+                                                required
                                                 value={quantity}
                                                 type="number"
                                                 onChange={(e) =>
@@ -1262,7 +1262,8 @@ const SingleProductUpload = () => {
                                                 }}
                                             >
                                                 <Input
-                                                    accept="image/*"
+                                                    required
+                                                    accept=".jpeg, .png, or .jpg"
                                                     id="contained-button-file"
                                                     multiple
                                                     type="file"
@@ -1312,12 +1313,18 @@ const SingleProductUpload = () => {
                                                         </Button>
                                                     </Box>
                                                 ) : (
-                                                    <>
-                                                        <p>
-                                                            Select the image of
-                                                            the product to
-                                                            preview it
-                                                        </p>
+                                                    <Box
+                                                        sx={{
+                                                            width: "80%",
+                                                            display: "flex",
+                                                            flexDirection:
+                                                                "column",
+                                                            alignItems:
+                                                                "center",
+                                                            justifyContent:
+                                                                "center",
+                                                        }}
+                                                    >
                                                         <Button
                                                             width="100%"
                                                             size="large"
@@ -1331,7 +1338,7 @@ const SingleProductUpload = () => {
                                                             Upload the product
                                                             image
                                                         </Button>
-                                                    </>
+                                                    </Box>
                                                 )}
                                             </label>
                                         </ListItem>

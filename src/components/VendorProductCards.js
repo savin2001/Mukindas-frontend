@@ -17,7 +17,7 @@ const ProductCards = ({ products }) => {
             {products.map((product) => (
                 <>
                     <Grid item xs={6} sm={3} md={1} key={product.id}>
-                        <Card >
+                        <Card>
                             <CardMedia
                                 component="img"
                                 height="175"
@@ -47,6 +47,22 @@ const ProductCards = ({ products }) => {
                             </CardContent>
                             <CardActions>
                                 <Link
+                                    to={`/vendor/Shop/product/${product.id}`}
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                    }}
+                                >
+                                    <Button
+                                        size="small"
+                                        variant="outlined"
+                                        color="secondary"
+                                        bgcolor="secondary"
+                                    >
+                                        View
+                                    </Button>
+                                </Link>
+                                <Link
                                     to={`/vendor/Shop/${product.id}`}
                                     style={{
                                         textDecoration: "none",
@@ -59,7 +75,7 @@ const ProductCards = ({ products }) => {
                                         color="secondary"
                                         bgcolor="secondary"
                                     >
-                                        Update product
+                                        Update
                                     </Button>
                                 </Link>
                             </CardActions>

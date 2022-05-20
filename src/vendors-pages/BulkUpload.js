@@ -32,11 +32,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BulkUploadExamplePic from "../media/BulkUploadExamplePic.png";
 import Loading from "../components/Loading";
 import axios from "axios";
 import api from "../components/api";
+import useFetch from "../components/useFetch";
 
 const Input = styled("input")({
     display: "block",
@@ -46,12 +47,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const BulkUpload = () => {
+    const { data: categories } = useFetch(`${api}/products/categories`);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const vendorID = isLogInTrue.user.id;
     const vendorToken = isLogInTrue.user.token;
     const [error, setError] = useState("");
     const [isPending, setIsPending] = useState(false);
-
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [file, setFile] = useState("");
     const [array, setArray] = useState([]);
@@ -69,22 +71,23 @@ const BulkUpload = () => {
         setFile(e.target.files[0]);
     };
 
-    const csvFileToArray = (string) => {
-        const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
-        const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
+    const csvFileToArray = (string, delimiter = ",") => {
+        const csvHeader = string
+            .slice(0, string.indexOf("\r\n"))
+            .split(delimiter);
+        const csvRows = string.slice(string.indexOf("\r\n") + 1).split("\r\n");
 
-        const array = csvRows.map((i) => {
-            const values = i.split(",");
+        const array = csvRows.map((row) => {
+            const values = row.split(delimiter);
             const obj = csvHeader.reduce((object, header, index) => {
                 object[header] = values[index];
                 return object;
             }, {});
             return obj;
         });
-
-        setArray(array);
         localStorage.setItem("bulkUpload", JSON.stringify(array));
         handleClose();
+        return setArray(array);
     };
 
     const handleOnSubmit = (e) => {
@@ -101,29 +104,69 @@ const BulkUpload = () => {
     const handleBulkUpload = (e) => {
         e.preventDefault();
 
+        // confirm if the array has content or is empty
         if (array.length > 0) {
             const headers = {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${vendorToken}`,
             };
+
+            // Take the bulk pload array from local storage
             const BulkUploadArray = JSON.parse(
                 localStorage.getItem("bulkUpload")
             );
-            BulkUploadArray.forEach((element) => {
-                element["vendor"] = vendorID;
-                const payload = { element };
-                console.log(payload);
 
-                axios
-                    .post(`${api}/products/product`, element, {
-                        headers,
-                    })
-                    .then((response) => {
-                        console.log(BulkUploadArray);
-                        localStorage.removeItem("bulkUpload");
-                        setIsPending(true);
-                    })
-                    .catch((error) => setError(error.response.data.message));
+            // Accessing each product
+            BulkUploadArray.forEach((product) => {
+                // Adding vendor ID to each product
+                product["vendor"] = vendorID;
+                // product['price'] = product['"price"'];
+                const categoriesArray = categories;
+                // checking if the category names in the array from csv matches categories in the system
+                const isFound = categoriesArray.some((categoryObject) => {
+                    if (product.category === categoryObject.name) {
+                        return true;
+                    }
+                    return false;
+                });
+
+                // If the product
+                if (isFound) {
+                    categoriesArray.forEach((categoryObject) => {
+                        if (product.category === categoryObject.name) {
+                            // Assigning the category name to its equivalent ID
+                            product.category = categoryObject.id;
+
+                            const payload = product;
+                            axios
+                                .post(
+                                    `${api}/products/product`,
+                                    payload,
+                                    {
+                                        headers,
+                                    },
+                                    {
+                                        onUploadProgress: (progressEvent) => {
+                                            setIsPending(true);
+                                        },
+                                    }
+                                )
+                                .then((response) => {
+                                    console.log(response);
+                                    localStorage.removeItem("bulkUpload");
+                                    navigate("/vendor/Shop");
+                                    setIsPending(false);
+                                })
+                                .catch((error) =>
+                                    setError(error.response.data.message)
+                                );
+                            return console.log(payload);
+                        }
+                        return null;
+                    });
+                } else {
+                    setError("Kindly confirm if your product category is okay");
+                }
             });
         }
     };
