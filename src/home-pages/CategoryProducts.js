@@ -15,10 +15,15 @@ import useFetch from "../components/useFetch";
 import ProductCards from "../components/ProductCards";
 import Loading from "../components/Loading";
 import api from "../components/api";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Products = () => {
-    const { data: products, isPending, error } = useFetch(`${api}/products/`);
+    const { category_id } = useParams();
+    const {
+        data: products,
+        isPending,
+        error,
+    } = useFetch(`${api}/products/categories/` + category_id);
     const { data: categories } = useFetch(`${api}/products/categories`);
 
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
@@ -62,7 +67,7 @@ const Products = () => {
                             >
                                 <List
                                     sx={{
-                                        width: "100%"
+                                        width: "100%",
                                     }}
                                 >
                                     {categories.map((category) => (
@@ -78,7 +83,6 @@ const Products = () => {
                                                 }}
                                             >
                                                 <ListItem>
-                                                    
                                                     <Typography
                                                         variant="h6"
                                                         sx={{
@@ -250,7 +254,41 @@ const Products = () => {
                                     )}
                                     {isPending && <Loading />}
                                     {products && (
-                                        <ProductCards products={products} />
+                                        <>
+                                            {products.length > 0 ? (
+                                                <ProductCards
+                                                    products={products}
+                                                />
+                                            ) : (
+                                                <>
+                                                    <Container
+                                                        sx={{
+                                                            flexGrow: 1,
+                                                            my: 3,
+                                                            height: "100vh",
+                                                            display: "flex",
+                                                            justifyContent:
+                                                                "center",
+                                                            alignItems:
+                                                                "center",
+                                                        }}
+                                                    >
+                                                        <Box>
+                                                            <Typography
+                                                                variant="h2"
+                                                                sx={{
+                                                                    color: "primary.light",
+                                                                    mb: 5,
+                                                                }}
+                                                            >
+                                                                No products in
+                                                                this category
+                                                            </Typography>
+                                                        </Box>
+                                                    </Container>
+                                                </>
+                                            )}
+                                        </>
                                     )}
                                 </Grid>
                             </Box>

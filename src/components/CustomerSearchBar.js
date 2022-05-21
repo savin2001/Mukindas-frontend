@@ -383,7 +383,7 @@ const CustomerSearchBar = () => {
                                         onClick={handleCloseNavMenu}
                                     >
                                         <Link
-                                            to={`/customer/${category.name}`}
+                                            to={`/products/${category.name}/${category.id}`}
                                             style={{
                                                 textDecoration: "none",
                                                 color: "inherit",
@@ -424,7 +424,7 @@ const CustomerSearchBar = () => {
                             {categories.map((category) => (
                                 <Button key={category.id} onClick={handleCloseNavMenu}>
                                     <Link
-                                        to={`/${category.name}`}
+                                        to={`/products/${category.name}/${category.id}`}
                                         style={{
                                             textDecoration: "none",
                                             color: "black",

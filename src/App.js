@@ -9,6 +9,7 @@ import Home from "./home-pages/Home";
 import Cart from "./home-pages/Cart";
 import Profile from "./customer-pages/CustomerAccount";
 import Products from "./home-pages/Products";
+import CategoryProducts from "./home-pages/CategoryProducts"
 import Product from "./home-pages/Product";
 import Login from "./authentication/Login";
 import CustomerRegister from "./authentication/customerAuth/CustomerRegister";
@@ -64,7 +65,7 @@ const App = () => {
         axios.get(`${api}/products/categories`).then((response) => {
             setCategories(response.data.data);
         });
-        return () => console.log("clean up categories");
+        return () => console.log("");
     }, []);
     return (
         <ThemeProvider theme={theme}>
@@ -94,8 +95,8 @@ const App = () => {
                         <Route path="products" element={<Products />} />
                         {categories.map((category) => (
                             <Route
-                                path={category.name}
-                                element={<Products />}
+                                path={`products/${category.name}/:category_id`}
+                                element={<CategoryProducts />}
                                 key={category.id}
                             />
                         ))}

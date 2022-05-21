@@ -407,7 +407,7 @@ export default function PrimarySearchAppBar() {
                                         onClick={handleCloseNavMenu}
                                     >
                                         <Link
-                                            to={`/${category.name}`}
+                                            to={`/products/${category.name}/${category.id}`}
                                             style={{
                                                 textDecoration: "none",
                                                 color: "inherit",
@@ -452,7 +452,7 @@ export default function PrimarySearchAppBar() {
                         >
                             {categories.map((category) => (
                                 <Link
-                                    to={`/${category.name}`}
+                                    to={`/products/${category.name}/${category.id}`}
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",

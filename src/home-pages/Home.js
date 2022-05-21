@@ -310,11 +310,6 @@ const Home = () => {
                                                     {product.name}
                                                 </Typography>
                                             </Link>
-                                            <Rating
-                                                name="read-only"
-                                                value={4.6}
-                                                readOnly
-                                            />
                                             <Typography
                                                 sx={{
                                                     textAlign: "left",
