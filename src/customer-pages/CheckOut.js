@@ -34,7 +34,8 @@ const Checkout = () => {
         const userDetails = JSON.parse(localStorage.getItem("login"));
         if (userDetails) {
             if (userDetails.user.role === "customer") {
-                const user = userDetails.user.token;
+                const user = userDetails.user;
+                setUserID(user.id);
                 setPhone(user.phone_number);
                 setCountry(user.country);
                 setCity(user.city);
@@ -45,7 +46,7 @@ const Checkout = () => {
             }
         }
     }, []);
-    const [user, setUser] = useState("");
+    const [userID, setUserID] = useState("");
     const [phone_number, setPhone] = useState("");
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
@@ -53,7 +54,7 @@ const Checkout = () => {
     const [address, setAddress] = useState("");
     const [error, setError] = useState("");
     const cart = useSelector((state) => state.cart);
-    const shippingCost = 25;
+    const shippingCost = 0;
     const invoiceSubtotal = cart.cartTotalAmount;
     const invoiceTaxes = TAX_RATE * invoiceSubtotal;
     const invoiceTotal = invoiceTaxes + invoiceSubtotal + shippingCost;
@@ -64,7 +65,7 @@ const Checkout = () => {
             JSON.stringify({
                 totalPrice: ccyFormat(invoiceTotal),
                 products: cart.cartItems,
-                user: "",
+                user: userID,
                 userPhone: phone_number,
                 userCountry: country,
                 userCity: city,
@@ -246,10 +247,10 @@ const Checkout = () => {
                                                                                         <CardMedia
                                                                                             component="img"
                                                                                             image={
-                                                                                                cartItem.pic1
+                                                                                                cartItem.image
                                                                                             }
                                                                                             alt={
-                                                                                                cartItem.product
+                                                                                                cartItem.name
                                                                                             }
                                                                                             // sx={{pr: 1}}
                                                                                         />
@@ -282,7 +283,7 @@ const Checkout = () => {
                                                                                             }}
                                                                                         >
                                                                                             {
-                                                                                                cartItem.product
+                                                                                                cartItem.name
                                                                                             }
                                                                                         </Typography>
                                                                                     </Box>
@@ -290,7 +291,6 @@ const Checkout = () => {
                                                                             </Grid>
                                                                         </TableCell>
                                                                         <TableCell align="right">
-                                                                            
                                                                             {
                                                                                 cartItem.price
                                                                             }
@@ -387,7 +387,7 @@ const Checkout = () => {
                                                                 </TableCell>
                                                                 <TableCell align="right">
                                                                     <Link
-                                                                        to={`/customer/${isLogInTrue.user.token}`}
+                                                                        to={`/customer/${isLogInTrue.user.id}`}
                                                                         style={{
                                                                             textDecoration:
                                                                                 "none",
@@ -423,7 +423,6 @@ const Checkout = () => {
                                                                             md: 12,
                                                                         }}
                                                                     >
-                                                                        
                                                                         <Grid
                                                                             item
                                                                             xs={
