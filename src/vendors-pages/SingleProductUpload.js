@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import api from "../components/api";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import {
     Container,
     Button,
@@ -20,7 +20,8 @@ import {
     CardMedia,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import NoPhotographyIcon from '@mui/icons-material/NoPhotography';
+// import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Loading from "../components/Loading";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,33 +32,33 @@ import useFetch from "../components/useFetch";
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-const Input = styled("input")({
-    display: "none",
-});
+// const Input = styled("input")({
+//     display: "none",
+// });
 
 // Image size
-const bytesToSize = (bytes, decimals = 2) => {
-    if (bytes === 0) return "0 Bytes";
+// const bytesToSize = (bytes, decimals = 2) => {
+//     if (bytes === 0) return "0 Bytes";
 
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+//     const k = 1024;
+//     const dm = decimals < 0 ? 0 : decimals;
+//     const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+//     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-};
+//     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+// };
 
 const SingleProductUpload = () => {
     const { data: categories } = useFetch(`${api}/products/categories`);
     const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const vendorID = isLogInTrue.user.id;
     const vendorToken = isLogInTrue.user.token;
-    const [isFilePicked, setIsFilePicked] = useState(false);
-    const [imagePreview, setImagePreview] = useState();
-    const [imageName, setImageName] = useState("");
-    const [base64, setBase64] = useState("");
-    const [size, setSize] = useState("");
+    // const [isFilePicked, setIsFilePicked] = useState(false);
+    // const [imagePreview, setImagePreview] = useState();
+    // const [imageName, setImageName] = useState("");
+    // const [base64, setBase64] = useState("");
+    // const [size, setSize] = useState("");
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
     const handleClose = () => {
@@ -70,53 +71,57 @@ const SingleProductUpload = () => {
     const [category, setCategory] = useState("");
     const [currency, setCurrency] = useState("");
     const [description, setDescription] = useState("");
-    const [image, setImage] = useState("");
+    const [bulk_image, setBulkImage] = useState(null);
+    // const [image, setImage] = useState("");
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [quantity, setQuantity] = useState("");
     const [vendor, setVendorName] = useState(vendorID);
 
-    const photoUpload = (e) => {
-        e.preventDefault();
-        const reader = new FileReader();
-        const file = e.target.files[0];
-        if (reader !== undefined && file !== undefined) {
-            reader.onloadend = () => {
-                setImage(file);
-                setSize(file.size);
-                setImageName(file.name);
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+    // const photoUpload = (e) => {
+    //     e.preventDefault();
+    //     const reader = new FileReader();
+    //     const file = e.target.files[0];
+    //     if (reader !== undefined && file !== undefined) {
+    //         reader.onloadend = () => {
+    //             setImage(file);
+    //             setSize(file.size);
+    //             setImageName(file.name);
+    //             setImagePreview(reader.result);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
 
-    const onChange = (e) => {
-        let file = e.target.files[0];
-        setIsFilePicked(true);
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = _handleReaderLoaded;
-            reader.readAsBinaryString(file);
-        }
-    };
-    const _handleReaderLoaded = (readerEvt) => {
-        let binaryString = readerEvt.target.result;
-        setBase64(btoa(binaryString));
-    };
+    // const onChange = (e) => {
+    //     let file = e.target.files[0];
+    //     setIsFilePicked(true);
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onload = _handleReaderLoaded;
+    //         reader.readAsBinaryString(file);
+    //     }
+    // };
+    // const _handleReaderLoaded = (readerEvt) => {
+    //     let binaryString = readerEvt.target.result;
+    //     setBase64(btoa(binaryString));
+    // };
     const handleAddNewProduct = (e) => {
         e.preventDefault();
-        let payload = { image: base64 };
+        // let payload = { image: base64 };
+        let payload = { bulk_image: bulk_image };
         payload["vendor"] = vendor;
         payload["category"] = category;
         payload["name"] = name;
+        payload["bulk_image"] = bulk_image;
         payload["description"] = description;
         payload["quantity"] = quantity;
         payload["currency"] = currency;
         payload["price"] = price;
-       
+
         const headers = {
-            "Content-Type": "multipart/form-data",
+            // "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${vendorToken}`,
         };
         axios
@@ -130,8 +135,9 @@ const SingleProductUpload = () => {
                 setCategory("");
                 setCurrency("");
                 setDescription("");
-                setImage("");
-                setImageName("");
+                // setImage("");
+                // setImageName("");
+                setBulkImage("");
                 setName("");
                 setPrice("");
                 setQuantity("");
@@ -142,12 +148,7 @@ const SingleProductUpload = () => {
     };
 
     const remove = () => {
-        setImage("");
-        setImagePreview("");
-        setBase64("");
-        setName("");
-        setSize("");
-        setImageName("");
+        setBulkImage(null);
     };
 
     return (
@@ -1284,6 +1285,83 @@ const SingleProductUpload = () => {
                                             />
                                         </ListItem>
                                         <ListItem>
+                                            <TextField
+                                                fullWidth
+                                                required
+                                                value={bulk_image}
+                                                type="text"
+                                                onChange={(e) =>
+                                                    setBulkImage(e.target.value)
+                                                }
+                                                label="Image link"
+                                                variant="filled"
+                                            />
+                                        </ListItem>
+                                        {bulk_image ? (
+                                            <ListItem
+                                                style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        width: "80%",
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        alignItems: "center",
+                                                        justifyContent:
+                                                            "center",
+                                                    }}
+                                                >
+                                                    <Typography>Image Preview</Typography>
+                                                    <CardMedia
+                                                        component="img"
+                                                        image={bulk_image}
+                                                        alt={name}
+                                                    />
+                                                    <Button
+                                                                    width="100%"
+                                                                    size="large"
+                                                                    variant="outlined"
+                                                                    color="secondary"
+                                                                    startIcon={
+                                                                        <NoPhotographyIcon />
+                                                                    }
+                                                                    onClick={
+                                                                        remove
+                                                                    }
+                                                                >
+                                                                    Remove image
+                                                                </Button>
+                                                </Box>
+                                            </ListItem>
+                                        ): (<ListItem
+                                            style={{
+                                                width: "100%",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    width: "80%",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    justifyContent:
+                                                        "center",
+                                                }}
+                                            >
+                                                <Typography>Enter valid image link</Typography>
+                                                
+                                            </Box>
+                                        </ListItem>)}
+
+                                        {/* <ListItem>
                                             <label
                                                 htmlFor="contained-button-file"
                                                 style={{
@@ -1401,7 +1479,7 @@ const SingleProductUpload = () => {
                                                     </Box>
                                                 )}
                                             </label>
-                                        </ListItem>
+                                        </ListItem> */}
                                         <ListItem>
                                             <Button
                                                 fullWidth

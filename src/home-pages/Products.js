@@ -100,7 +100,7 @@ const Products = () => {
                             </Paper>
                         )}
                         <Box sx={{ width: "100%", height: "30px" }} />
-                        <Paper
+                        {/* <Paper
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -185,7 +185,7 @@ const Products = () => {
                                     </Typography>
                                 </Box>
                             </Box>
-                        </Paper>
+                        </Paper> */}
                     </Grid>
                     {/* Main products section */}
                     <Grid item xs={4} sm={8} md={12}>
