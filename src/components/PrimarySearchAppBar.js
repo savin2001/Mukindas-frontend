@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-import { styled, alpha } from "@mui/material/styles";
 import {
     AppBar,
     Container,
@@ -9,7 +7,6 @@ import {
     Toolbar,
     IconButton,
     Typography,
-    InputBase,
     Badge,
     MenuItem,
     Menu,
@@ -19,11 +16,11 @@ import {
     ListItemText,
     ListItemAvatar,
     Divider,
-    // Autocomplete,
+    Autocomplete,
+    TextField,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -34,48 +31,7 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import api from "./api";
-
-
-const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderColor: "primary.main",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(3),
-        width: "auto",
-    },
-}));
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-}));
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        width: "100%",
-        [theme.breakpoints.up("md")]: {
-            width: "20ch",
-        },
-    },
-}));
-
-// Array of pages to be displayed on the top menu
+import useFetch from "./useFetch";
 
 export default function PrimarySearchAppBar() {
     const [categories, setCategories] = useState([]);
@@ -85,24 +41,16 @@ export default function PrimarySearchAppBar() {
         });
         return () => console.log("");
     }, []);
+    const { data: products } = useFetch(`${api}/products/`);
+    localStorage.setItem("productsArray", JSON.stringify(products));
+    const productsArray = JSON.parse(localStorage.getItem("productsArray"));
+
     const { cartTotalQuantity } = useSelector((state) => state.cart);
     const [searchInput, setSearchInput] = useState("");
     // const [data, setData] = useState("");
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-    // Searching function
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        // return await axios
-        //     .get(`${api}/products?q=${searchInput}`)
-        //     .then((response) => {
-        //         setData(response.data);
-        //         setSearchInput("");
-        //     })
-        //     .catch((err) => console.log(err));
-    };
 
     // Function to open the page navigation menu
     const handleOpenNavMenu = (event) => {
@@ -474,24 +422,37 @@ export default function PrimarySearchAppBar() {
                             ))}
                         </Box>
                         <Box sx={{ flexGrow: 1 }}>
-                            <Search>
-                                <form onSubmit={handleSearch}>
-                                    <SearchIconWrapper>
-                                        <Button color="secondary" type="submit">
-                                            <SearchIcon />
-                                        </Button>
-                                    </SearchIconWrapper>
-                                    <StyledInputBase
-                                        type="text"
-                                        value={searchInput}
-                                        placeholder="...Search"
-                                        onChange={(e) =>
-                                            setSearchInput(e.target.value)
-                                        }
-                                        inputProps={{ "aria-label": "search" }}
+                            {products && (
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "flex-end",
+                                    }}
+                                >
+                                    <Autocomplete
+                                        disablePortal
+                                        id="combo-box-demo"
+                                        inputValue={searchInput}
+                                        onInputChange={(
+                                            event,
+                                            newInputValue
+                                        ) => {
+                                            setSearchInput(newInputValue);
+                                        }}
+                                        options={productsArray.map(
+                                            (option) => option.name
+                                        )}
+                                        fullWidth
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                variant="filled"
+                                                label="Search"
+                                            />
+                                        )}
                                     />
-                                </form>
-                            </Search>
+                                </Box>
+                            )}
                         </Box>
                         <Box sx={{ display: { xs: "none", md: "flex" } }}>
                             <Link

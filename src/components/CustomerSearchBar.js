@@ -8,7 +8,6 @@ import {
     Toolbar,
     IconButton,
     Typography,
-    InputBase,
     Badge,
     MenuItem,
     Menu,
@@ -18,11 +17,10 @@ import {
     ListItemText,
     ListItemAvatar,
     Divider,
-    // Card,
-    // CardContent,
+    Autocomplete,
+    TextField,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -30,54 +28,11 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { styled, alpha } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import api from "./api";
-
-// Array of pages to be displayed on the top menu
-
-const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderColor: "primary.main",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(3),
-        width: "auto",
-    },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        width: "100%",
-        [theme.breakpoints.up("md")]: {
-            width: "20ch",
-        },
-    },
-}));
+import useFetch from "./useFetch";
 
 const CustomerSearchBar = () => {
     const [categories, setCategories] = useState([]);
@@ -89,9 +44,9 @@ const CustomerSearchBar = () => {
         });
         return () => console.log("");
     }, []);
-    const {cartTotalQuantity} = useSelector((state) => state.cart);
+    const { cartTotalQuantity } = useSelector((state) => state.cart);
     const navigate = useNavigate();
-    const [logoutUser, setLogoutUser] = useState(false);    
+    const [logoutUser, setLogoutUser] = useState(false);
     const logout = () => {
         localStorage.removeItem("login");
         setLogoutUser(true);
@@ -101,6 +56,10 @@ const CustomerSearchBar = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const { data: products } = useFetch(`${api}/products/`);
+    const [searchInput, setSearchInput] = useState("");
+    localStorage.setItem("productsArray", JSON.stringify(products));
+    const productsArray = JSON.parse(localStorage.getItem("productsArray"));
 
     // Function to open the page navigation menu
     const handleOpenNavMenu = (event) => {
@@ -218,12 +177,11 @@ const CustomerSearchBar = () => {
                     style={{ textDecoration: "none", color: "inherit" }}
                 >
                     <MenuItem>
-                        <IconButton
-                            size="large"
-                            aria-label=""
-                            color="inherit"
-                        >
-                            <Badge badgeContent={cartTotalQuantity} color="secondary">
+                        <IconButton size="large" aria-label="" color="inherit">
+                            <Badge
+                                badgeContent={cartTotalQuantity}
+                                color="secondary"
+                            >
                                 <AddShoppingCartIcon />
                             </Badge>
                         </IconButton>
@@ -422,7 +380,10 @@ const CustomerSearchBar = () => {
                             }}
                         >
                             {categories.map((category) => (
-                                <Button key={category.id} onClick={handleCloseNavMenu}>
+                                <Button
+                                    key={category.id}
+                                    onClick={handleCloseNavMenu}
+                                >
                                     <Link
                                         to={`/products/${category.name}/${category.id}`}
                                         style={{
@@ -437,15 +398,37 @@ const CustomerSearchBar = () => {
                             ))}
                         </Box>
                         <Box sx={{ flexGrow: 1 }}>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search…"
-                                    inputProps={{ "aria-label": "search" }}
-                                />
-                            </Search>
+                            {products && (
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "flex-end",
+                                    }}
+                                >
+                                    <Autocomplete
+                                        disablePortal
+                                        id="combo-box-demo"
+                                        inputValue={searchInput}
+                                        onInputChange={(
+                                            event,
+                                            newInputValue
+                                        ) => {
+                                            setSearchInput(newInputValue);
+                                        }}
+                                        options={productsArray.map(
+                                            (option) => option.name
+                                        )}
+                                        fullWidth
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                variant="filled"
+                                                label="Search"
+                                            />
+                                        )}
+                                    />
+                                </Box>
+                            )}
                         </Box>
                         <Box sx={{ display: { xs: "none", md: "flex" } }}>
                             <Link
@@ -460,7 +443,10 @@ const CustomerSearchBar = () => {
                                     aria-label=""
                                     color="inherit"
                                 >
-                                    <Badge badgeContent={cartTotalQuantity} color="secondary">
+                                    <Badge
+                                        badgeContent={cartTotalQuantity}
+                                        color="secondary"
+                                    >
                                         <AddShoppingCartIcon />
                                     </Badge>
                                 </IconButton>
