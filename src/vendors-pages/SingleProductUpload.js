@@ -55,6 +55,7 @@ const SingleProductUpload = () => {
     const vendorToken = isLogInTrue.user.token;
     const [isFilePicked, setIsFilePicked] = useState(false);
     const [imagePreview, setImagePreview] = useState();
+    const [imageName, setImageName] = useState("");
     const [base64, setBase64] = useState("");
     const [size, setSize] = useState("");
     const [open, setOpen] = useState(true);
@@ -79,21 +80,18 @@ const SingleProductUpload = () => {
         e.preventDefault();
         const reader = new FileReader();
         const file = e.target.files[0];
-        console.log("reader", reader)
-        console.log("file", file)
         if (reader !== undefined && file !== undefined) {
-          reader.onloadend = () => {
-            setImage(file)
-            setSize(file.size);
-            setName(file.name)
-            setImagePreview(reader.result)
-          }
-          reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setImage(file);
+                setSize(file.size);
+                setImageName(file.name);
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
-      }
+    };
 
-    const onChange  = (e) => {
-        console.log("file", e.target.files[0]);
+    const onChange = (e) => {
         let file = e.target.files[0];
         setIsFilePicked(true);
         if (file) {
@@ -109,26 +107,23 @@ const SingleProductUpload = () => {
     const handleAddNewProduct = (e) => {
         e.preventDefault();
         let payload = { image: base64 };
-        console.log("payload", payload);
-        const formData = new FormData();
-        formData.append("vendor", vendor);
-        formData.append("category", category);
-        formData.append("name", name);
-        formData.append("image", image);
-        formData.append("description", description);
-        formData.append("quantity", quantity);
-        formData.append("currency", currency);
-        formData.append("price", price);
+        payload["vendor"] = vendor;
+        payload["category"] = category;
+        payload["name"] = name;
+        payload["description"] = description;
+        payload["quantity"] = quantity;
+        payload["currency"] = currency;
+        payload["price"] = price;
+       
         const headers = {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${vendorToken}`,
         };
         axios
-            .post(`${api}/products/product`, formData, {
+            .post(`${api}/products/product`, payload, {
                 headers,
             })
             .then((response) => {
-                console.log("The form data is" + formData);
                 console.log(response);
                 setIsPending(true);
                 setError("");
@@ -136,6 +131,7 @@ const SingleProductUpload = () => {
                 setCurrency("");
                 setDescription("");
                 setImage("");
+                setImageName("");
                 setName("");
                 setPrice("");
                 setQuantity("");
@@ -144,6 +140,16 @@ const SingleProductUpload = () => {
             })
             .catch((error) => setError(error.response.message));
     };
+
+    const remove = () => {
+        setImage("");
+        setImagePreview("");
+        setBase64("");
+        setName("");
+        setSize("");
+        setImageName("");
+    };
+
     return (
         <>
             {isLogInTrue &&
@@ -1286,6 +1292,7 @@ const SingleProductUpload = () => {
                                                     alignItems: "center",
                                                     justifyContent: "center",
                                                 }}
+                                                onChange={(e) => onChange(e)}
                                             >
                                                 <Input
                                                     required
@@ -1309,43 +1316,61 @@ const SingleProductUpload = () => {
                                                                 "center",
                                                         }}
                                                     >
-                                                        <CardMedia
-                                                            component="img"
-                                                            image={imagePreview}
-                                                            alt={image.name}
-                                                        />
-                                                        <p>Filename: {name}</p>
+                                                        {imagePreview === "" ? (
+                                                            <></>
+                                                        ) : (
+                                                            <CardMedia
+                                                                component="img"
+                                                                image={
+                                                                    imagePreview
+                                                                }
+                                                                alt={image.name}
+                                                            />
+                                                        )}
+                                                        {imagePreview !==
+                                                            "" && (
+                                                            <>
+                                                                <p>
+                                                                    Filename:{" "}
+                                                                    {imageName}
+                                                                </p>
 
-                                                        <p>
-                                                            Size :
-                                                            {bytesToSize(size)}
-                                                        </p>
-                                                        <Button
-                                                            width="100%"
-                                                            size="large"
-                                                            variant="contained"
-                                                            color="secondary"
-                                                            startIcon={
-                                                                <AddPhotoAlternateIcon />
-                                                            }
-                                                            component="span"
-                                                        >
-                                                            Change the product
-                                                            image
-                                                        </Button>
-                                                        <Button
-                                                            width="100%"
-                                                            size="large"
-                                                            variant="outlined"
-                                                            color="secondary"
-                                                            startIcon={
-                                                                <AddPhotoAlternateIcon />
-                                                            }
-                                                            component="span"
-                                                        >
-                                                            Remove  
-                                                            image
-                                                        </Button>
+                                                                <p>
+                                                                    Size :
+                                                                    {bytesToSize(
+                                                                        size
+                                                                    )}
+                                                                </p>
+                                                                <Button
+                                                                    width="100%"
+                                                                    size="large"
+                                                                    variant="contained"
+                                                                    color="secondary"
+                                                                    startIcon={
+                                                                        <AddPhotoAlternateIcon />
+                                                                    }
+                                                                    component="span"
+                                                                >
+                                                                    Change the
+                                                                    product
+                                                                    image
+                                                                </Button>
+                                                                <Button
+                                                                    width="100%"
+                                                                    size="large"
+                                                                    variant="outlined"
+                                                                    color="secondary"
+                                                                    startIcon={
+                                                                        <AddPhotoAlternateIcon />
+                                                                    }
+                                                                    onClick={
+                                                                        remove
+                                                                    }
+                                                                >
+                                                                    Remove image
+                                                                </Button>
+                                                            </>
+                                                        )}
                                                     </Box>
                                                 ) : (
                                                     <Box

@@ -104,7 +104,7 @@ const App = () => {
                             path="vendor/:userId"
                             element={<VendorAccount />}
                         />
-                        <Route path="vendor/Shop/" element={<VendorShop />} />
+                        <Route path="vendor/Shop" element={<VendorShop />} />
                         <Route
                             path="vendor/Shop/product/:id"
                             element={<VendorView />}
