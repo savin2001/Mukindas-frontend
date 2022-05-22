@@ -226,8 +226,10 @@ const Orders = () => {
                                                                                 mt: 2,
                                                                             }}
                                                                         >
+                                                                            {/* Setting up the order view page soon */}
                                                                             <Link
-                                                                                to={`/customer/Order/${order.order.orderID}`}
+                                                                                // to={`/customer/Order/${order.order.orderID}`}
+                                                                                to={`#`}
                                                                                 style={{
                                                                                     textDecoration:
                                                                                         "none",

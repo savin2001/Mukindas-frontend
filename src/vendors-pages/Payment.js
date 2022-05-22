@@ -27,236 +27,292 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LanguageIcon from "@mui/icons-material/Language";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-
+import { Link } from "react-router-dom";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import VendorSearchBar from "../components/VendorSearchBar";
 import VendorMenu from "../components/VendorMenu";
 
 const Payment = () => {
     const [open, setOpen] = React.useState(true);
-
+    const isLogInTrue = JSON.parse(localStorage.getItem("login"));
     const handleClick = () => {
         setOpen(!open);
     };
     return (
         <>
-            <VendorSearchBar />
-            <Container
-                sx={{ flexGrow: 1, width: "100%", height: 100 }}
-            ></Container>
-            <Container>
-                <Grid
-                    container
-                    spacing={{ xs: 2, md: 1 }}
-                    columns={{ xs: 4, sm: 8, md: 12 }}
-                >
-                    <Grid
-                        item
-                        sx={{
-                            display: { xs: "none", sm: "none", md: "block" },
-                        }}
-                        md={3}
-                    >
-                        <VendorMenu />
-                    </Grid>
-                    <Grid item xs={4} sm={8} md={9}>
-                        <Card
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "flex-start",
-                                p: 4,
-                                textAlign: "left",
-                            }}
+            {isLogInTrue &&
+            isLogInTrue.userLogin &&
+            isLogInTrue.user.role === "vendor" ? (
+                <>
+                    <VendorSearchBar />
+                    <Container
+                        sx={{ flexGrow: 1, width: "100%", height: 100 }}
+                    ></Container>
+                    <Container>
+                        <Grid
+                            container
+                            spacing={{ xs: 2, md: 1 }}
+                            columns={{ xs: 4, sm: 8, md: 12 }}
                         >
-                            <Box
-                                sx={{
-                                    textAlign: "left",
-                                    width: "95%",
-                                    height: "10%",
-                                    backgroundColor: "primary.contrastText",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    p: 2,
-                                    mb: 2,
-                                    borderRadius: 2,
-                                }}
-                            >
-                                <Typography
-                                    sx={{ color: "primary.main" }}
-                                    variant="h6"
-                                >
-                                    Payment
-                                </Typography>
-                            </Box>
-                            <Box sx={{ width: "100%" }}>
-                                <TableContainer component={Paper}>
-                                    <Table aria-label="spanning table">
-                                        <TableHead>
-                                            <TableRow
-                                                sx={{
-                                                    borderColor:
-                                                        "secondary.main",
-                                                }}
-                                            >
-                                                <TableCell>
-                                                    <Typography
-                                                        variant="h6"
-                                                        color="secondary"
-                                                        sx={{
-                                                            textAlign: "left",
-                                                        }}
-                                                    >
-                                                        Payment details
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Typography
-                                                        variant="body1"
-                                                        sx={{
-                                                            mb: 1,
-                                                        }}
-                                                    >
-                                                        How do you want to pay
-                                                        for your order?
-                                                    </Typography>
-                                                    <List
-                                                        sx={{
-                                                            width: "100%",
-                                                            maxWidth: 500,
-                                                            bgcolor:
-                                                                "background.paper",
-                                                        }}
-                                                        component="nav"
-                                                        aria-labelledby="nested-list-subheader"
-                                                    >
-                                                        <ListItemButton
-                                                            onClick={
-                                                                handleClick
-                                                            }
-                                                        >
-                                                            <ListItemIcon>
-                                                                <AccessTimeIcon />
-                                                            </ListItemIcon>
-                                                            <ListItemText primary="Pay now" />
-                                                            {open ? (
-                                                                <ExpandLess />
-                                                            ) : (
-                                                                <ExpandMore />
-                                                            )}
-                                                        </ListItemButton>
-                                                        <Collapse
-                                                            in={open}
-                                                            timeout="auto"
-                                                            unmountOnExit
-                                                        >
-                                                            <List
-                                                                component="div"
-                                                                disablePadding
-                                                            >
-                                                                <ListItemButton
-                                                                    sx={{
-                                                                        pl: 10,
-                                                                    }}
-                                                                >
-                                                                    <ListItemIcon>
-                                                                        <MobileScreenShareIcon />
-                                                                    </ListItemIcon>
-                                                                    <ListItemText primary="M-Pesa" />
-                                                                </ListItemButton>
-                                                                <ListItemButton
-                                                                    sx={{
-                                                                        pl: 10,
-                                                                    }}
-                                                                >
-                                                                    <ListItemIcon>
-                                                                        <CreditCardIcon />
-                                                                    </ListItemIcon>
-                                                                    <ListItemText primary="Visa" />
-                                                                </ListItemButton>
-                                                                <ListItemButton
-                                                                    sx={{
-                                                                        pl: 10,
-                                                                    }}
-                                                                >
-                                                                    <ListItemIcon>
-                                                                        <CreditScoreIcon />
-                                                                    </ListItemIcon>
-                                                                    <ListItemText primary="Mastercard" />
-                                                                </ListItemButton>
-                                                                <ListItemButton
-                                                                    sx={{
-                                                                        pl: 10,
-                                                                    }}
-                                                                >
-                                                                    <ListItemIcon>
-                                                                        <LanguageIcon />
-                                                                    </ListItemIcon>
-                                                                    <ListItemText primary="Paypal" />
-                                                                </ListItemButton>
-                                                            </List>
-                                                        </Collapse>
-
-                                                        <ListItemButton>
-                                                            <ListItemIcon>
-                                                                <AccountBalanceWalletIcon />
-                                                            </ListItemIcon>
-                                                            <ListItemText primary="Cash on delivery" />
-                                                        </ListItemButton>
-                                                    </List>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Box>
                             <Grid
-                                container
-                                spacing={{ xs: 1, md: 1 }}
-                                columns={{
-                                    xs: 4,
-                                    sm: 8,
-                                    md: 12,
+                                item
+                                sx={{
+                                    display: {
+                                        xs: "none",
+                                        sm: "none",
+                                        md: "block",
+                                    },
                                 }}
+                                md={3}
                             >
-                                <Grid
-                                    item
-                                    xs={4}
-                                    sm={8}
-                                    md={6}
-                                    sx={{ mb: 1 }}
-                                ></Grid>
-                                <Grid item xs={4} sm={8} md={6} sx={{ mb: 1 }}>
+                                <VendorMenu />
+                            </Grid>
+                            <Grid item xs={4} sm={8} md={9}>
+                                <Card
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "flex-start",
+                                        p: 4,
+                                        textAlign: "left",
+                                    }}
+                                >
                                     <Box
                                         sx={{
-                                            p: 1,
-                                            m: 1,
+                                            textAlign: "left",
+                                            width: "95%",
+                                            height: "10%",
+                                            backgroundColor:
+                                                "primary.contrastText",
                                             display: "flex",
-                                            alignItems: "center",
-                                            columnGap: 3,
-                                            rowGap: 1,
+                                            justifyContent: "space-between",
+                                            p: 2,
+                                            mb: 2,
+                                            borderRadius: 2,
                                         }}
                                     >
-                                        <Button
-                                            fullWidth
-                                            size="large"
-                                            variant="contained"
-                                            color="secondary"
-                                            bgcolor="secondary"
+                                        <Typography
+                                            sx={{ color: "primary.main" }}
+                                            variant="h6"
                                         >
-                                            Complete transaction
-                                        </Button>
+                                            Payment
+                                        </Typography>
                                     </Box>
-                                </Grid>
+                                    <Box sx={{ width: "100%" }}>
+                                        <TableContainer component={Paper}>
+                                            <Table aria-label="spanning table">
+                                                <TableHead>
+                                                    <TableRow
+                                                        sx={{
+                                                            borderColor:
+                                                                "secondary.main",
+                                                        }}
+                                                    >
+                                                        <TableCell>
+                                                            <Typography
+                                                                variant="h6"
+                                                                color="secondary"
+                                                                sx={{
+                                                                    textAlign:
+                                                                        "left",
+                                                                }}
+                                                            >
+                                                                Payment details
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            <Typography
+                                                                variant="body1"
+                                                                sx={{
+                                                                    mb: 1,
+                                                                }}
+                                                            >
+                                                                How do you want
+                                                                to pay for your
+                                                                order?
+                                                            </Typography>
+                                                            <List
+                                                                sx={{
+                                                                    width: "100%",
+                                                                    maxWidth: 500,
+                                                                    bgcolor:
+                                                                        "background.paper",
+                                                                }}
+                                                                component="nav"
+                                                                aria-labelledby="nested-list-subheader"
+                                                            >
+                                                                <ListItemButton
+                                                                    onClick={
+                                                                        handleClick
+                                                                    }
+                                                                >
+                                                                    <ListItemIcon>
+                                                                        <AccessTimeIcon />
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary="Pay now" />
+                                                                    {open ? (
+                                                                        <ExpandLess />
+                                                                    ) : (
+                                                                        <ExpandMore />
+                                                                    )}
+                                                                </ListItemButton>
+                                                                <Collapse
+                                                                    in={open}
+                                                                    timeout="auto"
+                                                                    unmountOnExit
+                                                                >
+                                                                    <List
+                                                                        component="div"
+                                                                        disablePadding
+                                                                    >
+                                                                        <ListItemButton
+                                                                            sx={{
+                                                                                pl: 10,
+                                                                            }}
+                                                                        >
+                                                                            <ListItemIcon>
+                                                                                <MobileScreenShareIcon />
+                                                                            </ListItemIcon>
+                                                                            <ListItemText primary="M-Pesa" />
+                                                                        </ListItemButton>
+                                                                        <ListItemButton
+                                                                            sx={{
+                                                                                pl: 10,
+                                                                            }}
+                                                                        >
+                                                                            <ListItemIcon>
+                                                                                <CreditCardIcon />
+                                                                            </ListItemIcon>
+                                                                            <ListItemText primary="Visa" />
+                                                                        </ListItemButton>
+                                                                        <ListItemButton
+                                                                            sx={{
+                                                                                pl: 10,
+                                                                            }}
+                                                                        >
+                                                                            <ListItemIcon>
+                                                                                <CreditScoreIcon />
+                                                                            </ListItemIcon>
+                                                                            <ListItemText primary="Mastercard" />
+                                                                        </ListItemButton>
+                                                                        <ListItemButton
+                                                                            sx={{
+                                                                                pl: 10,
+                                                                            }}
+                                                                        >
+                                                                            <ListItemIcon>
+                                                                                <LanguageIcon />
+                                                                            </ListItemIcon>
+                                                                            <ListItemText primary="Paypal" />
+                                                                        </ListItemButton>
+                                                                    </List>
+                                                                </Collapse>
+
+                                                                <ListItemButton>
+                                                                    <ListItemIcon>
+                                                                        <AccountBalanceWalletIcon />
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary="Cash on delivery" />
+                                                                </ListItemButton>
+                                                            </List>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </Box>
+                                    <Grid
+                                        container
+                                        spacing={{ xs: 1, md: 1 }}
+                                        columns={{
+                                            xs: 4,
+                                            sm: 8,
+                                            md: 12,
+                                        }}
+                                    >
+                                        <Grid
+                                            item
+                                            xs={4}
+                                            sm={8}
+                                            md={6}
+                                            sx={{ mb: 1 }}
+                                        ></Grid>
+                                        <Grid
+                                            item
+                                            xs={4}
+                                            sm={8}
+                                            md={6}
+                                            sx={{ mb: 1 }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    p: 1,
+                                                    m: 1,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    columnGap: 3,
+                                                    rowGap: 1,
+                                                }}
+                                            >
+                                                <Button
+                                                    fullWidth
+                                                    size="large"
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    bgcolor="secondary"
+                                                >
+                                                    Complete transaction
+                                                </Button>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </Card>
                             </Grid>
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Container>
+                        </Grid>
+                    </Container>
+                </>
+            ) : (
+                <Container
+                    sx={{
+                        flexGrow: 1,
+                        my: 3,
+                        height: "100vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Box>
+                        <Typography
+                            variant="h2"
+                            sx={{
+                                color: "primary.light",
+                                mb: 5,
+                            }}
+                        >
+                            Page not found
+                        </Typography>
+                        <Link
+                            to={`/login`}
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                            }}
+                        >
+                            <Typography variant="h6" color="secondary">
+                                <KeyboardBackspaceIcon fontSize="small" />
+                                {"  "}
+                                <span>Log into your account</span>
+                            </Typography>
+                        </Link>
+                    </Box>
+                </Container>
+            )}
         </>
     );
 };

@@ -25,7 +25,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
+// import StarHalfIcon from "@mui/icons-material/StarHalf";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -262,7 +262,7 @@ const CustomerSearchBar = () => {
                     </ListItem>
                 </Link>
                 <Divider variant="middle" component="li" />
-                <Link
+                {/* <Link
                     to={`/customer/Reviews`}
                     style={{
                         textDecoration: "none",
@@ -278,7 +278,7 @@ const CustomerSearchBar = () => {
                         <ListItemText primary="Pending reviews" />
                     </ListItem>
                 </Link>
-                <Divider variant="middle" component="li" />
+                <Divider variant="middle" component="li" /> */}
 
                 <ListItem
                     onClick={logout}
@@ -441,7 +441,7 @@ const CustomerSearchBar = () => {
                                             setSearchInput(newInputValue);
                                         }}
                                         options={productsArray.map(
-                                            (product) => product.name
+                                            (product) => (product.name)
                                         )}
                                         fullWidth
                                         renderInput={(params) => (

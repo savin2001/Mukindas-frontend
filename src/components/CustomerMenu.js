@@ -23,7 +23,7 @@ import {
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
+// import StarHalfIcon from "@mui/icons-material/StarHalf";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const CustomerMenu = () => {
@@ -138,7 +138,7 @@ const CustomerMenu = () => {
                                 </ListItem>
                             </Link>
                             <Divider variant="middle" component="li" />
-                            <Link
+                            {/* <Link
                                 to={`/customer/Reviews`}
                                 style={{
                                     textDecoration: "none",
@@ -155,7 +155,7 @@ const CustomerMenu = () => {
                                     </ListItemAvatar>
                                     <ListItemText primary="Pending reviews" />
                                 </ListItem>
-                            </Link>
+                            </Link> */}
                             <Link
                                 to={`/`}
                                 style={{
