@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import SearchIcon from "@mui/icons-material/Search";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
@@ -60,6 +61,26 @@ const CustomerSearchBar = () => {
     const [searchInput, setSearchInput] = useState("");
     localStorage.setItem("productsArray", JSON.stringify(products));
     const productsArray = JSON.parse(localStorage.getItem("productsArray"));
+    const [data, setData] = useState(null);
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (productsArray.length > 0) {
+            const isFound = productsArray.some((element) => {
+                if (element.name === data) {
+                    return true;
+                }
+                return false;
+            });
+            if (isFound) {
+                productsArray.forEach((product) => {
+                    if (product.name === data) {
+                        const productID = product.id;
+                        navigate(`/products/${productID}`);
+                    }
+                });
+            }
+        }
+    };
 
     // Function to open the page navigation menu
     const handleOpenNavMenu = (event) => {
@@ -406,8 +427,12 @@ const CustomerSearchBar = () => {
                                     }}
                                 >
                                     <Autocomplete
+                                        value={data}
                                         disablePortal
                                         id="combo-box-demo"
+                                        onChange={(event, newValue) => {
+                                            setData(newValue);
+                                        }}
                                         inputValue={searchInput}
                                         onInputChange={(
                                             event,
@@ -416,15 +441,29 @@ const CustomerSearchBar = () => {
                                             setSearchInput(newInputValue);
                                         }}
                                         options={productsArray.map(
-                                            (option) => option.name
+                                            (product) => product.name
                                         )}
                                         fullWidth
                                         renderInput={(params) => (
-                                            <TextField
-                                                {...params}
-                                                variant="filled"
-                                                label="Search"
-                                            />
+                                            <Box sx={{ display: "flex" }}>
+                                                <TextField
+                                                    {...params}
+                                                    variant="filled"
+                                                    label="Search for products"
+                                                    size="small"
+                                                />
+                                                <Button
+                                                    size="small"
+                                                    variant="outlined"
+                                                    color="secondary"
+                                                    bgcolor="secondary"
+                                                    onClick={(e) => {
+                                                        handleSearch(e);
+                                                    }}
+                                                >
+                                                    <SearchIcon size="large" />
+                                                </Button>
+                                            </Box>
                                         )}
                                     />
                                 </Box>

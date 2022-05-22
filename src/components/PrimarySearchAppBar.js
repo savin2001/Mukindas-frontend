@@ -19,8 +19,9 @@ import {
     Autocomplete,
     TextField,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -39,15 +40,35 @@ export default function PrimarySearchAppBar() {
         axios.get(`${api}/products/categories`).then((response) => {
             setCategories(response.data.data);
         });
-        return () => console.log("");
+        return () => console.log(null);
     }, []);
     const { data: products } = useFetch(`${api}/products/`);
     localStorage.setItem("productsArray", JSON.stringify(products));
     const productsArray = JSON.parse(localStorage.getItem("productsArray"));
-
+    const navigate = useNavigate();
     const { cartTotalQuantity } = useSelector((state) => state.cart);
     const [searchInput, setSearchInput] = useState("");
-    // const [data, setData] = useState("");
+    const [data, setData] = useState(null);
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (productsArray.length > 0) {
+            const isFound = productsArray.some((element) => {
+                if (element.name === data) {
+                    return true;
+                }
+                return false;
+            });
+            if (isFound) {
+                productsArray.forEach((product) => {
+                    if (product.name === data) {
+                        const productID = product.id;
+                        navigate(`/products/${productID}`);
+                    }
+                });
+            }
+        }
+    };
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -430,8 +451,12 @@ export default function PrimarySearchAppBar() {
                                     }}
                                 >
                                     <Autocomplete
+                                        value={data}
                                         disablePortal
                                         id="combo-box-demo"
+                                        onChange={(event, newValue) => {
+                                            setData(newValue);
+                                        }}
                                         inputValue={searchInput}
                                         onInputChange={(
                                             event,
@@ -440,15 +465,29 @@ export default function PrimarySearchAppBar() {
                                             setSearchInput(newInputValue);
                                         }}
                                         options={productsArray.map(
-                                            (option) => option.name
+                                            (product) => product.name
                                         )}
                                         fullWidth
                                         renderInput={(params) => (
-                                            <TextField
-                                                {...params}
-                                                variant="filled"
-                                                label="Search"
-                                            />
+                                            <Box sx={{ display: "flex" }}>
+                                                <TextField
+                                                    {...params}
+                                                    variant="filled"
+                                                    label="Search for products"
+                                                    size="small"
+                                                />
+                                                <Button
+                                                    size="small"
+                                                    variant="outlined"
+                                                    color="secondary"
+                                                    bgcolor="secondary"
+                                                    onClick={(e) => {
+                                                        handleSearch(e);
+                                                    }}
+                                                >
+                                                    <SearchIcon size="large" />
+                                                </Button>
+                                            </Box>
                                         )}
                                     />
                                 </Box>
